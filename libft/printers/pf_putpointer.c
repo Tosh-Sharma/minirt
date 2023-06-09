@@ -1,28 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   pf_putpointer.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsharma <tsharma@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/26 16:54:32 by tsharma           #+#    #+#             */
-/*   Updated: 2022/05/04 16:12:36 by tsharma          ###   ########.fr       */
+/*   Created: 2022/05/19 13:37:57 by tsharma           #+#    #+#             */
+/*   Updated: 2022/11/11 12:16:40 by tsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft.h"
 
-void	*ft_calloc(size_t count, size_t size)
+int	pf_putpointer(unsigned long l)
 {
-	void	*res;
-	size_t	i;
+	char			res[20];
+	unsigned long	i;
+	char			*str;
+	char			*str2;
 
 	i = 0;
-	if (size && ((size_t) - 1 / size) < count)
-		return (NULL);
-	res = malloc(count * size);
-	if (!res)
-		return (NULL);
-	ft_bzero(res, count * size);
-	return (res);
+	if (l == 0)
+		res[i++] = '0';
+	while (l > 0)
+	{
+		res[i] = "0123456789abcdef"[l % 16];
+		i++;
+		l = l / 16;
+	}
+	res[i] = '\0';
+	str = ft_revstr(res);
+	str2 = ft_strjoin("0x", str);
+	ft_putstr_fd(str2, 1);
+	free(str);
+	free(str2);
+	return (i + 2);
 }

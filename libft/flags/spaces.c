@@ -1,28 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   spaces.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsharma <tsharma@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/26 16:54:32 by tsharma           #+#    #+#             */
-/*   Updated: 2022/05/04 16:12:36 by tsharma          ###   ########.fr       */
+/*   Created: 2022/05/20 16:17:44 by tsharma           #+#    #+#             */
+/*   Updated: 2022/11/11 12:15:46 by tsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft.h"
 
-void	*ft_calloc(size_t count, size_t size)
+int	handle_spaces(const char *s, va_list args, size_t *i)
 {
-	void	*res;
-	size_t	i;
+	int	n;
+	int	count;
 
-	i = 0;
-	if (size && ((size_t) - 1 / size) < count)
-		return (NULL);
-	res = malloc(count * size);
-	if (!res)
-		return (NULL);
-	ft_bzero(res, count * size);
-	return (res);
+	count = 0;
+	if (s[0] == 'd' || s[0] == 'i')
+	{
+		n = va_arg(args, int);
+		if (n >= 0)
+		{
+			ft_putchar_fd(' ', 1);
+			count = count + 1;
+		}
+		count += pf_putnbr(n, "0123456789");
+	}
+	*i = *i + 2;
+	return (count);
 }

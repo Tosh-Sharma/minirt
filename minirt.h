@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
+/*   By: tsharma <tsharma@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:55:38 by tsharma           #+#    #+#             */
-/*   Updated: 2023/04/18 19:49:51 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/06/09 14:42:51 by tsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,14 @@
 # include <stdio.h>
 # include <stdarg.h>
 # include <fcntl.h>
-# include "libft/libft.h"
-# include "get_next_line.h"
 # include <stdbool.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <sys/wait.h>
-# include <signal.h>
+# include "libft/libft.h"
 
-#define BUFFER_SIZE 1
+typedef unsigned int	t_uint;
 
 typedef struct s_color
 {
-	int color[3];
+	int	color[3];
 }				t_color;
 
 typedef struct s_vector
@@ -43,19 +38,18 @@ typedef struct s_vector
 	float	z;
 }				t_vector;
 
-
 typedef struct s_camera
 {
 	t_vector	origin;
 	t_vector	direction;
-	int         fov;
+	int			fov;
 }				t_camera;
 
 typedef struct s_light
 {
 	t_vector	origin;
 	float		brightness;
-	int		    color[3];
+	int			color[3];
 }				t_light;
 
 typedef struct s_ambient
@@ -74,14 +68,14 @@ typedef struct s_sphere
 {
 	t_vector	center;
 	float		diameter;
-	int		    color[3];
+	int			color[3];
 }				t_sphere;
 
 typedef struct s_plane
 {
 	t_vector	center;
 	t_vector	normal;
-	int		    color[3];
+	int			color[3];
 }				t_plane;
 
 typedef struct s_cylinder
@@ -90,7 +84,7 @@ typedef struct s_cylinder
 	t_vector	normal;
 	float		diameter;
 	float		height;
-	int		    color[3];
+	int			color[3];
 }				t_cylinder;
 
 typedef struct s_cone
@@ -98,7 +92,7 @@ typedef struct s_cone
 	t_vector	center;
 	t_vector	normal;
 	float		angle;
-	int		    color[3];
+	int			color[3];
 }				t_cone;
 
 typedef struct s_rt
@@ -110,28 +104,36 @@ typedef struct s_rt
 	t_plane		*plane;
 	t_cylinder	*cylinder;
 	t_cone		*cone;
-    unsigned int    ct_a;
-    unsigned int    ct_c;
-    unsigned int    ct_l;
-    unsigned int    ct_sp;
-    unsigned int    ct_cy;
-    unsigned int    ct_pl;
-    unsigned int    max_a;
-    unsigned int    max_c;
-    unsigned int    max_l;
-    unsigned int    max_sp;
-    unsigned int    max_cy;
-    unsigned int    max_pl;
-    int         file_fd;
-    char        **split_line;
+	t_uint		ct_a;
+	t_uint		ct_c;
+	t_uint		ct_l;
+	t_uint		ct_sp;
+	t_uint		ct_cy;
+	t_uint		ct_pl;
+	t_uint		max_a;
+	t_uint		max_c;
+	t_uint		max_l;
+	t_uint		max_sp;
+	t_uint		max_cy;
+	t_uint		max_pl;
+	int			file_fd;
+	char		**split_line;
 }				t_rt;
 
+/*	Shape parsing functions	*/
+void		camera(t_rt *rt);
+t_light		light(t_rt *rt);
+t_sphere	sphere(t_rt *rt);
+t_plane		plane(t_rt *rt);
+t_cylinder	cylinder(t_rt *rt);
 
-int		ft_find_index(char *str, int c);
-char	*ft_gnl_strjoin(char *s1, char *s2);
-char	*ft_gnl_extra(char *save);
-char	*ft_get_line(char *save);
-char	*ft_read(int fd, char *save);
-char	*get_next_line(int fd);
+/*	File parsing and other utility functions	*/
+void		free_strings(char **str);
+float		ft_atof(const char *str);
+void		init_parse(t_rt *rt, char *file);
+t_ambient	ambient_lightning(t_rt *rt);
+void		perror_and_exit(char *input);
+t_vector	parse_input_as_vector(char	**splitted_line);
+t_vector	return_vector(float x, float y, float z);
 
 #endif
