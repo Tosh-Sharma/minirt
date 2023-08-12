@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 17:08:22 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/08/10 17:58:06 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/08/12 12:58:36 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 void	parser_counter(t_rt *rt)
 {
-	if (ft_strncmp(rt->split_line[0], "A", 2) == 0)
+	if (ft_strcmp(rt->split_line[0], "A") == 0)
 		rt->max_a += 1;
-	else if (ft_strncmp(rt->split_line[0], "C", 2) == 0)
+	else if (ft_strcmp(rt->split_line[0], "C") == 0)
 		rt->max_c += 1;
-	else if (ft_strncmp(rt->split_line[0], "L", 2) == 0)
+	else if (ft_strcmp(rt->split_line[0], "L") == 0)
 		rt->max_l += 1;
-	else if (ft_strncmp(rt->split_line[0], "sp", 2) == 0)
+	else if (ft_strcmp(rt->split_line[0], "sp") == 0)
 		rt->max_sp += 1;
-	else if (ft_strncmp(rt->split_line[0], "pl", 2))
+	else if (ft_strcmp(rt->split_line[0], "pl"))
 		rt->max_pl += 1;
-	else if (ft_strncmp(rt->split_line[0], "cy", 2))
+	else if (ft_strcmp(rt->split_line[0], "cy"))
 		rt->max_cy += 1;
 	else
 		perror_and_exit("Object identifier not recognisable");
@@ -32,17 +32,17 @@ void	parser_counter(t_rt *rt)
 
 void	parser(t_rt *rt)
 {
-	if (ft_strncmp(rt->split_line[0], "A", 2) == 0)
+	if (ft_strcmp(rt->split_line[0], "A") == 0)
 		rt->ambient[rt->ct_a] = ambient_lightning(rt);
-	else if (ft_strncmp(rt->split_line[0], "C", 2) == 0)
+	else if (ft_strcmp(rt->split_line[0], "C") == 0)
 		camera(rt);
-	else if (ft_strncmp(rt->split_line[0], "L", 2) == 0)
+	else if (ft_strcmp(rt->split_line[0], "L") == 0)
 		rt->light[rt->ct_l] = light(rt);
-	else if (ft_strncmp(rt->split_line[0], "sp", 2) == 0)
+	else if (ft_strcmp(rt->split_line[0], "sp") == 0)
 		rt->sphere[rt->ct_sp] = sphere(rt);
-	else if (ft_strncmp(rt->split_line[0], "pl", 2) == 0)
+	else if (ft_strcmp(rt->split_line[0], "pl") == 0)
 		rt->plane[rt->ct_pl] = plane(rt);
-	else if (ft_strncmp(rt->split_line[0], "cy", 2) == 0)
+	else if (ft_strcmp(rt->split_line[0], "cy") == 0)
 		rt->cylinder[rt->ct_cy] = cylinder(rt);
 	else
 		perror_and_exit("Object identifier not recognisable");
