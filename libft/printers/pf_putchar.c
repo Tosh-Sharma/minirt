@@ -1,26 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   pf_putchar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
+/*   By: tsharma <tsharma@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/26 16:54:32 by tsharma           #+#    #+#             */
-/*   Updated: 2023/08/01 17:28:10 by toshsharma       ###   ########.fr       */
+/*   Created: 2022/05/16 14:45:47 by tsharma           #+#    #+#             */
+/*   Updated: 2022/11/11 12:16:08 by tsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft.h"
 
-void	*ft_calloc(size_t count, size_t size)
+int	pf_putchar(char c, int fd)
 {
-	void	*res;
-
-	if (size && ((size_t) - 1 / size) < count)
-		return (NULL);
-	res = malloc(count * size);
-	if (!res)
-		return (NULL);
-	ft_bzero(res, count * size);
-	return (res);
+	ft_putchar_fd(c, fd);
+	return (1);
 }
