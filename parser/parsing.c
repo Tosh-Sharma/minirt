@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 17:08:22 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/08/12 12:58:36 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/08/12 13:27:01 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	init_values(t_rt *rt)
 	rt->max_pl = 0;
 }
 
+// TODO: Add handling for empty lines.
 void	parse_file(t_rt *rt, char *file, int flag)
 {
 	char	*line;
@@ -120,7 +121,7 @@ void	init_parse(t_rt *rt, char *file)
 		printf("\nSPHERE[%d]\nx = %f, y = %f, z = %f, diameter = %f, red = %d, green = %d, blue = %d\n", i, rt->sphere[i].center.x, rt->sphere[i].center.y, rt->sphere[i].center.z, rt->sphere[i].diameter, rt->sphere[i].color[0], rt->sphere[i].color[1], rt->sphere[i].color[2]);
 	i = -1;
 	while (rt->plane[++i].color[0])
-		printf("\nPLANE[%d]\nCenter(x = %f, y = %f, z = %f), Normal(x = %f, y = %f, z = %f), red = %d, green = %d, blue = %d\n", i, rt->plane[i].center.x, rt->plane[i].center.y, rt->plane[i].center.z, rt->plane[i].normal.x, rt->plane[i].normal.y, rt->plane[i].normal.z, rt->sphere[i].color[0], rt->sphere[i].color[1], rt->sphere[i].color[2]);
+		printf("\nPLANE[%d]\nCenter(x = %f, y = %f, z = %f), Normal(x = %f, y = %f, z = %f), red = %d, green = %d, blue = %d\n", i, rt->plane[i].center.x, rt->plane[i].center.y, rt->plane[i].center.z, rt->plane[i].normal.x, rt->plane[i].normal.y, rt->plane[i].normal.z, rt->plane[i].color[0], rt->plane[i].color[1], rt->plane[i].color[2]);
 	i = -1;
 	while (rt->cylinder[++i].height)
 		printf("\nCYLINDER[%d]\nCenter(x = %f, y = %f, z = %f), Normal(x = %f, y = %f, z = %f), diameter = %f, height = %f, red = %d, green = %d, blue = %d\n", i, rt->cylinder[i].center.x, rt->cylinder[i].center.y, rt->cylinder[i].center.z, rt->cylinder[i].normal.x, rt->cylinder[i].normal.y, rt->cylinder[i].normal.z, rt->cylinder[i].diameter, rt->cylinder[i].height, rt->cylinder[i].color[0], rt->cylinder[i].color[1], rt->cylinder[i].color[2]);

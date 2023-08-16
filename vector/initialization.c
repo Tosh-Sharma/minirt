@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 17:25:07 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/08/10 18:02:03 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/08/16 14:34:18 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,16 @@ t_vector	parse_input_as_vector(char	**splitted_line)
 	}
 	vector = return_vector(x, y, z);
 	return (vector);
+}
+
+t_vector	normalize_vector(t_vector v)
+{
+	t_vector	result;
+	float		denominator;
+
+	denominator = dot_product(v, v);
+	result.x = v.x / denominator;
+	result.y = v.y / denominator;
+	result.z = v.z / denominator;
+	return (result);
 }

@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 17:44:10 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/08/10 17:44:27 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/08/12 13:04:48 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ t_ambient	ambient_lightning(t_rt *rt)
 	}
 	free_strings(split_color);
 	++rt->ct_a;
-	//else QUOI FAIRE?
 	return (ambient);
 }
 

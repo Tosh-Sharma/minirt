@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:55:38 by tsharma           #+#    #+#             */
-/*   Updated: 2023/08/10 18:02:19 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/08/16 14:34:34 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <math.h>
 # include <stdarg.h>
 # include <fcntl.h>
 # include <stdbool.h>
@@ -26,7 +27,8 @@
 # include "libft/libft.h"
 # include "minilibx_opengl/mlx.h"
 
-# define BUFFER_SIZE 1
+# define WIDTH 800
+# define HEIGHT 600
 
 typedef unsigned int	t_uint;
 
@@ -99,6 +101,16 @@ typedef struct s_cone
 	int			color[3];
 }				t_cone;
 
+typedef struct s_data {
+	void		*img;
+	char		*addr;
+	int			line_length;
+	int			bits_per_pixel;
+	int			endian;
+	void		*mlx;
+	void		*mlx_win;
+}	t_image;
+
 typedef struct s_rt
 {
 	t_ambient	*ambient;
@@ -122,6 +134,7 @@ typedef struct s_rt
 	t_uint		max_pl;
 	int			file_fd;
 	char		**split_line;
+	t_image		img;
 }				t_rt;
 
 /**	Function definitions	*/
@@ -140,6 +153,18 @@ void		perror_and_exit(char *input);
 void		free_strings(char **str);
 float		ft_atof(const char *str);
 
+t_vector	return_vector(float x, float y, float z);
 t_vector	parse_input_as_vector(char	**splitted_line);
+t_vector	vec_add(t_vector v1, t_vector v2);
+t_vector	vec_subtract(t_vector v1, t_vector v2);
+t_vector	cross_product(t_vector v1, t_vector v2);
+float		dot_product(t_vector v1, t_vector v2);
+t_vector	scalar_float_product(t_vector v1, float a);
+t_vector	normalize_vector(t_vector v);
+
+void		ray_tracing(t_rt *rt);
+void		cast_rays(t_rt *rt);
+int			exit_hook(t_image *img);
+void		put_pixel(t_image *data, int x, int y, int color);
 
 #endif
