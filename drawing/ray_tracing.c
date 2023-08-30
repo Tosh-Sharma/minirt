@@ -6,32 +6,43 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 13:28:49 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/08/16 14:36:31 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/08/29 15:46:17 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minirt.h"
 
-void	iterate_over_objects(t_rt *rt, t_ray ray, float t)
+void	iterate_over_objects(t_rt *rt, t_ray ray, float *t)
 {
-	// t_sphere	*sphere;
-	// t_plane		*plane;
-	// t_cylinder	*cylinder;
+	int	i;
 
-	// sphere = rt->sphere;
-	// while (sphere)
-	// {
-	// 	if (intersect_sphere(sphere, ray, &t))
-	// 		break ;
-	// 	sphere = sphere->next;
-	// }
+	i = -1;
+	while (++i < rt->max_sp)
+		intersect_sphere(rt->sphere[i], ray, t);
+	i = -1;
+	while (++i < rt->max_cy)
+		intersect_cylinder(rt->cylinder[i], ray, t);
+	i = -1;
+	while (++i < rt->max_pl)
+		intersect_plane(rt->plane[i], ray, t);
 }
+// TODO: Add below cone logic above when all others are working correctly.
+// i = -1;
+// while (++i < rt->max_cone)
+// 	intersect_cone(rt->cone[i], ray, t);
 
 t_ray	generate_ray(t_rt *rt, t_ray ray, int i, int j)
 {
-	ray.origin = return_vector(rt->camera.origin.x, rt->camera.origin.y,
-			rt->camera.origin.z);
-	// ray.direction = 
+	float		x;
+	float		y;
+	t_vector	direction;
+
+	x = 2.0f * ((i + 0.5f) / WIDTH) - 1.0f;
+	y = 1.0f - (2.0f * ((j + 0.5f) / HEIGHT));
+	ray.direction = vec_add(rt->img.forward, vec_add(
+				scalar_product_f(rt->img.right, x * rt->img.width),
+				scalar_product_f(rt->img.up, y * rt->img.height)));
+	return (ray);
 }
 
 void	cast_rays(t_rt *rt)
@@ -42,6 +53,9 @@ void	cast_rays(t_rt *rt)
 	t_ray	ray;
 
 	j = 0;
+	set_up_vector_directions(rt);
+	ray.origin = return_vector(rt->camera.origin.x, rt->camera.origin.y,
+			rt->camera.origin.z);
 	while (j < HEIGHT)
 	{
 		i = 0;
@@ -49,7 +63,7 @@ void	cast_rays(t_rt *rt)
 		{
 			t = INFINITY;
 			ray = generate_ray(rt, ray, i, j);
-			iterate_over_objects(rt, ray, t);
+			iterate_over_objects(rt, ray, &t);
 			++i;
 		}
 		++j;

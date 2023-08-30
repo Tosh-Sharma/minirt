@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 17:08:22 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/08/12 13:27:01 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/08/16 16:43:36 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	parser_counter(t_rt *rt)
 		rt->max_pl += 1;
 	else if (ft_strcmp(rt->split_line[0], "cy"))
 		rt->max_cy += 1;
+	else if (ft_strcmp(rt->split_line[0], "co"))
+		rt->max_cone += 1;
 	else
 		perror_and_exit("Object identifier not recognisable");
 }
@@ -44,6 +46,8 @@ void	parser(t_rt *rt)
 		rt->plane[rt->ct_pl] = plane(rt);
 	else if (ft_strcmp(rt->split_line[0], "cy") == 0)
 		rt->cylinder[rt->ct_cy] = cylinder(rt);
+	else if (ft_strcmp(rt->split_line[0], "co") == 0)
+		rt->cone[rt->ct_co] = cone(rt);
 	else
 		perror_and_exit("Object identifier not recognisable");
 }
@@ -108,6 +112,7 @@ void	init_parse(t_rt *rt, char *file)
 	rt->sphere = (t_sphere *)malloc(sizeof(t_sphere) * (rt->max_sp + 1));
 	rt->plane = (t_plane *)malloc(sizeof(t_plane) * (rt->max_pl + 1));
 	rt->cylinder = (t_cylinder *)malloc(sizeof(t_cylinder) * (rt->max_cy + 1));
+	rt->cone = (t_cone *)malloc(sizeof(t_cone) * (rt->max_cone + 1));
 	parse_file(rt, file, 1);
 	i = -1;
 	while (rt->ambient[++i].brightness)

@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 17:41:54 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/08/10 17:42:04 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/08/16 16:42:58 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,4 +155,12 @@ t_cylinder	cylinder(t_rt *rt)
 	free_strings(split_color);
 	++rt->ct_cy;
 	return (cylinder);
+}
+
+// TODO: Do the required parsing for a Cone.
+t_cone	cone(t_rt *rt)
+{
+	t_cone	cone;
+
+	return (cone);
 }

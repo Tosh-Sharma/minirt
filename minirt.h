@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:55:38 by tsharma           #+#    #+#             */
-/*   Updated: 2023/08/16 14:34:34 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/08/29 15:09:50 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include "libft/libft.h"
 # include "minilibx_opengl/mlx.h"
 
+// WIDTH should be greater than / equal to HEIGHT
 # define WIDTH 800
 # define HEIGHT 600
 
@@ -97,7 +98,8 @@ typedef struct s_cone
 {
 	t_vector	center;
 	t_vector	normal;
-	float		angle;
+	float		height;
+	float		diameter;
 	int			color[3];
 }				t_cone;
 
@@ -109,6 +111,12 @@ typedef struct s_data {
 	int			endian;
 	void		*mlx;
 	void		*mlx_win;
+	t_vector	forward;
+	t_vector	up;
+	t_vector	right;
+	t_vector	up_guide;
+	float		height;
+	float		width;
 }	t_image;
 
 typedef struct s_rt
@@ -124,14 +132,16 @@ typedef struct s_rt
 	t_uint		ct_c;
 	t_uint		ct_l;
 	t_uint		ct_sp;
-	t_uint		ct_cy;
 	t_uint		ct_pl;
+	t_uint		ct_cy;
+	t_uint		ct_co;
 	t_uint		max_a;
 	t_uint		max_c;
 	t_uint		max_l;
 	t_uint		max_sp;
 	t_uint		max_cy;
 	t_uint		max_pl;
+	t_uint		max_cone;
 	int			file_fd;
 	char		**split_line;
 	t_image		img;
@@ -142,6 +152,7 @@ t_light		light(t_rt *rt);
 t_cylinder	cylinder(t_rt *rt);
 t_plane		plane(t_rt *rt);
 t_sphere	sphere(t_rt *rt);
+t_cone		cone(t_rt *rt);
 
 void		camera(t_rt *rt);
 t_ambient	ambient_lightning(t_rt *rt);
@@ -159,12 +170,18 @@ t_vector	vec_add(t_vector v1, t_vector v2);
 t_vector	vec_subtract(t_vector v1, t_vector v2);
 t_vector	cross_product(t_vector v1, t_vector v2);
 float		dot_product(t_vector v1, t_vector v2);
-t_vector	scalar_float_product(t_vector v1, float a);
+t_vector	scalar_product_f(t_vector v1, float a);
 t_vector	normalize_vector(t_vector v);
 
 void		ray_tracing(t_rt *rt);
 void		cast_rays(t_rt *rt);
+void		set_up_vector_directions(t_rt *rt);
 int			exit_hook(t_image *img);
 void		put_pixel(t_image *data, int x, int y, int color);
+
+void		intersect_sphere(t_sphere sphere, t_ray ray, float *t);
+void		intersect_plane(t_plane plane, t_ray ray, float *t);
+void		intersect_cylinder(t_cylinder cylinder, t_ray ray, float *t);
+void		intersect_cone(t_cone cone, t_ray ray, float *t);
 
 #endif

@@ -1,23 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   cone.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/12 16:04:58 by tsharma           #+#    #+#             */
-/*   Updated: 2023/08/17 17:38:18 by toshsharma       ###   ########.fr       */
+/*   Created: 2023/08/16 16:49:12 by toshsharma        #+#    #+#             */
+/*   Updated: 2023/08/16 16:53:07 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minirt.h"
+#include "../minirt.h"
 
-int	main(int argc, char **argv)
+void	intersect_cone(t_cone cone, t_ray ray, float *t)
 {
-	t_rt	g_rt;
-
-	if (argc != 2)
-		perror_and_exit("Unacceptable number of arguments");
-	init_parse(&g_rt, argv[1]);
-	ray_tracing(&g_rt);
 }
