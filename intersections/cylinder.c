@@ -1,26 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/26 16:54:32 by tsharma           #+#    #+#             */
-/*   Updated: 2023/08/01 17:28:10 by toshsharma       ###   ########.fr       */
+/*   Created: 2023/08/16 16:49:22 by toshsharma        #+#    #+#             */
+/*   Updated: 2023/08/17 16:49:29 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minirt.h"
 
-void	*ft_calloc(size_t count, size_t size)
+void	intersect_cylinder(t_cylinder cylinder, t_ray ray, float *t)
 {
-	void	*res;
-
-	if (size && ((size_t) - 1 / size) < count)
-		return (NULL);
-	res = malloc(count * size);
-	if (!res)
-		return (NULL);
-	ft_bzero(res, count * size);
-	return (res);
 }

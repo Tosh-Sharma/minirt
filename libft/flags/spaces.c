@@ -1,25 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   spaces.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsharma <tsharma@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/23 14:08:34 by tsharma           #+#    #+#             */
-/*   Updated: 2022/11/11 10:41:04 by tsharma          ###   ########.fr       */
+/*   Created: 2022/05/20 16:17:44 by tsharma           #+#    #+#             */
+/*   Updated: 2022/11/11 12:15:46 by tsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft.h"
 
-size_t	ft_strlen(const char *s)
+int	handle_spaces(const char *s, va_list args, size_t *i)
 {
-	int	i;
+	int	n;
+	int	count;
 
-	if (s == NULL)
-		return (0);
-	i = 0;
-	while (s[i] != '\0')
-		i++;
-	return (i);
+	count = 0;
+	if (s[0] == 'd' || s[0] == 'i')
+	{
+		n = va_arg(args, int);
+		if (n >= 0)
+		{
+			ft_putchar_fd(' ', 1);
+			count = count + 1;
+		}
+		count += pf_putnbr(n, "0123456789");
+	}
+	*i = *i + 2;
+	return (count);
 }

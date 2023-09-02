@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:55:38 by tsharma           #+#    #+#             */
-/*   Updated: 2023/04/18 19:49:51 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/08/29 15:09:50 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,24 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <math.h>
 # include <stdarg.h>
 # include <fcntl.h>
-# include "libft/libft.h"
-# include "get_next_line.h"
 # include <stdbool.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <sys/wait.h>
-# include <signal.h>
 
-#define BUFFER_SIZE 1
+# include "libft/libft.h"
+# include "minilibx_opengl/mlx.h"
+
+// WIDTH should be greater than / equal to HEIGHT
+# define WIDTH 800
+# define HEIGHT 600
+
+typedef unsigned int	t_uint;
 
 typedef struct s_color
 {
-	int color[3];
-}				t_color;
+	int	color[3];
+}	t_color;
 
 typedef struct s_vector
 {
@@ -43,19 +45,18 @@ typedef struct s_vector
 	float	z;
 }				t_vector;
 
-
 typedef struct s_camera
 {
 	t_vector	origin;
 	t_vector	direction;
-	int         fov;
+	int			fov;
 }				t_camera;
 
 typedef struct s_light
 {
 	t_vector	origin;
 	float		brightness;
-	int		    color[3];
+	int			color[3];
 }				t_light;
 
 typedef struct s_ambient
@@ -74,14 +75,14 @@ typedef struct s_sphere
 {
 	t_vector	center;
 	float		diameter;
-	int		    color[3];
+	int			color[3];
 }				t_sphere;
 
 typedef struct s_plane
 {
 	t_vector	center;
 	t_vector	normal;
-	int		    color[3];
+	int			color[3];
 }				t_plane;
 
 typedef struct s_cylinder
@@ -90,16 +91,33 @@ typedef struct s_cylinder
 	t_vector	normal;
 	float		diameter;
 	float		height;
-	int		    color[3];
+	int			color[3];
 }				t_cylinder;
 
 typedef struct s_cone
 {
 	t_vector	center;
 	t_vector	normal;
-	float		angle;
-	int		    color[3];
+	float		height;
+	float		diameter;
+	int			color[3];
 }				t_cone;
+
+typedef struct s_data {
+	void		*img;
+	char		*addr;
+	int			line_length;
+	int			bits_per_pixel;
+	int			endian;
+	void		*mlx;
+	void		*mlx_win;
+	t_vector	forward;
+	t_vector	up;
+	t_vector	right;
+	t_vector	up_guide;
+	float		height;
+	float		width;
+}	t_image;
 
 typedef struct s_rt
 {
@@ -110,28 +128,60 @@ typedef struct s_rt
 	t_plane		*plane;
 	t_cylinder	*cylinder;
 	t_cone		*cone;
-    unsigned int    ct_a;
-    unsigned int    ct_c;
-    unsigned int    ct_l;
-    unsigned int    ct_sp;
-    unsigned int    ct_cy;
-    unsigned int    ct_pl;
-    unsigned int    max_a;
-    unsigned int    max_c;
-    unsigned int    max_l;
-    unsigned int    max_sp;
-    unsigned int    max_cy;
-    unsigned int    max_pl;
-    int         file_fd;
-    char        **split_line;
+	t_uint		ct_a;
+	t_uint		ct_c;
+	t_uint		ct_l;
+	t_uint		ct_sp;
+	t_uint		ct_pl;
+	t_uint		ct_cy;
+	t_uint		ct_co;
+	t_uint		max_a;
+	t_uint		max_c;
+	t_uint		max_l;
+	t_uint		max_sp;
+	t_uint		max_cy;
+	t_uint		max_pl;
+	t_uint		max_cone;
+	int			file_fd;
+	char		**split_line;
+	t_image		img;
 }				t_rt;
 
+/**	Function definitions	*/
+t_light		light(t_rt *rt);
+t_cylinder	cylinder(t_rt *rt);
+t_plane		plane(t_rt *rt);
+t_sphere	sphere(t_rt *rt);
+t_cone		cone(t_rt *rt);
 
-int		ft_find_index(char *str, int c);
-char	*ft_gnl_strjoin(char *s1, char *s2);
-char	*ft_gnl_extra(char *save);
-char	*ft_get_line(char *save);
-char	*ft_read(int fd, char *save);
-char	*get_next_line(int fd);
+void		camera(t_rt *rt);
+t_ambient	ambient_lightning(t_rt *rt);
+
+void		init_parse(t_rt *rt, char *file);
+
+void		my_exit(t_rt *rt);
+void		perror_and_exit(char *input);
+void		free_strings(char **str);
+float		ft_atof(const char *str);
+
+t_vector	return_vector(float x, float y, float z);
+t_vector	parse_input_as_vector(char	**splitted_line);
+t_vector	vec_add(t_vector v1, t_vector v2);
+t_vector	vec_subtract(t_vector v1, t_vector v2);
+t_vector	cross_product(t_vector v1, t_vector v2);
+float		dot_product(t_vector v1, t_vector v2);
+t_vector	scalar_product_f(t_vector v1, float a);
+t_vector	normalize_vector(t_vector v);
+
+void		ray_tracing(t_rt *rt);
+void		cast_rays(t_rt *rt);
+void		set_up_vector_directions(t_rt *rt);
+int			exit_hook(t_image *img);
+void		put_pixel(t_image *data, int x, int y, int color);
+
+void		intersect_sphere(t_sphere sphere, t_ray ray, float *t);
+void		intersect_plane(t_plane plane, t_ray ray, float *t);
+void		intersect_cylinder(t_cylinder cylinder, t_ray ray, float *t);
+void		intersect_cone(t_cone cone, t_ray ray, float *t);
 
 #endif

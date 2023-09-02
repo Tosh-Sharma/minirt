@@ -1,27 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstiter.c                                       :+:      :+:    :+:   */
+/*   pf_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tsharma <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: tsharma <tsharma@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/02 18:59:35 by tsharma           #+#    #+#             */
-/*   Updated: 2022/05/02 19:01:56 by tsharma          ###   ########.fr       */
+/*   Created: 2022/05/16 15:05:52 by tsharma           #+#    #+#             */
+/*   Updated: 2022/11/11 12:16:34 by tsharma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../libft.h"
 
-void	ft_lstiter(t_list *lst, void (*f)(void *))
+int	pf_putstr(char *s, int fd)
 {
-	t_list	*p;
-
-	p = lst;
-	if (p == NULL)
-		return ;
-	while (p != NULL)
+	if (s == NULL)
 	{
-		f(p->content);
-		p = p->next;
+		ft_putstr_fd("(null)", 1);
+		return (6);
 	}
+	ft_putstr_fd(s, fd);
+	return (ft_strlen(s));
 }

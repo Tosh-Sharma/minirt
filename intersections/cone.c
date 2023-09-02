@@ -1,31 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
+/*   cone.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tsharma <tsharma@student.42.fr>            +#+  +:+       +#+        */
+/*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/02 16:31:09 by tsharma           #+#    #+#             */
-/*   Updated: 2022/05/02 20:46:45 by tsharma          ###   ########.fr       */
+/*   Created: 2023/08/16 16:49:12 by toshsharma        #+#    #+#             */
+/*   Updated: 2023/08/16 16:53:07 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minirt.h"
 
-void	ft_lstadd_back(t_list **lst, t_list *new)
+void	intersect_cone(t_cone cone, t_ray ray, float *t)
 {
-	t_list	*p;
-
-	if (lst != NULL)
-	{
-		if (lst[0] == NULL)
-			lst[0] = new;
-		else
-		{
-			p = lst[0];
-			while (p->next != NULL)
-				p = p->next;
-			p->next = new;
-		}
-	}
 }
