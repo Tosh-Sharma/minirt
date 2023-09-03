@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 17:41:54 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/08/16 16:42:58 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/09/03 11:24:59 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_light	light(t_rt *rt) //rt->light[index of which light we are talking about]->
 		perror_and_exit("Unacceptable light coordinates settings");
 	light.origin = parse_input_as_vector(split_origin);
 	free_strings(split_origin);
-	light.brightness = ft_atof(rt->split_line[2]);
+	light.brightness = ft_atod(rt->split_line[2]);
 	if (light.brightness < 0.0 || light.brightness > 1.0)
 		perror_and_exit("Unacceptable light brightness value");
 	split_color = ft_split(rt->split_line[3], ',');
@@ -57,7 +57,7 @@ t_sphere	sphere(t_rt *rt)
 		perror_and_exit("Unacceptable sphere coordinates settings");
 	sphere.center = parse_input_as_vector(split_center);
 	free_strings(split_center);
-	sphere.diameter = ft_atof(rt->split_line[2]);
+	sphere.diameter = ft_atod(rt->split_line[2]);
 	if (sphere.diameter < 0.0)
 		perror_and_exit("Unacceptable sphere diameter value");
 	split_color = ft_split(rt->split_line[3], ',');
@@ -136,10 +136,10 @@ t_cylinder	cylinder(t_rt *rt)
 	if (cylinder.normal.x < -1.0 || cylinder.normal.x > 1.0 || cylinder.normal.y < -1.0
 		|| cylinder.normal.y > 1.0 || cylinder.normal.z < -1.0 || cylinder.normal.z > 1.0)
 		perror_and_exit("Unacceptable cylinder normal values");
-	cylinder.diameter = ft_atof(rt->split_line[3]);
+	cylinder.diameter = ft_atod(rt->split_line[3]);
 	if (cylinder.diameter < 0.0)
 		perror_and_exit("Unacceptable cylinder diameter value");
-	cylinder.height = ft_atof(rt->split_line[4]); //CAN IT BE MINUS?
+	cylinder.height = ft_atod(rt->split_line[4]); //CAN IT BE MINUS?
 	if (cylinder.height < 0.0)
 		perror_and_exit("Unacceptable cylinder height value");
 	split_color = ft_split(rt->split_line[5], ',');
@@ -158,9 +158,9 @@ t_cylinder	cylinder(t_rt *rt)
 }
 
 // TODO: Do the required parsing for a Cone.
-t_cone	cone(t_rt *rt)
-{
-	t_cone	cone;
+// t_cone	cone(t_rt *rt)
+// {
+// 	t_cone	cone;
 
-	return (cone);
-}
+// 	return (cone);
+// }

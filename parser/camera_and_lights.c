@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 17:44:10 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/08/12 13:04:48 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/09/03 11:24:59 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_ambient	ambient_lightning(t_rt *rt)
 
 	if (rt->split_line[3] != NULL)
 		perror_and_exit("Extra ambient lightning settings");
-	ambient.brightness = ft_atof(rt->split_line[1]);
+	ambient.brightness = ft_atod(rt->split_line[1]);
 	if (ambient.brightness > 1.0 || ambient.brightness < 0.0)
 		perror_and_exit("Unacceptable ambient brightness value");
 	split_color = ft_split(rt->split_line[2], ',');
