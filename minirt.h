@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:55:38 by tsharma           #+#    #+#             */
-/*   Updated: 2023/09/03 11:31:07 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/09/04 17:07:47 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,12 +163,14 @@ t_ambient	ambient_lightning(t_rt *rt);
 
 void		init_parse(t_rt *rt, char *file);
 
+int			exit_hook(t_image *img);
+int			key_hook(int keycode, t_image *img);
 void		my_exit(t_rt *rt);
 void		perror_and_exit(char *input);
 void		free_strings(char **str);
 double		ft_atod(const char *str);
 
-t_vector	return_vector(double x, double y, double z);
+t_vector	vectorize(double x, double y, double z);
 t_vector	parse_input_as_vector(char	**splitted_line);
 t_vector	vec_add(t_vector v1, t_vector v2);
 t_vector	vec_subtract(t_vector v1, t_vector v2);
@@ -176,14 +178,14 @@ t_vector	cross_product(t_vector v1, t_vector v2);
 double		dot_product(t_vector v1, t_vector v2);
 t_vector	scalar_product(t_vector v1, double a);
 t_vector	normalize_vector(t_vector v);
+void		print_vector(t_vector v, char *str);
 
 void		ray_tracing(t_rt *rt);
 void		cast_rays(t_rt *rt);
 void		set_up_vector_directions(t_rt *rt);
-int			exit_hook(t_image *img);
 void		put_pixel(t_image *data, int x, int y, int color);
 
-void		intersect_sphere(t_sphere sphere, t_ray ray, double *t);
+void		intersect_sphere(t_rt *rt, t_sphere sphere, t_ray ray, double *t);
 void		intersect_plane(t_plane plane, t_ray ray, double *t);
 void		intersect_cylinder(t_cylinder cylinder, t_ray ray, double *t);
 void		intersect_cone(t_cone cone, t_ray ray, double *t);

@@ -6,13 +6,14 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 17:25:07 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/09/03 11:31:41 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/09/03 18:42:51 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minirt.h"
 
-t_vector	return_vector(double x, double y, double z)
+// This function converts the input into a vector OR it 'vectorizes' the input
+t_vector	vectorize(double x, double y, double z)
 {
 	t_vector	vector;
 
@@ -41,7 +42,7 @@ t_vector	parse_input_as_vector(char	**splitted_line)
 			z = ft_atod(splitted_line[i]);
 		++i;
 	}
-	vector = return_vector(x, y, z);
+	vector = vectorize(x, y, z);
 	return (vector);
 }
 
@@ -50,6 +51,11 @@ t_vector	normalize_vector(t_vector v)
 	double		denominator;
 
 	denominator = sqrt(dot_product(v, v));
-	return (return_vector(v.x / denominator,
+	return (vectorize(v.x / denominator,
 			v.y / denominator, v.z / denominator));
+}
+
+void	print_vector(t_vector v, char *str)
+{
+	printf("%s vector is x: %f, y: %f, z: %f\n", str, v.x, v.y, v.z);
 }

@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 14:47:34 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/09/03 01:50:56 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/09/04 17:11:02 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 t_vector	set_up_guide_vector(t_rt *rt)
 {
 	(void)rt;
-	return (return_vector(0, 1, 0));
+	return (vectorize(0, 1, 0));
 }
 
 void	set_up_vector_directions(t_rt *rt)

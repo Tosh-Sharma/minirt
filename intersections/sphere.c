@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:49:28 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/09/03 11:30:35 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/09/04 17:11:12 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ double	min_num(double a, double b)
 	return (b);
 }
 
-void	intersect_sphere(t_sphere sphere, t_ray ray, double *t)
+void	intersect_sphere(t_rt *rt, t_sphere sphere, t_ray ray, double *t)
 {
 	double	a;
 	double	b;
@@ -28,12 +28,12 @@ void	intersect_sphere(t_sphere sphere, t_ray ray, double *t)
 	double	new_t;
 
 	a = 1;
-	b = 2 * dot_product(ray.direction, vec_subtract(sphere.center,
-				ray.origin));
-	c = dot_product(vec_subtract(sphere.center, ray.origin),
-			vec_subtract(sphere.center, ray.origin))
+	b = 2 * dot_product(ray.direction, vec_subtract(ray.origin,
+				sphere.center));
+	c = dot_product(vec_subtract(ray.origin, sphere.center),
+			vec_subtract(ray.origin, sphere.center))
 		- (powf(sphere.diameter / 2, 2));
-	discriminant = sqrt(b) - (4 * a * c);
+	discriminant = (b * b) - (4 * a * c);
 	if (discriminant < 0)
 		return ;
 	else
@@ -43,6 +43,7 @@ void	intersect_sphere(t_sphere sphere, t_ray ray, double *t)
 		if (new_t > 0 && new_t < *t)
 		{
 			*t = new_t;
+			put_pixel(&rt->img, ray.x, ray.y, 0x00FFFFFF);
 		}
 	}
 }
