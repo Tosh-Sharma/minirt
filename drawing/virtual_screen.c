@@ -6,11 +6,20 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 14:47:34 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/08/29 15:01:25 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/09/04 17:11:02 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minirt.h"
+
+// We need to handle 2 edge cases in setting up the up_guide vector
+// one if the camera direction is the up_guide vector
+// second, if the camera direction is opposite of the up_guide vector
+t_vector	set_up_guide_vector(t_rt *rt)
+{
+	(void)rt;
+	return (vectorize(0, 1, 0));
+}
 
 void	set_up_vector_directions(t_rt *rt)
 {
@@ -22,12 +31,4 @@ void	set_up_vector_directions(t_rt *rt)
 	rt->img.up = cross_product(rt->img.right, rt->img.forward);
 	rt->img.height = tanf(rt->camera.fov * 0.5 * M_PI / 180) * 2;
 	rt->img.width = WIDTH / HEIGHT * rt->img.height;
-}
-
-// We need to handle 2 edge cases in setting up the up_guide vector
-// one if the camera direction is the up_guide vector
-// second, if the camera direction is opposite of the up_guide vector
-t_vector	set_up_guide_vector(t_rt *rt)
-{
-	return (return_vector(0, 1, 0));
 }
