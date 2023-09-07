@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:49:28 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/09/04 17:11:12 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/09/07 21:53:05 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	intersect_sphere(t_rt *rt, t_sphere sphere, t_ray ray, double *t)
 		if (new_t > 0 && new_t < *t)
 		{
 			*t = new_t;
-			put_pixel(&rt->img, ray.x, ray.y, 0x00FFFFFF);
+			put_pixel(&rt->img, ray.x, ray.y, 0x0099FFFF);
 		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:55:38 by tsharma           #+#    #+#             */
-/*   Updated: 2023/09/04 17:07:47 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/09/06 12:35:59 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,8 +186,9 @@ void		set_up_vector_directions(t_rt *rt);
 void		put_pixel(t_image *data, int x, int y, int color);
 
 void		intersect_sphere(t_rt *rt, t_sphere sphere, t_ray ray, double *t);
-void		intersect_plane(t_plane plane, t_ray ray, double *t);
-void		intersect_cylinder(t_cylinder cylinder, t_ray ray, double *t);
-void		intersect_cone(t_cone cone, t_ray ray, double *t);
+void		intersect_plane(t_rt *rt, t_plane plane, t_ray ray, double *t);
+void		intersect_cylinder(t_rt *rt, t_cylinder cylinder, t_ray ray,
+				double *t);
+void		intersect_cone(t_rt *rt, t_cone cone, t_ray ray, double *t);
 
 #endif

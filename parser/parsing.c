@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 17:08:22 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/09/03 01:54:03 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/09/07 20:51:00 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ void	parser_counter(t_rt *rt)
 		rt->max_l += 1;
 	else if (ft_strcmp(rt->split_line[0], "sp") == 0)
 		rt->max_sp += 1;
-	else if (ft_strcmp(rt->split_line[0], "pl"))
+	else if (ft_strcmp(rt->split_line[0], "pl") == 0)
 		rt->max_pl += 1;
-	else if (ft_strcmp(rt->split_line[0], "cy"))
+	else if (ft_strcmp(rt->split_line[0], "cy") == 0)
 		rt->max_cy += 1;
-	else if (ft_strcmp(rt->split_line[0], "co"))
+	else if (ft_strcmp(rt->split_line[0], "co") == 0)
 		rt->max_cone += 1;
 	else
 		perror_and_exit("Object identifier not recognisable");
