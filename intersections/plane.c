@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:49:25 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/09/07 22:02:34 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/09/09 23:47:04 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	intersect_plane(t_rt *rt, t_plane plane, t_ray ray, double *t)
 {
 	double	denominator;
-	double	numerator;
 	double	result;
 
 	denominator = dot_product(ray.direction, plane.normal);
@@ -23,9 +22,8 @@ void	intersect_plane(t_rt *rt, t_plane plane, t_ray ray, double *t)
 		return ;
 	else
 	{
-		numerator = dot_product(vec_subtract(plane.center, ray.origin),
-				plane.normal);
-		result = numerator / denominator;
+		result = dot_product(vec_subtract(plane.center, ray.origin),
+				plane.normal) / denominator;
 		if (result < 0)
 			return ;
 		else if (result < *t && result > 0)

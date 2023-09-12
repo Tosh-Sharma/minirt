@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 17:09:10 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/09/03 11:25:01 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/09/09 15:36:38 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,13 @@ double	ft_atod(const char *str)
 		return ((double)(res + res2));
 	else
 		return ((double)(res - res2));
+}
+
+void	copy_colors(int *color_src, int *color_dest)
+{
+	int	i;
+
+	i = -1;
+	while (++i < 3)
+		color_src[i] = color_dest[i];
 }

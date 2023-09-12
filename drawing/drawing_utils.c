@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 13:28:47 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/09/04 17:08:29 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/09/12 15:05:58 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,13 @@ void	put_pixel(t_image *data, int x, int y, int color)
 	dst = data->addr + (y * data->line_length
 			+ x * (data->bits_per_pixel / 8));
 	*(unsigned int *)dst = color;
+}
+
+int	array_to_int(int c[3], double a)
+{
+	int	result;
+
+	result = (int)(a * 255) << 24 | c[0] << 16
+		| c[1] << 8 | c[2];
+	return (result);
 }

@@ -6,16 +6,88 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:49:22 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/09/07 18:21:45 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/09/12 21:26:15 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minirt.h"
 
+void	handle_disks(t_rt *rt, t_cylinder cylinder, t_ray ray, double *t)
+{
+	t_disk		top_disk;
+	t_disk		bottom_disk;
+
+	bottom_disk.center = scalar_product(cylinder.center, 1);
+	bottom_disk.normal = scalar_product(cylinder.normal, -1);
+	top_disk.normal = scalar_product(cylinder.normal, 1);
+	top_disk.center = vec_add(cylinder.center,
+			scalar_product(cylinder.normal, cylinder.height));
+	top_disk.diameter = cylinder.diameter;
+	bottom_disk.diameter = cylinder.diameter;
+	copy_colors(cylinder.color, top_disk.color);
+	copy_colors(cylinder.color, bottom_disk.color);
+	intersect_disk(rt, top_disk, ray, t);
+	intersect_disk(rt, bottom_disk, ray, t);
+}
+
+double	check_for_m_in_range(t_quadratic *quad, t_cylinder cylinder, t_ray ray)
+{
+	double	m1;
+	double	m2;
+
+	m1 = (dot_product(ray.direction, cylinder.normal) * quad->t1)
+		+ dot_product(vec_subtract(ray.origin, cylinder.center),
+			cylinder.normal);
+	m2 = (dot_product(ray.direction, cylinder.normal) * quad->t2)
+		+ dot_product(vec_subtract(ray.origin, cylinder.center),
+			cylinder.normal);
+
+	if (m1 < 0 || m1 > cylinder.height)
+		quad->t1 = INFINITY;
+	if (m2 < 0 || m2 > cylinder.height)
+		quad->t2 = INFINITY;
+	return (min_num(quad->t1, quad->t2));
+}
+
+void	solve_for_t(t_rt *rt, t_cylinder cylinder, t_ray ray, t_quadratic *quad)
+{
+	double	result;
+
+	quad->determinant = sqrt(quad->determinant);
+	quad->t1 = (-(quad->b) + quad->determinant) / (2 * quad->a);
+	quad->t2 = (-(quad->b) - quad->determinant) / (2 * quad->a);
+	result = check_for_m_in_range(quad, cylinder, ray);
+	if (result < *quad->t)
+	{
+		*quad->t = result;
+		put_pixel(&rt->img, ray.x, ray.y, 0x00FFFF00);
+	}
+}
+
+// The following equations are written with assuming that the cylinder center
+// is placed at base of the cylinder instead of the center 
+// point of the central axis.
 void	intersect_cylinder(t_rt *rt, t_cylinder cylinder, t_ray ray, double *t)
 {
-	(void)rt;
-	(void)cylinder;
-	(void)ray;
-	(void)t;
+	t_quadratic	quad;
+
+	handle_disks(rt, cylinder, ray, t);
+	quad.a = dot_product(ray.direction, ray.direction)
+		- pow(dot_product(ray.direction, cylinder.normal), 2);
+	quad.b = 2 * (dot_product(ray.direction, vec_subtract(ray.origin,
+					cylinder.center))
+			- (dot_product(ray.direction, cylinder.normal)
+				* dot_product(vec_subtract(ray.origin, cylinder.center),
+					cylinder.normal)));
+	quad.c = dot_product(vec_subtract(ray.origin, cylinder.center),
+			vec_subtract(ray.origin, cylinder.center))
+		- pow(dot_product(vec_subtract(ray.origin, cylinder.center),
+				cylinder.normal), 2)
+		- pow(cylinder.diameter / 2, 2);
+	quad.determinant = pow(quad.b, 2) - (4 * quad.a * quad.c);
+	quad.t = t;
+	if (quad.determinant < 0)
+		return ;
+	else
+		solve_for_t(rt, cylinder, ray, &quad);
 }

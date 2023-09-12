@@ -6,17 +6,32 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:49:28 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/09/07 21:53:05 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/09/12 21:24:53 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minirt.h"
 
-double	min_num(double a, double b)
+// Calculating lambertian reflection.
+// LambertianReflection = max⁡(0, N.L)
+// N is the normal vector of the surface at the point of intersection.
+// L is the vector pointing from the point of intersection to the light source.
+// DiffuseContribution = LambertianReflection × lightcolor × lightbrightness
+
+void	calculate_sphere_pixel_color(t_rt *rt, t_sphere sphere, t_ray ray,
+		double *t)
 {
-	if (a < b)
-		return (a);
-	return (b);
+	t_vector	light;
+	t_vector	normal;
+	double		lambertian_reflection;
+
+	normal = normalize_vector(vec_subtract(vec_add(ray.origin,
+					scalar_product(ray.direction, *t)), sphere.center));
+	light = normalize_vector(vec_subtract(rt->light->origin,
+				vec_add(ray.origin, scalar_product(ray.direction, *t))));
+	lambertian_reflection = max_num(0, dot_product(normal, light));
+	put_pixel(&rt->img, ray.x, ray.y, array_to_int(sphere.color,
+			lambertian_reflection));
 }
 
 void	intersect_sphere(t_rt *rt, t_sphere sphere, t_ray ray, double *t)
@@ -43,7 +58,7 @@ void	intersect_sphere(t_rt *rt, t_sphere sphere, t_ray ray, double *t)
 		if (new_t > 0 && new_t < *t)
 		{
 			*t = new_t;
-			put_pixel(&rt->img, ray.x, ray.y, 0x0099FFFF);
+			calculate_sphere_pixel_color(rt, sphere, ray, t);
 		}
 	}
 }

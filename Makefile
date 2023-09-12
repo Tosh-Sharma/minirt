@@ -70,6 +70,7 @@ SRCS = 	main.c \
 		vector/initialization.c \
 		vector/manipulation.c \
 		utils/common_utils.c \
+		utils/math_utils.c \
 		drawing/ray_tracing.c \
 		drawing/drawing_utils.c \
 		drawing/virtual_screen.c \
@@ -77,6 +78,7 @@ SRCS = 	main.c \
 		intersections/cylinder.c \
 		intersections/plane.c \
 		intersections/cone.c \
+		intersections/disk.c \
 		$(LIB_SRC)
 
 OBJS = ${SRCS:.c=.o}
