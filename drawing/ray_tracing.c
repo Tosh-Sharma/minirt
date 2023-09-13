@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 13:28:49 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/09/07 20:51:22 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/09/12 20:26:02 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	iterate_over_objects(t_rt *rt, t_ray ray, double *t)
 		intersect_plane(rt, rt->plane[i], ray, t);
 	// i = -1;
 	// while (++i < rt->max_cy)
-	// 	intersect_cylinder(rt->cylinder[i], ray, t);
+	// 	intersect_cylinder(rt, rt->cylinder[i], ray, t);
 }
 // TODO: Add below cone logic above when all others are working correctly.
 // i = -1;
