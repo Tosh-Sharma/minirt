@@ -80,6 +80,7 @@ SRCS = 	main.c \
 		intersections/plane.c \
 		intersections/cone.c \
 		intersections/disk.c \
+		shading/shadow_ray.c \
 		$(LIB_SRC)
 
 OBJS = ${SRCS:.c=.o}
