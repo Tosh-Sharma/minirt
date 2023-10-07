@@ -69,6 +69,7 @@ SRCS = 	main.c \
 		parser/camera_and_lights.c \
 		vector/initialization.c \
 		vector/manipulation.c \
+		vector/manipulationtwo.c \
 		utils/common_utils.c \
 		utils/math_utils.c \
 		drawing/ray_tracing.c \

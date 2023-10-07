@@ -73,6 +73,7 @@ typedef struct s_ray
 	t_vector	direction;
 	int			x;
 	int			y;
+	int			flag;
 }				t_ray;
 
 typedef struct s_sphere
@@ -198,6 +199,7 @@ t_vector	cross_product(t_vector v1, t_vector v2);
 double		dot_product(t_vector v1, t_vector v2);
 t_vector	scalar_product(t_vector v1, double a);
 t_vector	normalize_vector(t_vector v);
+double		vec_magnitude(t_vector v);
 
 void		print_vector(t_vector v, char *str);
 double		min_num(double a, double b);
@@ -208,8 +210,14 @@ int			array_to_int(int c[3], double a);
 
 void		ray_tracing(t_rt *rt);
 void		cast_rays(t_rt *rt);
+void		iterate_over_objects(t_rt *rt, t_ray ray, double *t);
 void		set_up_vector_directions(t_rt *rt);
 void		put_pixel(t_image *data, int x, int y, int color);
+
+
+void		generate_shadow_ray(t_rt *rt, t_ray ray, t_vector light, double *t);
+double  	vector_distance(t_vector light, t_ray ray, double *t);
+
 
 void		intersect_sphere(t_rt *rt, t_sphere sphere, t_ray ray, double *t);
 void		intersect_plane(t_rt *rt, t_plane plane, t_ray ray, double *t);
