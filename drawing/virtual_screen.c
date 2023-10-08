@@ -6,13 +6,13 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 14:47:34 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/09/04 17:11:02 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/08 14:00:35 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minirt.h"
 
-// We need to handle 2 edge cases in setting up the up_guide vector
+// TODO: We need to handle 2 edge cases in setting up the up_guide vector
 // one if the camera direction is the up_guide vector
 // second, if the camera direction is opposite of the up_guide vector
 t_vector	set_up_guide_vector(t_rt *rt)
@@ -24,11 +24,17 @@ t_vector	set_up_guide_vector(t_rt *rt)
 void	set_up_vector_directions(t_rt *rt)
 {
 	rt->img.up_guide = set_up_guide_vector(rt);
-	rt->img.forward = normalize_vector(vec_subtract(rt->camera.direction,
-				rt->camera.origin));
+	rt->img.forward = normalize_vector(rt->camera.direction);
 	rt->img.right = normalize_vector(cross_product(rt->img.forward,
 				rt->img.up_guide));
 	rt->img.up = cross_product(rt->img.right, rt->img.forward);
-	rt->img.height = tanf(rt->camera.fov * 0.5 * M_PI / 180) * 2;
-	rt->img.width = WIDTH / HEIGHT * rt->img.height;
+	rt->img.img_width = (double) WIDTH;
+	rt->img.img_height = (double) HEIGHT;
+	if (rt->img.img_width < rt->img.img_height)
+	{
+		rt->img.img_width = (double) HEIGHT;
+		rt->img.img_height = (double) WIDTH;
+	}
+	rt->img.img_aspect_ratio = rt->img.img_width / rt->img.img_height;
+	rt->img.scale = tan(rt->camera.fov * 0.5 * M_PI / 180);
 }

@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 13:28:49 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/09/12 20:26:02 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/08 13:34:35 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,20 @@ void	iterate_over_objects(t_rt *rt, t_ray ray, double *t)
 // while (++i < rt->max_cone)
 // 	intersect_cone(rt->cone[i], ray, t);
 
-t_ray	generate_ray(t_rt *rt, t_ray ray, int i, int j)
+t_ray	generate_ray(t_rt *rt, t_ray ray, double i, double j)
 {
 	double		x;
 	double		y;
+	t_vector	forward;
 
-	x = 2.0 * ((i + 0.5) / WIDTH) - 1.0;
-	y = 1.0 - (2.0 * ((j + 0.5) / HEIGHT));
-	ray.direction = vec_add(rt->img.forward, vec_add(
-				scalar_product(rt->img.right, x * rt->img.width),
-				scalar_product(rt->img.up, y * rt->img.height)));
-	ray.direction = normalize_vector(ray.direction);
+	x = ((2.0 * ((i + 0.5) / rt->img.img_width)) - 1.0) * rt->img.scale
+		* rt->img.img_aspect_ratio;
+	y = (1.0 - (2.0 * ((j + 0.5) / rt->img.img_height))) * rt->img.scale;
+	forward = vec_add(rt->camera.origin, rt->img.forward);
+	ray.direction = vec_add(forward, vec_add(scalar_product(rt->img.right, x),
+				scalar_product(rt->img.up, y)));
+	ray.direction = normalize_vector(vec_subtract(ray.direction,
+				rt->camera.origin));
 	ray.x = i;
 	ray.y = j;
 	return (ray);
@@ -49,26 +52,26 @@ t_ray	generate_ray(t_rt *rt, t_ray ray, int i, int j)
 
 void	cast_rays(t_rt *rt)
 {
-	int		i;
-	int		j;
+	double	i;
+	double	j;
 	double	t;
 	t_ray	ray;
 
-	j = 0;
+	j = 0.0;
 	set_up_vector_directions(rt);
 	ray.origin = vectorize(rt->camera.origin.x, rt->camera.origin.y,
 			rt->camera.origin.z);
 	while (j < HEIGHT)
 	{
-		i = 0;
+		i = 0.0;
 		while (i < WIDTH)
 		{
 			t = INFINITY;
 			ray = generate_ray(rt, ray, i, j);
 			iterate_over_objects(rt, ray, &t);
-			++i;
+			i += 1.0;
 		}
-		++j;
+		j += 1.0;
 	}
 }
 

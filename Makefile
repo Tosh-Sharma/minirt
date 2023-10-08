@@ -1,4 +1,4 @@
-NAME = miniRT
+NAME = minirt
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -Imlx
 LIBFT_SRC_FILES = ft_isalpha.c \
