@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 13:28:49 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/08 13:34:35 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/08 17:20:55 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,12 @@ t_ray	generate_ray(t_rt *rt, t_ray ray, double i, double j)
 {
 	double		x;
 	double		y;
-	t_vector	forward;
 
 	x = ((2.0 * ((i + 0.5) / rt->img.img_width)) - 1.0) * rt->img.scale
 		* rt->img.img_aspect_ratio;
 	y = (1.0 - (2.0 * ((j + 0.5) / rt->img.img_height))) * rt->img.scale;
-	forward = vec_add(rt->camera.origin, rt->img.forward);
-	ray.direction = vec_add(forward, vec_add(scalar_product(rt->img.right, x),
-				scalar_product(rt->img.up, y)));
+	ray.direction = vec_add(rt->img.forward, vec_add(scalar_product(
+					rt->img.right, x), scalar_product(rt->img.up, y)));
 	ray.direction = normalize_vector(vec_subtract(ray.direction,
 				rt->camera.origin));
 	ray.x = i;

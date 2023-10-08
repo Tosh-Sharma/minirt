@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:55:38 by tsharma           #+#    #+#             */
-/*   Updated: 2023/10/07 17:45:12 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/08 17:07:27 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 # include "libft/libft.h"
 # include "minilibx_opengl/mlx.h"
 
-// WIDTH should be greater than / equal to HEIGHT
 # define WIDTH 800
 # define HEIGHT 800
 

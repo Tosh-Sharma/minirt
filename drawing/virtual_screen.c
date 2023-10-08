@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 14:47:34 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/08 14:00:35 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/08 17:22:07 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,24 @@ t_vector	set_up_guide_vector(t_rt *rt)
 	return (vectorize(0, 1, 0));
 }
 
+t_vector	set_up_forward_vector(t_rt *rt)
+{
+	t_vector	dir;
+
+	if (rt->camera.direction.x == 0.0 && rt->camera.direction.y == 0.0
+		&& rt->camera.direction.z == 0.0)
+		dir = normalize_vector(rt->camera.origin);
+	else
+		dir = normalize_vector(rt->camera.direction);
+	dir = vec_add(rt->camera.origin, dir);
+	dir = vec_subtract(dir, rt->camera.origin);
+	return (dir);
+}
+
 void	set_up_vector_directions(t_rt *rt)
 {
 	rt->img.up_guide = set_up_guide_vector(rt);
-	rt->img.forward = normalize_vector(rt->camera.direction);
+	rt->img.forward = set_up_forward_vector(rt);
 	rt->img.right = normalize_vector(cross_product(rt->img.forward,
 				rt->img.up_guide));
 	rt->img.up = cross_product(rt->img.right, rt->img.forward);
@@ -36,5 +50,5 @@ void	set_up_vector_directions(t_rt *rt)
 		rt->img.img_height = (double) WIDTH;
 	}
 	rt->img.img_aspect_ratio = rt->img.img_width / rt->img.img_height;
-	rt->img.scale = tan(rt->camera.fov * 0.5 * M_PI / 180);
+	rt->img.scale = tan((rt->camera.fov * M_PI / 180.0) * 0.5);
 }
