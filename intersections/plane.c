@@ -12,6 +12,31 @@
 
 #include "../minirt.h"
 
+void	calculate_plane_pixel_color(t_rt *rt, t_plane plane, t_ray ray,
+		double *t)
+{
+	t_vector	light;
+	double		dot_prod;
+	double		lambertian_reflection;
+
+	light = normalize_vector(vec_subtract(rt->light->origin, vec_add(ray.origin, scalar_product(ray.direction, *t))));
+	/*if (!ray.flag)
+		generate_shadow_ray(rt, ray, light, t);
+	else if (ray.flag == 1)
+	{
+		if (vector_distance(light, ray, t) < 0)
+			put_pixel(&rt->img, ray.x, ray.y, 0);
+		else
+		{*/
+			dot_prod = dot_product(plane.normal, light);
+			if (dot_prod < 0)
+				dot_prod = 0;
+			lambertian_reflection = 1 - dot_prod;
+			put_pixel(&rt->img, ray.x, ray.y, array_to_int(plane.color, lambertian_reflection));
+		//}
+	//}
+}
+
 void	intersect_plane(t_rt *rt, t_plane plane, t_ray ray, double *t)
 {
 	double	denominator;
@@ -29,8 +54,7 @@ void	intersect_plane(t_rt *rt, t_plane plane, t_ray ray, double *t)
 		else if (result < *t && result > 0)
 		{
 			*t = result;
-			// TODO: Do color coding stuff here.
-			put_pixel(&rt->img, ray.x, ray.y, 0x0099FF00);
+			calculate_plane_pixel_color(rt, plane, ray, t);
 		}
 	}
 }
