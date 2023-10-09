@@ -48,6 +48,22 @@ double	check_for_m_in_range(t_quadratic *quad, t_cylinder cylinder, t_ray ray)
 	return (min_num(quad->t1, quad->t2));
 }
 
+void	calculate_tube_pixel_color(t_rt *rt, t_cylinder cylinder, t_ray ray,
+		double *t)
+{
+	t_vector	light;
+	t_vector	normal;
+	double		lambertian_reflection;
+
+	normal = normalize_vector(vec_subtract(vec_add(ray.origin,
+					scalar_product(ray.direction, *t)), cylinder.center));
+	light = normalize_vector(vec_subtract(rt->light->origin,
+				vec_add(ray.origin, scalar_product(ray.direction, *t))));
+	lambertian_reflection = max_num(0, dot_product(light, normal) * -1);
+	put_pixel(&rt->img, ray.x, ray.y, array_to_int(cylinder.color,
+			lambertian_reflection));
+}
+
 void	solve_for_t(t_rt *rt, t_cylinder cylinder, t_ray ray, t_quadratic *quad)
 {
 	double	result;
@@ -59,7 +75,7 @@ void	solve_for_t(t_rt *rt, t_cylinder cylinder, t_ray ray, t_quadratic *quad)
 	if (result < *quad->t)
 	{
 		*quad->t = result;
-		put_pixel(&rt->img, ray.x, ray.y, 0x00FFFF00);
+		calculate_tube_pixel_color(rt, cylinder, ray, quad->t);
 	}
 }
 

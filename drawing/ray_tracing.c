@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 13:28:49 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/09 11:19:44 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/09 16:48:17 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ t_ray	generate_ray(t_rt *rt, t_ray ray, double i, double j)
 				rt->camera.origin));
 	ray.x = i;
 	ray.y = j;
+	ray.flag = 0;
 	return (ray);
 }
 
@@ -86,3 +87,19 @@ void	ray_tracing(t_rt *rt)
 	mlx_hook(rt->img.mlx_win, 17, 0, &exit_hook, &rt->img);
 	mlx_loop(rt->img.mlx);
 }
+
+
+/*
+	Recreate ray tracing code for shadow :
+	
+	-	starting point : plane (vec_add(ray.origin, scalar_product(ray.direction, *t))
+						 sphere (vec_add(ray.origin, scalar_product(ray.direction, *t))
+						 cylinder ()
+	-	direction ray : vectorize(light.x, light.y, light.z) : light => plane (normalize_vector(vec_subtract(rt->light->origin, vec_add(ray.origin, scalar_product(ray.direction, *t)))))
+																		sphere (normalize_vector(vec_subtract(rt->light->origin, vec_add(ray.origin, scalar_product(ray.direction, *t)))))
+																		cylinder ()
+	-	t becomes the magnitude of the light vector => vec_magnitude(light)
+	
+	As long as we don't find an intersection magnitude lower than t, we continue.
+	If we don't find any, then colorized gets to continue, if we do, dark color.
+*/
