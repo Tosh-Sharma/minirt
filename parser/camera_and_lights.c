@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 17:44:10 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/09/03 11:24:59 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/08 18:56:47 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,24 +49,17 @@ void	camera(t_rt *rt)
 	if (split_origin[3] != NULL)
 		perror_and_exit("Unacceptable camera position settings");
 	rt->camera.origin = parse_input_as_vector(split_origin);
-	printf("x = %f\n", rt->camera.origin.x);
-	printf("y = %f\n", rt->camera.origin.y);
-	printf("z = %f\n", rt->camera.origin.z);
 	free_strings(split_origin);
 	split_direction = ft_split(rt->split_line[2], ',');
 	if (split_direction[3] != NULL)
 		perror_and_exit("Unacceptable camera orientation settings");
 	rt->camera.direction = parse_input_as_vector(split_direction);
-	printf("x = %f\n", rt->camera.direction.x);
-	printf("y = %f\n", rt->camera.direction.y);
-	printf("z = %f\n", rt->camera.direction.z);
 	free_strings(split_direction);
 	if ((rt->camera.direction.x > 1.0 || rt->camera.direction.x < -1.0)
 		|| (rt->camera.direction.y > 1.0 || rt->camera.direction.y < -1.0)
 		|| (rt->camera.direction.z > 1.0 || rt->camera.direction.z < -1.0))
 		perror_and_exit("Unacceptable orientation vector values");
 	rt->camera.fov = ft_atoi(rt->split_line[3]);
-	printf("camera fov = %d\n", rt->camera.fov);
 	if (rt->camera.fov < 0 || rt->camera.fov > 180)
 		perror_and_exit("Unacceptable camera fov value");
 }
