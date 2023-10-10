@@ -12,20 +12,11 @@
 
 #include "../minirt.h"
 
-double  vector_distance(t_vector light, t_ray ray, double *t)
-{
-    t_vector    v_ray;
-
-    v_ray = vec_subtract(scalar_product(ray.direction, *t), ray.origin);
-    printf("%f\n",vec_magnitude(v_ray) - vec_magnitude(light));
-    return (vec_magnitude(v_ray) - vec_magnitude(light));
-}
-
 void	generate_shadow_ray(t_rt *rt, t_ray ray, t_vector light, double *t)
 {
 	t_ray	shadow_ray;
 
-	shadow_ray.origin = vec_add(ray.origin, scalar_product(ray.direction, *t));
+	shadow_ray.origin = vec_subtract(scalar_product(ray.direction, *t), ray.origin);
 	shadow_ray.direction = vectorize(light.x, light.y, light.z);
 	shadow_ray.x = ray.x;
 	shadow_ray.y = ray.y;
