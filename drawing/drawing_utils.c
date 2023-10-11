@@ -50,7 +50,7 @@ int	array_to_int(int c[3], double a)
 {
 	int	result;
 
-	result = (int)(a * 255) << 24 | c[0] << 16
-		| c[1] << 8 | c[2];
+	result = ((int)(c[0] * a)) << 16
+		| ((int)(c[1] * a)) << 8 | ((int)(c[2] * a));
 	return (result);
 }

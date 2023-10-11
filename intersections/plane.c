@@ -18,14 +18,21 @@ void	calculate_plane_pixel_color(t_rt *rt, t_plane plane, t_ray ray,
 	t_vector	light;
 	double		dot_prod;
 	double		lambertian_reflection;
+	double		t_value;
 
 	light = normalize_vector(vec_subtract(rt->light->origin, vec_add(ray.origin, scalar_product(ray.direction, *t))));
-	//generate_shadow_ray(rt, ray, light, t);
-	dot_prod = dot_product(plane.normal, light);
-	if (dot_prod < 0)
-		dot_prod = 0;
-	lambertian_reflection = 1 - dot_prod;
-	put_pixel(&rt->img, ray.x, ray.y, array_to_int(plane.color, lambertian_reflection));
+	ray.normal = plane.normal;
+	t_value = generate_shadow_ray(rt, ray, light, t);
+	if (t_value > 0)
+		put_pixel(&rt->img, ray.x, ray.y, t_value * 0);
+	else
+	{
+		dot_prod = dot_product(plane.normal, light);
+		if (dot_prod < 0)
+			dot_prod = 0;
+		lambertian_reflection = dot_prod;
+		put_pixel(&rt->img, ray.x, ray.y, array_to_int(plane.color, lambertian_reflection));
+	}
 }
 
 void	intersect_plane(t_rt *rt, t_plane plane, t_ray ray, double *t)

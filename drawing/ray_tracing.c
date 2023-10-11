@@ -22,9 +22,9 @@ void	iterate_over_objects(t_rt *rt, t_ray ray, double *t)
 	i = -1;
 	while (++i < rt->max_pl)
 		intersect_plane(rt, rt->plane[i], ray, t);
-	i = -1;
-	while (++i < rt->max_cy)
-		intersect_cylinder(rt, rt->cylinder[i], ray, t);
+	//i = -1;
+	//while (++i < rt->max_cy)
+	//	intersect_cylinder(rt, rt->cylinder[i], ray, t);
 }
 // TODO: Add below cone logic above when all others are working correctly.
 // i = -1;
@@ -86,19 +86,3 @@ void	ray_tracing(t_rt *rt)
 	mlx_hook(rt->img.mlx_win, 17, 0, &exit_hook, &rt->img);
 	mlx_loop(rt->img.mlx);
 }
-
-
-/*
-	Recreate ray tracing code for shadow :
-	
-	-	starting point : plane (vec_add(ray.origin, scalar_product(ray.direction, *t))
-						 sphere (vec_add(ray.origin, scalar_product(ray.direction, *t))
-						 cylinder ()
-	-	direction ray : vectorize(light.x, light.y, light.z) : light => plane (normalize_vector(vec_subtract(rt->light->origin, vec_add(ray.origin, scalar_product(ray.direction, *t)))))
-																		sphere (normalize_vector(vec_subtract(rt->light->origin, vec_add(ray.origin, scalar_product(ray.direction, *t)))))
-																		cylinder ()
-	-	t becomes the magnitude of the light vector => vec_magnitude(light)
-	
-	As long as we don't find an intersection magnitude lower than t, we continue.
-	If we don't find any, then colorized gets to continue, if we do, dark color.
-*/
