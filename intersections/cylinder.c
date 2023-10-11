@@ -54,6 +54,7 @@ void	calculate_tube_pixel_color(t_rt *rt, t_cylinder cylinder, t_ray ray,
 {
 	t_vector	light;
 	t_vector	normal;
+	double		t_value;
 	double		calcul;
 	double		lambertian_reflection;
 
@@ -62,6 +63,9 @@ void	calculate_tube_pixel_color(t_rt *rt, t_cylinder cylinder, t_ray ray,
 	normal = normalize_vector(vec_subtract(vec_add(ray.origin, scalar_product(ray.direction, *t)), normal));
 	light = normalize_vector(vec_subtract(rt->light->origin,
 				vec_add(ray.origin, scalar_product(ray.direction, *t))));
+	t_value = generate_shadow_ray(rt, ray, light, t);
+	if (t_value > 0)
+		put_pixel(&rt->img, ray.x, ray.y, 0);
 	lambertian_reflection = max_num(0, dot_product(light, normal));
 	put_pixel(&rt->img, ray.x, ray.y, array_to_int(cylinder.color,
 			lambertian_reflection));

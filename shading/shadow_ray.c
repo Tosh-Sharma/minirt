@@ -81,9 +81,13 @@ double	iterate_shadow_over_objects(t_rt *rt, t_ray ray, double *t)
         if (t_value > 0.0)
             return (t_value);
     }
-	//i = -1;
-	//while (++i < rt->max_cy)
-	//	intersect_cylinder(rt, rt->cylinder[i], ray, t);``
+	i = -1;
+	while (++i < rt->max_cy)
+    {
+        t_value = intersect_shadow_cylinder(rt->cylinder[i], ray, t);
+        if (t_value > 0.0)
+            return (t_value);
+    }
     return (0.0);
 }
 
@@ -100,6 +104,5 @@ double	generate_shadow_ray(t_rt *rt, t_ray ray, t_vector light, double *t)
     new_t = INFINITY;
     shadow_ray.flag = 1;
     t_value = iterate_shadow_over_objects(rt, shadow_ray, &new_t);
-    // printf("t_v G_S_R = %f/n", t_value);
 	return (t_value);
 }
