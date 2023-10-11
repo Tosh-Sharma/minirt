@@ -24,7 +24,7 @@ void	calculate_plane_pixel_color(t_rt *rt, t_plane plane, t_ray ray,
 	ray.normal = plane.normal;
 	t_value = generate_shadow_ray(rt, ray, light, t);
 	if (t_value > 0)
-		put_pixel(&rt->img, ray.x, ray.y, t_value * 0);
+		put_pixel(&rt->img, ray.x, ray.y, 0);
 	else
 	{
 		dot_prod = dot_product(plane.normal, light);

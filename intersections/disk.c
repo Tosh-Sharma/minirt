@@ -23,7 +23,7 @@ void	calculate_disk_pixel_color(t_rt *rt, t_disk disk, t_ray ray,
 	dot_prod = dot_product(disk.normal, light);
 	if (dot_prod < 0)
 		dot_prod = 0;
-	lambertian_reflection = 1 - dot_prod;
+	lambertian_reflection = dot_prod;
 	put_pixel(&rt->img, ray.x, ray.y, array_to_int(disk.color, lambertian_reflection));
 }
 

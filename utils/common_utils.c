@@ -64,5 +64,5 @@ void	copy_colors(int *color_src, int *color_dest)
 
 	i = -1;
 	while (++i < 3)
-		color_src[i] = color_dest[i];
+		color_dest[i] = color_src[i];
 }
