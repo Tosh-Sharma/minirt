@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:55:38 by tsharma           #+#    #+#             */
-/*   Updated: 2023/09/12 20:25:17 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/08 17:07:27 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 # include "libft/libft.h"
 # include "minilibx_opengl/mlx.h"
 
-// WIDTH should be greater than / equal to HEIGHT
 # define WIDTH 800
 # define HEIGHT 800
 
@@ -132,6 +131,10 @@ typedef struct s_data {
 	t_vector	up_guide;
 	double		height;
 	double		width;
+	double		img_width;
+	double		img_height;
+	double		img_aspect_ratio;
+	double		scale;
 }	t_image;
 
 typedef struct s_rt

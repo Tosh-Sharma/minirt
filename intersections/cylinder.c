@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:49:22 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/09/12 21:26:15 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/09 14:43:41 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ double	check_for_m_in_range(t_quadratic *quad, t_cylinder cylinder, t_ray ray)
 	m2 = (dot_product(ray.direction, cylinder.normal) * quad->t2)
 		+ dot_product(vec_subtract(ray.origin, cylinder.center),
 			cylinder.normal);
-
 	if (m1 < 0 || m1 > cylinder.height)
 		quad->t1 = INFINITY;
 	if (m2 < 0 || m2 > cylinder.height)

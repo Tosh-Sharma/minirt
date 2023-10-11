@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 14:27:36 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/09/09 20:45:18 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/09 11:17:11 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	intersect_disk(t_rt *rt, t_disk disk, t_ray ray, double *t)
 	t_vector	point;
 
 	denominator = dot_product(ray.direction, disk.normal);
-	if (denominator == 0)
+	if (denominator == 0.0)
 		return ;
 	else
 	{
