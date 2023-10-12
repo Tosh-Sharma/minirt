@@ -74,6 +74,7 @@ SRCS = 	main.c \
 		utils/math_utils.c \
 		drawing/ray_tracing.c \
 		drawing/drawing_utils.c \
+		drawing/color_utils.c \
 		drawing/virtual_screen.c \
 		intersections/sphere.c \
 		intersections/cylinder.c \

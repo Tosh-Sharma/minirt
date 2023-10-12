@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 13:28:49 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/09 16:48:17 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/12 17:28:03 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ void	iterate_over_objects(t_rt *rt, t_ray ray, double *t)
 	i = -1;
 	while (++i < rt->max_cy)
 		intersect_cylinder(rt, rt->cylinder[i], ray, t);
+	if (*t == INFINITY)
+		put_pixel(&rt->img, ray.x, ray.y, array_to_int(rt->ambient->color,
+				rt->ambient->brightness));
 }
 // TODO: Add below cone logic above when all others are working correctly.
 // i = -1;
@@ -39,10 +42,13 @@ t_ray	generate_ray(t_rt *rt, t_ray ray, double i, double j)
 	x = ((2.0 * ((i + 0.5) / rt->img.img_width)) - 1.0) * rt->img.scale
 		* rt->img.img_aspect_ratio;
 	y = (1.0 - (2.0 * ((j + 0.5) / rt->img.img_height))) * rt->img.scale;
-	ray.direction = vec_add(rt->img.forward, vec_add(scalar_product(
+	ray.direction = vec_add(rt->camera.origin, rt->img.forward);
+	ray.direction = vec_add(ray.direction, vec_add(scalar_product(
 					rt->img.right, x), scalar_product(rt->img.up, y)));
 	ray.direction = normalize_vector(vec_subtract(ray.direction,
 				rt->camera.origin));
+	if (i == 0.0 && j == 0.0)
+		print_vector(ray.direction, "ray.direction");
 	ray.x = i;
 	ray.y = j;
 	ray.flag = 0;
@@ -87,19 +93,3 @@ void	ray_tracing(t_rt *rt)
 	mlx_hook(rt->img.mlx_win, 17, 0, &exit_hook, &rt->img);
 	mlx_loop(rt->img.mlx);
 }
-
-
-/*
-	Recreate ray tracing code for shadow :
-	
-	-	starting point : plane (vec_add(ray.origin, scalar_product(ray.direction, *t))
-						 sphere (vec_add(ray.origin, scalar_product(ray.direction, *t))
-						 cylinder ()
-	-	direction ray : vectorize(light.x, light.y, light.z) : light => plane (normalize_vector(vec_subtract(rt->light->origin, vec_add(ray.origin, scalar_product(ray.direction, *t)))))
-																		sphere (normalize_vector(vec_subtract(rt->light->origin, vec_add(ray.origin, scalar_product(ray.direction, *t)))))
-																		cylinder ()
-	-	t becomes the magnitude of the light vector => vec_magnitude(light)
-	
-	As long as we don't find an intersection magnitude lower than t, we continue.
-	If we don't find any, then colorized gets to continue, if we do, dark color.
-*/

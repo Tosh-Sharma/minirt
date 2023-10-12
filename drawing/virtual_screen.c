@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 14:47:34 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/08 17:22:07 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/12 17:27:48 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,19 @@
 // TODO: We need to handle 2 edge cases in setting up the up_guide vector
 // one if the camera direction is the up_guide vector
 // second, if the camera direction is opposite of the up_guide vector
+// TODO: Verify this with Thomas
 t_vector	set_up_guide_vector(t_rt *rt)
 {
-	(void)rt;
-	return (vectorize(0, 1, 0));
+	t_vector	dir;
+
+	dir = vectorize(0, 1, 0);
+	if (dot_product(dir, rt->camera.direction) == 0.0)
+		return (dir);
+	if (dot_product(dir, rt->camera.direction) == 1.0)
+		dir = vectorize(0, 0, 1);
+	else if (dot_product(dir, rt->camera.direction) == -1.0)
+		dir = vectorize(0, 0, -1);
+	return (dir);
 }
 
 t_vector	set_up_forward_vector(t_rt *rt)
@@ -30,8 +39,6 @@ t_vector	set_up_forward_vector(t_rt *rt)
 		dir = normalize_vector(rt->camera.origin);
 	else
 		dir = normalize_vector(rt->camera.direction);
-	dir = vec_add(rt->camera.origin, dir);
-	dir = vec_subtract(dir, rt->camera.origin);
 	return (dir);
 }
 
@@ -50,5 +57,5 @@ void	set_up_vector_directions(t_rt *rt)
 		rt->img.img_height = (double) WIDTH;
 	}
 	rt->img.img_aspect_ratio = rt->img.img_width / rt->img.img_height;
-	rt->img.scale = tan((rt->camera.fov * M_PI / 180.0) * 0.5);
+	rt->img.scale = tan(rt->camera.fov * 0.5 * M_PI / 180.0);
 }

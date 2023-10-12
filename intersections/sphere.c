@@ -6,11 +6,22 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:49:28 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/09 16:53:47 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/12 15:47:34 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minirt.h"
+
+int	calculate_color(t_rt *rt, t_vector v1, t_vector v2, int *color)
+{
+	double	lamb_refl;
+	int		result_color;
+
+	lamb_refl = max_num(0, dot_product(v1, v2));
+	(void)rt;
+	result_color = array_to_int(color, lamb_refl);
+	return (result_color);
+}
 
 // Calculating lambertian reflection.
 // LambertianReflection = max⁡(0, N.L)
@@ -22,19 +33,13 @@ void	calculate_sphere_pixel_color(t_rt *rt, t_sphere sphere, t_ray ray,
 {
 	t_vector	light;
 	t_vector	normal;
-	double		dot_prod;
-	double		lambertian_reflection;
 
 	normal = normalize_vector(vec_subtract(vec_add(ray.origin,
 					scalar_product(ray.direction, *t)), sphere.center));
 	light = normalize_vector(vec_subtract(rt->light->origin,
 				vec_add(ray.origin, scalar_product(ray.direction, *t))));
-	dot_prod = dot_product(normal, light);
-	if (dot_prod < 0)
-		dot_prod = 0;
-	lambertian_reflection = 1 - dot_prod;
-	put_pixel(&rt->img, ray.x, ray.y, array_to_int(sphere.color,
-			lambertian_reflection));
+	put_pixel(&rt->img, ray.x, ray.y, calculate_color(rt, normal, light,
+			sphere.color));
 }
 
 void	intersect_sphere(t_rt *rt, t_sphere sphere, t_ray ray, double *t)

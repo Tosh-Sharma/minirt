@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:55:38 by tsharma           #+#    #+#             */
-/*   Updated: 2023/10/08 17:07:27 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/12 10:52:57 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,9 +207,11 @@ double		vec_magnitude(t_vector v);
 void		print_vector(t_vector v, char *str);
 double		min_num(double a, double b);
 double		max_num(double a, double b);
+int			clamp(int n, int min, int max);
 
 void		copy_colors(int *color_src, int *color_dest);
 int			array_to_int(int c[3], double a);
+int			add_two_colors(int c1[3], double a, int c2[3], double b);
 
 void		ray_tracing(t_rt *rt);
 void		cast_rays(t_rt *rt);
@@ -217,9 +219,8 @@ void		iterate_over_objects(t_rt *rt, t_ray ray, double *t);
 void		set_up_vector_directions(t_rt *rt);
 void		put_pixel(t_image *data, int x, int y, int color);
 
-
 void		generate_shadow_ray(t_rt *rt, t_ray ray, t_vector light, double *t);
-double  	vector_distance(t_vector light, t_ray ray, double *t);
+double		vector_distance(t_vector light, t_ray ray, double *t);
 
 
 void		intersect_sphere(t_rt *rt, t_sphere sphere, t_ray ray, double *t);

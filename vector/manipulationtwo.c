@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   manipulation.c                                     :+:      :+:    :+:   */
+/*   manipulationtwo.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/16 11:52:31 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/09/03 18:19:34 by toshsharma       ###   ########.fr       */
+/*   Created: 2023/10/10 12:48:28 by toshsharma        #+#    #+#             */
+/*   Updated: 2023/10/10 12:48:52 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 double	vec_magnitude(t_vector v)
 {
-    return (sqrt((v.x * v.x) + (v.y * v.y) + (v.z * v.z)));
+	return (sqrt((v.x * v.x) + (v.y * v.y) + (v.z * v.z)));
 }
