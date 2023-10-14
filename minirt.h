@@ -73,6 +73,7 @@ typedef struct s_ray
 	int			x;
 	int			y;
 	int			flag;
+	t_vector	normal;
 }				t_ray;
 
 typedef struct s_sphere
@@ -218,7 +219,7 @@ void		set_up_vector_directions(t_rt *rt);
 void		put_pixel(t_image *data, int x, int y, int color);
 
 
-void		generate_shadow_ray(t_rt *rt, t_ray ray, t_vector light, double *t);
+double		generate_shadow_ray(t_rt *rt, t_ray ray, t_vector light, double *t);
 double  	vector_distance(t_vector light, t_ray ray, double *t);
 
 

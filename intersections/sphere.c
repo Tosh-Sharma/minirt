@@ -24,17 +24,25 @@ void	calculate_sphere_pixel_color(t_rt *rt, t_sphere sphere, t_ray ray,
 	t_vector	normal;
 	double		dot_prod;
 	double		lambertian_reflection;
+	double		t_value;
 
 	normal = normalize_vector(vec_subtract(vec_add(ray.origin,
 					scalar_product(ray.direction, *t)), sphere.center));
 	light = normalize_vector(vec_subtract(rt->light->origin,
 				vec_add(ray.origin, scalar_product(ray.direction, *t))));
-	dot_prod = dot_product(normal, light);
-	if (dot_prod < 0)
-		dot_prod = 0;
-	lambertian_reflection = 1 - dot_prod;
-	put_pixel(&rt->img, ray.x, ray.y, array_to_int(sphere.color,
+	ray.normal = normal;
+	t_value = generate_shadow_ray(rt, ray, light, t);
+	if (t_value > 0)
+		put_pixel(&rt->img, ray.x, ray.y, 0);
+	else
+	{
+		dot_prod = dot_product(normal, light);
+		if (dot_prod < 0)
+			dot_prod = 0;
+		lambertian_reflection = dot_prod;
+		put_pixel(&rt->img, ray.x, ray.y, array_to_int(sphere.color,
 			lambertian_reflection));
+	}
 }
 
 void	intersect_sphere(t_rt *rt, t_sphere sphere, t_ray ray, double *t)
