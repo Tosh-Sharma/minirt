@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 14:47:34 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/12 17:27:48 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/15 17:04:08 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,9 @@ void	set_up_vector_directions(t_rt *rt)
 		rt->img.img_height = (double) WIDTH;
 	}
 	rt->img.img_aspect_ratio = rt->img.img_width / rt->img.img_height;
-	rt->img.scale = tan(rt->camera.fov * 0.5 * M_PI / 180.0);
+	rt->img.scale = tan(rt->camera.fov * 0.008726646255);
 }
+
+// Optimization 1: Pi/180 = 0.01745329251
+// Optimization 2: Pi/ 180 * 0.5 = 0.008726646255
+// HACK 1: Looks like there are no distortions if FOV is 60 degrees.

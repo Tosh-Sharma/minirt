@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:49:28 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/12 15:47:34 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/15 15:25:49 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,15 @@ void	calculate_sphere_pixel_color(t_rt *rt, t_sphere sphere, t_ray ray,
 {
 	t_vector	light;
 	t_vector	normal;
+	// double		lamb_refl;
 
 	normal = normalize_vector(vec_subtract(vec_add(ray.origin,
 					scalar_product(ray.direction, *t)), sphere.center));
 	light = normalize_vector(vec_subtract(rt->light->origin,
 				vec_add(ray.origin, scalar_product(ray.direction, *t))));
+	// lamb_refl = max_num(0, dot_product(light, normal));
+	// put_pixel(&rt->img, ray.x, ray.y, add_two_colors(sphere.color, lamb_refl,
+	// 		rt->ambient->color, rt->ambient->brightness));
 	put_pixel(&rt->img, ray.x, ray.y, calculate_color(rt, normal, light,
 			sphere.color));
 }

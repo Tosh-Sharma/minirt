@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 13:28:49 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/12 17:28:03 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/15 17:22:24 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ t_ray	generate_ray(t_rt *rt, t_ray ray, double i, double j)
 					rt->img.right, x), scalar_product(rt->img.up, y)));
 	ray.direction = normalize_vector(vec_subtract(ray.direction,
 				rt->camera.origin));
-	if (i == 0.0 && j == 0.0)
-		print_vector(ray.direction, "ray.direction");
 	ray.x = i;
 	ray.y = j;
 	ray.flag = 0;
