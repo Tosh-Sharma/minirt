@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:55:38 by tsharma           #+#    #+#             */
-/*   Updated: 2023/10/15 17:04:25 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/15 17:27:45 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct s_ray
 	int			x;
 	int			y;
 	int			flag;
+	t_vector	normal;
 }				t_ray;
 
 typedef struct s_sphere
@@ -217,7 +218,7 @@ void		iterate_over_objects(t_rt *rt, t_ray ray, double *t);
 void		set_up_vector_directions(t_rt *rt);
 void		put_pixel(t_image *data, int x, int y, int color);
 
-void		generate_shadow_ray(t_rt *rt, t_ray ray, t_vector light, double *t);
+double		generate_shadow_ray(t_rt *rt, t_ray ray, t_vector light, double *t);
 double		vector_distance(t_vector light, t_ray ray, double *t);
 
 
