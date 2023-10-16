@@ -6,28 +6,12 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:49:28 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/15 17:27:31 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/16 11:48:17 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minirt.h"
 
-int	calculate_color(t_rt *rt, t_vector v1, t_vector v2, int *color)
-{
-	double	lamb_refl;
-	int		result_color;
-
-	lamb_refl = max_num(0, dot_product(v1, v2));
-	(void)rt;
-	result_color = array_to_int(color, lamb_refl);
-	return (result_color);
-}
-
-// Calculating lambertian reflection.
-// LambertianReflection = max⁡(0, N.L)
-// N is the normal vector of the surface at the point of intersection.
-// L is the vector pointing from the point of intersection to the light source.
-// DiffuseContribution = LambertianReflection × lightcolor × lightbrightness
 void	calculate_sphere_pixel_color(t_rt *rt, t_sphere sphere, t_ray ray,
 		double *t)
 {
@@ -52,7 +36,7 @@ void	calculate_sphere_pixel_color(t_rt *rt, t_sphere sphere, t_ray ray,
 			dot_prod = 0;
 		lambertian_reflection = dot_prod;
 		put_pixel(&rt->img, ray.x, ray.y, array_to_int(sphere.color,
-			lambertian_reflection));
+				lambertian_reflection));
 	}
 }
 
