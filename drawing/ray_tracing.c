@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 13:28:49 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/09 16:48:17 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/16 11:41:41 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,12 @@ void	iterate_over_objects(t_rt *rt, t_ray ray, double *t)
 	i = -1;
 	while (++i < rt->max_pl)
 		intersect_plane(rt, rt->plane[i], ray, t);
-	//i = -1;
-	//while (++i < rt->max_cy)
-	//	intersect_cylinder(rt, rt->cylinder[i], ray, t);
+	i = -1;
+	while (++i < rt->max_cy)
+		intersect_cylinder(rt, rt->cylinder[i], ray, t);
+	if (*t == INFINITY)
+		put_pixel(&rt->img, ray.x, ray.y, array_to_int(rt->ambient->color,
+				rt->ambient->brightness));
 }
 // TODO: Add below cone logic above when all others are working correctly.
 // i = -1;
@@ -33,16 +36,11 @@ void	iterate_over_objects(t_rt *rt, t_ray ray, double *t)
 
 t_ray	generate_ray(t_rt *rt, t_ray ray, double i, double j)
 {
-	double		x;
-	double		y;
-
-	x = ((2.0 * ((i + 0.5) / rt->img.img_width)) - 1.0) * rt->img.scale
-		* rt->img.img_aspect_ratio;
-	y = (1.0 - (2.0 * ((j + 0.5) / rt->img.img_height))) * rt->img.scale;
-	ray.direction = vec_add(rt->img.forward, vec_add(scalar_product(
-					rt->img.right, x), scalar_product(rt->img.up, y)));
-	ray.direction = normalize_vector(vec_subtract(ray.direction,
-				rt->camera.origin));
+	ray.direction = vec_add(rt->img.upper_left, vec_add(
+				scalar_product(rt->img.pixel_delta_u, i),
+				scalar_product(rt->img.pixel_delta_v, j)));
+	ray.direction = normalize_vector(vec_subtract(
+				ray.direction, rt->camera.origin));
 	ray.x = i;
 	ray.y = j;
 	ray.flag = 0;
