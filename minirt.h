@@ -73,7 +73,6 @@ typedef struct s_ray
 	t_vector	direction;
 	int			x;
 	int			y;
-	int			flag;
 	t_vector	normal;
 }				t_ray;
 
@@ -217,13 +216,14 @@ void		put_pixel(t_image *data, int x, int y, int color);
 
 
 double		generate_shadow_ray(t_rt *rt, t_ray ray, t_vector light, double *t);
-double  	vector_distance(t_vector light, t_ray ray, double *t);
+double		solve_shadow_for_t(t_cylinder cylinder, t_ray ray, t_quadratic *quad);
 
 
 void		intersect_sphere(t_rt *rt, t_sphere sphere, t_ray ray, double *t);
 void		intersect_plane(t_rt *rt, t_plane plane, t_ray ray, double *t);
 void		intersect_cylinder(t_rt *rt, t_cylinder cylinder, t_ray ray,
 				double *t);
+double		check_for_m_in_range(t_quadratic *quad, t_cylinder cylinder, t_ray ray);
 void		intersect_disk(t_rt *rt, t_disk disk, t_ray ray, double *t);
 void		intersect_cone(t_rt *rt, t_cone cone, t_ray ray, double *t);
 

@@ -40,6 +40,8 @@ t_light	light(t_rt *rt) //rt->light[index of which light we are talking about]->
 			perror_and_exit("Wrong light color value");
 	}
 	++rt->ct_l;
+	if (rt->ct_l > 1)
+		perror_and_exit("Mandatory parts requires 1 light only");
 	return (light);
 }
 
@@ -139,7 +141,7 @@ t_cylinder	cylinder(t_rt *rt)
 	cylinder.diameter = ft_atod(rt->split_line[3]);
 	if (cylinder.diameter < 0.0)
 		perror_and_exit("Unacceptable cylinder diameter value");
-	cylinder.height = ft_atod(rt->split_line[4]); //CAN IT BE MINUS?
+	cylinder.height = ft_atod(rt->split_line[4]);
 	if (cylinder.height < 0.0)
 		perror_and_exit("Unacceptable cylinder height value");
 	split_color = ft_split(rt->split_line[5], ',');

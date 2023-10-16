@@ -44,7 +44,6 @@ t_ray	generate_ray(t_rt *rt, t_ray ray, int i, int j)
 	ray.direction = normalize_vector(ray.direction);
 	ray.x = i;
 	ray.y = j;
-	ray.flag = 0;
 	return (ray);
 }
 
