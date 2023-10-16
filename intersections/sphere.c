@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:49:28 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/09/12 21:24:53 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/16 11:48:17 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	calculate_sphere_pixel_color(t_rt *rt, t_sphere sphere, t_ray ray,
 			dot_prod = 0;
 		lambertian_reflection = dot_prod;
 		put_pixel(&rt->img, ray.x, ray.y, array_to_int(sphere.color,
-			lambertian_reflection));
+				lambertian_reflection));
 	}
 }
 
@@ -88,9 +88,9 @@ void	intersect_sphere(t_rt *rt, t_sphere sphere, t_ray ray, double *t)
 				sphere.center));
 	c = dot_product(vec_subtract(ray.origin, sphere.center),
 			vec_subtract(ray.origin, sphere.center))
-		- (powf(sphere.diameter / 2, 2));
-	discriminant = (b * b) - (4 * a * c);
-	if (discriminant < 0)
+		- pow(sphere.diameter / 2, 2.0);
+	discriminant = pow(b, 2.0) - (4.0 * a * c);
+	if (discriminant < 0.0)
 		return ;
 	else
 	{

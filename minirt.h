@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:55:38 by tsharma           #+#    #+#             */
-/*   Updated: 2023/09/12 20:25:17 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/16 11:42:01 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@
 # include "libft/libft.h"
 # include "minilibx_opengl/mlx.h"
 
-// WIDTH should be greater than / equal to HEIGHT
-# define WIDTH 800
+# define WIDTH 960
 # define HEIGHT 800
 
 typedef unsigned int	t_uint;
@@ -129,8 +128,15 @@ typedef struct s_data {
 	t_vector	up;
 	t_vector	right;
 	t_vector	up_guide;
-	double		height;
+	t_vector	upper_left;
+	t_vector	pixel_delta_u;
+	t_vector	pixel_delta_v;
 	double		width;
+	double		height;
+	double		img_width;
+	double		img_height;
+	double		img_aspect_ratio;
+	double		scale;
 }	t_image;
 
 typedef struct s_rt
@@ -204,16 +210,17 @@ double		vec_magnitude(t_vector v);
 void		print_vector(t_vector v, char *str);
 double		min_num(double a, double b);
 double		max_num(double a, double b);
+int			clamp(int n, int min, int max);
 
 void		copy_colors(int *color_src, int *color_dest);
 int			array_to_int(int c[3], double a);
+int			add_two_colors(int c1[3], double a, int c2[3], double b);
 
 void		ray_tracing(t_rt *rt);
 void		cast_rays(t_rt *rt);
 void		iterate_over_objects(t_rt *rt, t_ray ray, double *t);
 void		set_up_vector_directions(t_rt *rt);
 void		put_pixel(t_image *data, int x, int y, int color);
-
 
 double		generate_shadow_ray(t_rt *rt, t_ray ray, t_vector light, double *t);
 double		solve_shadow_for_t(t_cylinder cylinder, t_ray ray, t_quadratic *quad);
