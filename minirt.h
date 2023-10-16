@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:55:38 by tsharma           #+#    #+#             */
-/*   Updated: 2023/10/15 17:27:45 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/16 11:42:01 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,11 @@ typedef struct s_data {
 	t_vector	up;
 	t_vector	right;
 	t_vector	up_guide;
+	t_vector	upper_left;
+	t_vector	pixel_delta_u;
+	t_vector	pixel_delta_v;
+	double		width;
+	double		height;
 	double		img_width;
 	double		img_height;
 	double		img_aspect_ratio;

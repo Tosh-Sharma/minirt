@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 14:47:34 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/15 17:04:08 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/16 11:28:46 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,26 @@ t_vector	set_up_forward_vector(t_rt *rt)
 	return (dir);
 }
 
+void	set_up_upper_left_point(t_rt *rt)
+{
+	t_vector	viewport_width;
+	t_vector	viewport_height;
+
+	viewport_width = scalar_product(rt->img.right, rt->img.width);
+	viewport_height = scalar_product(rt->img.up, -(rt->img.height));
+	rt->img.pixel_delta_u = scalar_product(viewport_width,
+			1.0 / rt->img.img_width);
+	rt->img.pixel_delta_v = scalar_product(viewport_height,
+			1.0 / rt->img.img_height);
+	rt->img.upper_left = vec_add(rt->camera.origin, rt->img.forward);
+	rt->img.upper_left = vec_subtract(rt->img.upper_left,
+			scalar_product(viewport_width, 0.5));
+	rt->img.upper_left = vec_subtract(rt->img.upper_left,
+			scalar_product(viewport_height, 0.5));
+	rt->img.upper_left = vec_add(rt->img.upper_left, scalar_product(
+				vec_add(rt->img.pixel_delta_u, rt->img.pixel_delta_v), 0.5));
+}
+
 void	set_up_vector_directions(t_rt *rt)
 {
 	rt->img.up_guide = set_up_guide_vector(rt);
@@ -57,7 +77,10 @@ void	set_up_vector_directions(t_rt *rt)
 		rt->img.img_height = (double) WIDTH;
 	}
 	rt->img.img_aspect_ratio = rt->img.img_width / rt->img.img_height;
-	rt->img.scale = tan(rt->camera.fov * 0.008726646255);
+	rt->img.scale = tan(rt->camera.fov * 0.5 * M_PI / 180.0);
+	rt->img.height = rt->img.scale;
+	rt->img.width = rt->img.scale * rt->img.img_aspect_ratio;
+	set_up_upper_left_point(rt);
 }
 
 // Optimization 1: Pi/180 = 0.01745329251
