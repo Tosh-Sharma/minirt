@@ -40,7 +40,10 @@ void	calculate_inside_sphere_pixel_color(t_rt *rt, t_sphere sphere, t_ray ray,
 		dot_prod = dot_product(normal, light);
 		if (dot_prod < 0.0)
 			dot_prod = 0;
-		lambertian_reflection = dot_prod;
+		if (vec_magnitude(vec_subtract(rt->light->origin, sphere.center)) > sphere.diameter / 2)
+			lambertian_reflection = 1 - dot_prod;
+		else
+			lambertian_reflection = dot_prod;
 		put_pixel(&rt->img, ray.x, ray.y, array_to_int(sphere.color,
 			lambertian_reflection));
 	}

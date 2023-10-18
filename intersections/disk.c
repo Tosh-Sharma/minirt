@@ -23,7 +23,7 @@ void	calculate_disk_pixel_color(t_rt *rt, t_disk disk, t_ray ray,
 	light = normalize_vector(vec_subtract(rt->light->origin, vec_add(ray.origin, scalar_product(ray.direction, *t))));
 	ray.normal = disk.normal;
 	t_value = generate_shadow_ray(rt, ray, light, t);
-	if (t_value > 0)
+	if (t_value > 0.01)
 		put_pixel(&rt->img, ray.x, ray.y, 0);
 	else
 	{

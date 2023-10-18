@@ -171,7 +171,6 @@ double	iterate_shadow_over_objects(t_rt *rt, t_ray ray, double *t)
         if (t_value > 0.0)
             return (t_value);
     }
-
 	i = -1;
 	while (++i < rt->max_cy)
     {
@@ -192,7 +191,8 @@ double	generate_shadow_ray(t_rt *rt, t_ray ray, t_vector light, double *t)
 	shadow_ray.direction = vectorize(light.x, light.y, light.z);
 	shadow_ray.x = ray.x;
 	shadow_ray.y = ray.y;
-    new_t = vec_magnitude(vec_subtract(shadow_ray.origin, rt->light->origin));
+	new_t = vec_magnitude(vec_subtract(shadow_ray.origin, rt->light->origin));
     t_value = iterate_shadow_over_objects(rt, shadow_ray, &new_t);
+    // printf("t_v G_S_R = %f/n", t_value);
 	return (t_value);
 }
