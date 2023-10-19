@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 14:47:34 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/16 11:48:32 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/18 18:33:29 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,11 @@ void	set_up_vector_directions(t_rt *rt)
 	rt->img.height = rt->img.scale;
 	rt->img.width = rt->img.scale * rt->img.img_aspect_ratio;
 	set_up_upper_left_point(rt);
+	rt->background.brightness = 0.5;
+	rt->background.color[0] = 100;
+	rt->background.color[1] = 60;
+	rt->background.color[2] = 150;
+	rt->black.color[0] = 0;
+	rt->black.color[1] = 0;
+	rt->black.color[2] = 0;
 }
