@@ -32,12 +32,12 @@ void	calculate_disk_pixel_color(t_rt *rt, t_disk disk, t_ray ray,
 			calculate_color(rt, disk.color, 0.0));
 	else
 	{
-		if (rt->cam_inside)
+		if (rt->cam_inside && rt->light_inside)
 			put_pixel(&rt->img, ray.x, ray.y, calculate_color(rt, disk.color,
-					(1/vec_magnitude(light)) * max_num(0, dot_product(ray.normal, norm_light))));
+					(1/(vec_magnitude(light)))));// * max_num(0.0, dot_product(ray.normal, norm_light))));
 		else
 			put_pixel(&rt->img, ray.x, ray.y, calculate_color(rt, disk.color,
-				max_num(0, dot_product(ray.normal, norm_light))));	
+				max_num(0.0, dot_product(ray.normal, norm_light))));	
 	}	
 }
 

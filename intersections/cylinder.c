@@ -18,22 +18,26 @@ void	print_inside_tube(t_rt *rt, t_vector *vector, t_ray ray,
 	double		lambertian_reflection;
 	double		dot_prod;
 
-	dot_prod = dot_product(vector[0], vector[1]);
+	dot_prod = dot_product(vector[0], vector[2]);
 	if (dot_prod < 0.0)
 		dot_prod = 0;
 	rt->light_inside = light_inside_or_not(rt, cylinder);
 	if (rt->light_inside)
-		lambertian_reflection = dot_prod;
+		put_pixel(&rt->img, ray.x, ray.y, calculate_color(rt, cylinder.color,
+					(1 / vec_magnitude(vector[1]))));
 	else
+	{
 		lambertian_reflection = 1 - dot_prod;
-	put_pixel(&rt->img, ray.x, ray.y, array_to_int(cylinder.color,
-			lambertian_reflection));
+		put_pixel(&rt->img, ray.x, ray.y, calculate_color(rt, cylinder.color,
+				lambertian_reflection));
+	}
 }
 
 void	calculate_inside_tube_pixel_color(t_rt *rt, t_cylinder cylinder,
 		t_ray ray, double *t)
 {
 	t_vector	light;
+	t_vector	norm_light;
 	t_vector	normal;
 	double		t_value;
 	double		calcul;
@@ -43,13 +47,16 @@ void	calculate_inside_tube_pixel_color(t_rt *rt, t_cylinder cylinder,
 	normal = vec_add(cylinder.center, scalar_product(cylinder.normal, calcul));
 	normal = normalize_vector(vec_subtract(normal, vec_add(ray.origin,
 					scalar_product(ray.direction, *t))));
-	light = normalize_vector(vec_subtract(rt->light->origin,
-				vec_add(ray.origin, scalar_product(ray.direction, *t))));
-	t_value = generate_shadow_ray(rt, ray, light, t);
+	light = vec_subtract(rt->light->origin,
+				vec_add(ray.origin, scalar_product(ray.direction, *t)));
+	norm_light = normalize_vector(vec_subtract(rt->light->origin,
+				vec_add(ray.origin, scalar_product(ray.direction, *t))));;
+	t_value = generate_shadow_ray(rt, ray, norm_light, t);
 	if (t_value >= 0.01)
-		put_pixel(&rt->img, ray.x, ray.y, 0);
+		put_pixel(&rt->img, ray.x, ray.y,
+			calculate_color(rt, cylinder.color, 0.0));
 	else
-		print_inside_tube(rt, (t_vector[2]){normal, light}, ray, cylinder);
+		print_inside_tube(rt, (t_vector[3]){normal, light, norm_light}, ray, cylinder);
 }
 
 void	calculate_tube_pixel_color(t_rt *rt, t_cylinder cylinder, t_ray ray,
