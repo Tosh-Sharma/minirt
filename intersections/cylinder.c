@@ -12,40 +12,41 @@
 
 #include "../minirt.h"
 
-void	handle_disks(t_rt *rt, t_cylinder cylinder, t_ray ray, double *t)
+void	print_inside_tube(t_rt *rt, t_vector *vector, t_ray ray, t_cylinder cylinder)
 {
-	t_disk		top_disk;
-	t_disk		bottom_disk;
+	double		lambertian_reflection;
+	double		dot_prod;
 
-	bottom_disk.center = scalar_product(cylinder.center, 1);
-	bottom_disk.normal = scalar_product(cylinder.normal, -1);
-	top_disk.normal = scalar_product(cylinder.normal, 1);
-	top_disk.center = vec_add(cylinder.center,
-			scalar_product(cylinder.normal, cylinder.height));
-	top_disk.diameter = cylinder.diameter;
-	bottom_disk.diameter = cylinder.diameter;
-	copy_colors(cylinder.color, top_disk.color);
-	copy_colors(cylinder.color, bottom_disk.color);
-	intersect_disk(rt, top_disk, ray, t);
-	intersect_disk(rt, bottom_disk, ray, t);
+	dot_prod = dot_product(vector[0], vector[1]);
+	if (dot_prod < 0.0)
+		dot_prod = 0;
+	rt->light_inside = light_inside_or_not(rt, cylinder);
+	if (rt->light_inside)
+		lambertian_reflection = dot_prod;
+	else
+		lambertian_reflection = 1 - dot_prod;
+	put_pixel(&rt->img, ray.x, ray.y, array_to_int(cylinder.color,
+		lambertian_reflection));
 }
 
-double	check_for_m_in_range(t_quadratic *quad, t_cylinder cylinder, t_ray ray)
+void	calculate_inside_tube_pixel_color(t_rt *rt, t_cylinder cylinder, t_ray ray,
+		double *t)
 {
-	double	m1;
-	double	m2;
+	t_vector	light;
+	t_vector	normal;
+	double		t_value;
+	double		calcul;
 
-	m1 = (dot_product(ray.direction, cylinder.normal) * quad->t1)
-		+ dot_product(vec_subtract(ray.origin, cylinder.center),
-			cylinder.normal);
-	m2 = (dot_product(ray.direction, cylinder.normal) * quad->t2)
-		+ dot_product(vec_subtract(ray.origin, cylinder.center),
-			cylinder.normal);
-	if (m1 < 0 || m1 > cylinder.height)
-		quad->t1 = INFINITY;
-	if (m2 < 0 || m2 > cylinder.height)
-		quad->t2 = INFINITY;
-	return (min_num(quad->t1, quad->t2));
+	calcul = dot_product(vec_subtract(vec_add(ray.origin, scalar_product(ray.direction, *t)), cylinder.center), cylinder.normal);
+	normal = vec_add(cylinder.center, scalar_product(cylinder.normal, calcul));
+	normal = normalize_vector(vec_subtract(normal, vec_add(ray.origin, scalar_product(ray.direction, *t))));
+	light = normalize_vector(vec_subtract(rt->light->origin,
+				vec_add(ray.origin, scalar_product(ray.direction, *t))));
+	t_value = generate_shadow_ray(rt, ray, light, t);
+	if (t_value > 0.01)
+		put_pixel(&rt->img, ray.x, ray.y, 0);
+	else
+		print_inside_tube(rt, (t_vector[2]){normal, light}, ray, cylinder);
 }
 
 void	calculate_tube_pixel_color(t_rt *rt, t_cylinder cylinder, t_ray ray,
@@ -57,6 +58,7 @@ void	calculate_tube_pixel_color(t_rt *rt, t_cylinder cylinder, t_ray ray,
 	double		calcul;
 	double		lambertian_reflection;
 	double		dot_prod;
+
 
 	calcul = dot_product(vec_subtract(vec_add(ray.origin, scalar_product(ray.direction, *t)), cylinder.center), cylinder.normal);
 	normal = vec_add(cylinder.center, scalar_product(cylinder.normal, calcul));
@@ -74,21 +76,6 @@ void	calculate_tube_pixel_color(t_rt *rt, t_cylinder cylinder, t_ray ray,
 		lambertian_reflection = dot_prod;
 		put_pixel(&rt->img, ray.x, ray.y, array_to_int(cylinder.color,
 			lambertian_reflection));
-	}
-}
-
-void	solve_for_t(t_rt *rt, t_cylinder cylinder, t_ray ray, t_quadratic *quad)
-{
-	double	result;
-
-	quad->determinant = sqrt(quad->determinant);
-	quad->t1 = (-(quad->b) + quad->determinant) / (2 * quad->a);
-	quad->t2 = (-(quad->b) - quad->determinant) / (2 * quad->a);
-	result = check_for_m_in_range(quad, cylinder, ray);
-	if (result < *quad->t)
-	{
-		*quad->t = result;
-		calculate_tube_pixel_color(rt, cylinder, ray, quad->t);
 	}
 }
 

@@ -77,14 +77,32 @@ void	calculate_sphere_pixel_color(t_rt *rt, t_sphere sphere, t_ray ray,
 	}
 }
 
+void	intersect_sphere_else(t_rt *rt, t_sphere sphere, t_ray ray, double *t, double *values)
+{
+	t_vector	dist;
+	double		new_t;
+
+	new_t = min_num((-values[1] + sqrt(values[2])) / (2 * values[0]),
+		(-values[1] - sqrt(values[2])) / (2 * values[0]));
+	dist = vec_subtract(rt->camera.origin, sphere.center);
+	if (dot_product(dist, dist) < (sphere.diameter / 2) * (sphere.diameter / 2) && (-new_t < *t))
+	{
+		*t = new_t * (-1);
+		calculate_inside_sphere_pixel_color(rt, sphere, ray, t);
+	}
+	else if (new_t > 0 && new_t < *t)
+	{
+		*t = new_t;
+		calculate_sphere_pixel_color(rt, sphere, ray, t);
+	}
+}
+
 void	intersect_sphere(t_rt *rt, t_sphere sphere, t_ray ray, double *t)
 {
 	double		a;
 	double		b;
 	double		c;
 	double		discriminant;
-	double		new_t;
-	t_vector	dist;
 
 	a = 1;
 	b = 2 * dot_product(ray.direction, vec_subtract(ray.origin,
@@ -96,19 +114,5 @@ void	intersect_sphere(t_rt *rt, t_sphere sphere, t_ray ray, double *t)
 	if (discriminant < 0.0)
 		return ;
 	else
-	{
-		new_t = min_num((-b + sqrt(discriminant)) / (2 * a),
-				(-b - sqrt(discriminant)) / (2 * a));
-		dist = vec_subtract(rt->camera.origin, sphere.center);
-		if (dot_product(dist, dist) < (sphere.diameter / 2) * (sphere.diameter / 2) && (-new_t < *t))
-		{
-			*t = new_t * (-1);
-			calculate_inside_sphere_pixel_color(rt, sphere, ray, t);
-		}
-		else if (new_t > 0 && new_t < *t)
-		{
-			*t = new_t;
-			calculate_sphere_pixel_color(rt, sphere, ray, t);
-		}
-	}
+		intersect_sphere_else(rt, sphere, ray, t, (double[3]){a, b, discriminant});
 }

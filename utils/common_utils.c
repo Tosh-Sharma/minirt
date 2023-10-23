@@ -41,8 +41,12 @@ double	ft_atod(const char *str)
 	double	res2;
 	char	*c;
 	int		len;
+    int     flag;
 
-	c = (char *)str;
+	flag = 1;
+    c = (char *)str;
+    if (c[0] == '-')
+        flag *= -1;
 	res = (double)ft_atoi(c);
 	while (*c && *c != '.')
 		c++;
@@ -53,7 +57,7 @@ double	ft_atod(const char *str)
 	while (len--)
 		res2 /= 10;
 	if (res >= 0)
-		return ((double)(res + res2));
+		return ((double)(res + res2) * flag);
 	else
 		return ((double)(res - res2));
 }

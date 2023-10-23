@@ -17,14 +17,14 @@ void	iterate_over_objects(t_rt *rt, t_ray ray, double *t)
 	t_uint	i;
 
 	i = -1;
+	while (++i < rt->max_cy)
+		intersect_cylinder(rt, rt->cylinder[i], ray, t);
+	i = -1;
 	while (++i < rt->max_sp)
 		intersect_sphere(rt, rt->sphere[i], ray, t);
 	i = -1;
 	while (++i < rt->max_pl)
 		intersect_plane(rt, rt->plane[i], ray, t);
-	i = -1;
-	while (++i < rt->max_cy)
-		intersect_cylinder(rt, rt->cylinder[i], ray, t);
 	if (*t == INFINITY)
 		put_pixel(&rt->img, ray.x, ray.y, array_to_int(rt->ambient->color,
 				rt->ambient->brightness));

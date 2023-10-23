@@ -162,6 +162,8 @@ typedef struct s_rt
 	t_uint		max_cy;
 	t_uint		max_pl;
 	t_uint		max_cone;
+	int			cam_inside;
+	int			light_inside;
 	int			file_fd;
 	char		**split_line;
 	t_image		img;
@@ -207,6 +209,13 @@ t_vector	scalar_product(t_vector v1, double a);
 t_vector	normalize_vector(t_vector v);
 double		vec_magnitude(t_vector v);
 
+void		get_color_light(t_rt *rt, t_light *light);
+void		get_color_sphere(t_rt *rt, t_sphere *sphere);
+void		get_color_plane(t_rt *rt, t_plane *plane);
+void		get_color_cylinder(t_rt *rt, t_cylinder *cylinder);
+
+
+
 void		print_vector(t_vector v, char *str);
 double		min_num(double a, double b);
 double		max_num(double a, double b);
@@ -225,12 +234,26 @@ void		put_pixel(t_image *data, int x, int y, int color);
 double		generate_shadow_ray(t_rt *rt, t_ray ray, t_vector light, double *t);
 double		solve_shadow_for_t(t_cylinder cylinder, t_ray ray, t_quadratic *quad);
 
+double		intersect_shadow_cylinder(t_cylinder cylinder, t_ray ray, double *t);
+double		intersect_shadow_disk(t_disk disk, t_ray ray, double *t);
+double		handle_shadow_disks(t_cylinder cylinder, t_ray ray, double *t);
+double		solve_shadow_for_t(t_cylinder cylinder, t_ray ray, t_quadratic *quad);
+double		intersect_shadow_plane(t_plane plane, t_ray ray, double *t);
+double		intersect_shadow_sphere(t_sphere sphere, t_ray ray, double *t);
 
+void		handle_disks(t_rt *rt, t_cylinder cylinder, t_ray ray, double *t);
 void		intersect_sphere(t_rt *rt, t_sphere sphere, t_ray ray, double *t);
 void		intersect_plane(t_rt *rt, t_plane plane, t_ray ray, double *t);
 void		intersect_cylinder(t_rt *rt, t_cylinder cylinder, t_ray ray,
 				double *t);
+void		solve_for_t(t_rt *rt, t_cylinder cylinder, t_ray ray, t_quadratic *quad);
 double		check_for_m_in_range(t_quadratic *quad, t_cylinder cylinder, t_ray ray);
+void		calculate_tube_pixel_color(t_rt *rt, t_cylinder cylinder, t_ray ray,
+			double *t);
+void		calculate_inside_tube_pixel_color(t_rt *rt, t_cylinder cylinder, t_ray ray,
+			double *t);		
+int			cam_inside_or_not(t_rt *rt, t_cylinder cylinder);
+int			light_inside_or_not(t_rt *rt, t_cylinder cylinder);
 void		intersect_disk(t_rt *rt, t_disk disk, t_ray ray, double *t);
 void		intersect_cone(t_rt *rt, t_cone cone, t_ray ray, double *t);
 

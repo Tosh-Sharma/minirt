@@ -22,14 +22,17 @@ void	calculate_disk_pixel_color(t_rt *rt, t_disk disk, t_ray ray,
 
 	light = normalize_vector(vec_subtract(rt->light->origin, vec_add(ray.origin, scalar_product(ray.direction, *t))));
 	ray.normal = disk.normal;
-	t_value = generate_shadow_ray(rt, ray, light, t);
+	if (!rt->light_inside && rt->cam_inside)
+		t_value = 0;
+	else
+		t_value = generate_shadow_ray(rt, ray, light, t);
 	if (t_value > 0.01)
 		put_pixel(&rt->img, ray.x, ray.y, 0);
 	else
 	{
 		dot_prod = dot_product(disk.normal, light);
 		if (dot_prod < 0)
-			dot_prod = 0;
+		 	dot_prod = 0;
 		lambertian_reflection = dot_prod;
 		put_pixel(&rt->img, ray.x, ray.y, array_to_int(disk.color, lambertian_reflection));
 	}
@@ -59,4 +62,31 @@ void	intersect_disk(t_rt *rt, t_disk disk, t_ray ray, double *t)
 			calculate_disk_pixel_color(rt, disk, ray, t);
 		}
 	}
+}
+
+void	handle_disks(t_rt *rt, t_cylinder cylinder, t_ray ray, double *t)
+{
+	t_disk		top_disk;
+	t_disk		bottom_disk;
+	
+	rt->cam_inside = cam_inside_or_not(rt, cylinder);
+	bottom_disk.center = scalar_product(cylinder.center, 1);
+	if (rt->cam_inside == 1)
+	{
+		bottom_disk.normal = scalar_product(cylinder.normal, 1);
+		top_disk.normal = scalar_product(cylinder.normal, -1);
+	}
+	else
+	{
+		bottom_disk.normal = scalar_product(cylinder.normal, -1);
+		top_disk.normal = scalar_product(cylinder.normal, 1);
+	}
+	top_disk.center = vec_add(cylinder.center,
+			scalar_product(cylinder.normal, cylinder.height));
+	top_disk.diameter = cylinder.diameter;
+	bottom_disk.diameter = cylinder.diameter;
+	copy_colors(cylinder.color, top_disk.color);
+	copy_colors(cylinder.color, bottom_disk.color);
+	intersect_disk(rt, top_disk, ray, t);
+	intersect_disk(rt, bottom_disk, ray, t);
 }
