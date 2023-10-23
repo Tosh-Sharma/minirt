@@ -32,7 +32,7 @@ t_light	light(t_rt *rt)
 		perror_and_exit("Unacceptable light brightness value");
 	get_color_light(rt, &light);
 	++rt->ct_l;
-	if (rt->ct_l > 1)
+	if (rt->ct_l != 1)
 		perror_and_exit("Mandatory parts requires 1 light only");
 	return (light);
 }

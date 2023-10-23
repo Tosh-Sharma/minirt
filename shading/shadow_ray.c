@@ -36,6 +36,28 @@ double	handle_shadow_disks(t_cylinder cylinder, t_ray ray, double *t)
 	return (0.0);
 }
 
+double	iterate_shadow_over_objects_bis(t_rt *rt, t_ray ray, double *t)
+{
+	t_uint	i;
+	double	t_value;
+	
+	i = -1;
+	while (++i < rt->max_pl)
+	{
+		t_value = intersect_shadow_plane(rt->plane[i], ray, t);
+		if (t_value >= 0.01)
+			return (t_value);
+	}
+	i = -1;
+	while (++i < rt->max_cy)
+	{
+		t_value = intersect_shadow_cylinder(rt->cylinder[i], ray, t);
+		if (t_value >= 0.01)
+			return (t_value);
+	}
+	return (0.0);
+}
+
 double	iterate_shadow_over_objects(t_rt *rt, t_ray ray, double *t)
 {
 	t_uint	i;
@@ -46,24 +68,11 @@ double	iterate_shadow_over_objects(t_rt *rt, t_ray ray, double *t)
 	while (++i < rt->max_sp)
 	{
 		t_value = intersect_shadow_sphere(rt->sphere[i], ray, t);
-		if (t_value > 0.01)
+		if (t_value >= 0.01)
 			return (t_value);
 	}
-	i = -1;
-	while (++i < rt->max_pl)
-	{
-		t_value = intersect_shadow_plane(rt->plane[i], ray, t);
-		if (t_value > 0.01)
-			return (t_value);
-	}
-	i = -1;
-	while (++i < rt->max_cy)
-	{
-		t_value = intersect_shadow_cylinder(rt->cylinder[i], ray, t);
-		if (t_value > 0.01)
-			return (t_value);
-	}
-	return (0.0);
+	t_value = iterate_shadow_over_objects_bis(rt, ray, t);
+	return (t_value);
 }
 
 double	generate_shadow_ray(t_rt *rt, t_ray ray, t_vector light, double *t)
