@@ -44,7 +44,8 @@ void	calculate_inside_sphere_pixel_color(t_rt *rt, t_sphere sphere,
 			lamb_f = 1 - dot_prod;
 		else
 			lamb_f = dot_prod;
-		put_pixel(&rt->img, ray.x, ray.y, calculate_color(rt, sphere.color, lamb_f));
+		put_pixel(&rt->img, ray.x, ray.y,
+				calculate_color(rt, sphere.color, lamb_f));
 	}
 }
 

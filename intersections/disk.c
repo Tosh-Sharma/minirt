@@ -16,21 +16,29 @@ void	calculate_disk_pixel_color(t_rt *rt, t_disk disk, t_ray ray,
 		double *t)
 {
 	t_vector	light;
+	t_vector	norm_light;
 	double		t_value;
 
-	light = normalize_vector(vec_subtract(rt->light->origin,
-				vec_add(ray.origin, scalar_product(ray.direction, *t))));
+	light = vec_subtract(rt->light->origin, vec_add(ray.origin,
+			scalar_product(ray.direction, *t)));
+	norm_light = normalize_vector(light);
 	ray.normal = disk.normal;
 	if (!rt->light_inside && rt->cam_inside)
 		t_value = 0;
 	else
-		t_value = generate_shadow_ray(rt, ray, light, t);
+		t_value = generate_shadow_ray(rt, ray, norm_light, t);
 	if (t_value >= 0.01)
 		put_pixel(&rt->img, ray.x, ray.y,
 			calculate_color(rt, disk.color, 0.0));
 	else
-		put_pixel(&rt->img, ray.x, ray.y, calculate_color(rt, disk.color,
-				max_num(0, dot_product(ray.normal, light))));
+	{
+		if (rt->cam_inside)
+			put_pixel(&rt->img, ray.x, ray.y, calculate_color(rt, disk.color,
+					(1/vec_magnitude(light)) * max_num(0, dot_product(ray.normal, norm_light))));
+		else
+			put_pixel(&rt->img, ray.x, ray.y, calculate_color(rt, disk.color,
+				max_num(0, dot_product(ray.normal, norm_light))));	
+	}	
 }
 
 void	intersect_disk(t_rt *rt, t_disk disk, t_ray ray, double *t)
