@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 13:28:49 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/16 11:41:41 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/18 16:26:56 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void	iterate_over_objects(t_rt *rt, t_ray ray, double *t)
 	while (++i < rt->max_pl)
 		intersect_plane(rt, rt->plane[i], ray, t);
 	if (*t == INFINITY)
-		put_pixel(&rt->img, ray.x, ray.y, array_to_int(rt->ambient->color,
-				rt->ambient->brightness));
+		put_pixel(&rt->img, ray.x, ray.y, array_to_int(rt->background.color,
+				rt->background.brightness));
 }
 // TODO: Add below cone logic above when all others are working correctly.
 // i = -1;

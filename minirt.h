@@ -167,6 +167,10 @@ typedef struct s_rt
 	int			file_fd;
 	char		**split_line;
 	t_image		img;
+	t_ray		ray;
+	double		*t;
+	t_ambient	background;
+	t_ambient	black;
 }				t_rt;
 
 typedef struct s_quadratic
@@ -224,6 +228,9 @@ int			clamp(int n, int min, int max);
 void		copy_colors(int *color_src, int *color_dest);
 int			array_to_int(int c[3], double a);
 int			add_two_colors(int c1[3], double a, int c2[3], double b);
+int			add_hex_colors(int c1, int c2);
+int			multiply_light(int pixel_point, int light[3]);
+int			multiply_hex_colors(int c1, int c2);
 
 void		ray_tracing(t_rt *rt);
 void		cast_rays(t_rt *rt);
