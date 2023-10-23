@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_objects_utils.c                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/23 16:16:09 by toshsharma        #+#    #+#             */
+/*   Updated: 2023/10/23 16:27:58 by toshsharma       ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minirt.h"
 
 void	get_color_light(t_rt *rt, t_light *light)
@@ -48,11 +60,17 @@ void	get_color_sphere(t_rt *rt, t_sphere *sphere)
 	free_strings(split_color);
 }
 
-void	get_color_plane(t_rt *rt, t_plane *plane)
+void	get_color_plane(t_rt *rt, t_plane *plane, char **split_normal)
 {
 	char	**split_color;
 	int		i;
 
+	plane->normal = parse_input_as_vector(split_normal);
+	free_strings(split_normal);
+	if (plane->normal.x < -1.0 || plane->normal.x > 1.0
+		|| plane->normal.y < -1.0 || plane->normal.y > 1.0
+		|| plane->normal.z < -1.0 || plane->normal.z > 1.0)
+		perror_and_exit("Unacceptable plane normal values");
 	split_color = ft_split(rt->split_line[3], ',');
 	if (split_color[3] != NULL)
 		perror_and_exit("Unacceptable plane color settings");

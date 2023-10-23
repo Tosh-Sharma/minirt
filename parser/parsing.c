@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 17:08:22 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/09 11:58:51 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/23 16:18:48 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,4 +115,3 @@ void	init_parse(t_rt *rt, char *file)
 	rt->cone = (t_cone *)malloc(sizeof(t_cone) * (rt->max_cone + 1));
 	parse_file(rt, file, 1);
 }
-

@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 17:09:10 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/09/09 15:36:38 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/23 16:15:52 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ double	ft_atod(const char *str)
 	double	res2;
 	char	*c;
 	int		len;
-    int     flag;
+	int		flag;
 
 	flag = 1;
-    c = (char *)str;
-    if (c[0] == '-')
-        flag *= -1;
+	c = (char *)str;
+	if (c[0] == '-')
+		flag *= -1;
 	res = (double)ft_atoi(c);
 	while (*c && *c != '.')
 		c++;
@@ -57,7 +57,7 @@ double	ft_atod(const char *str)
 	while (len--)
 		res2 /= 10;
 	if (res >= 0)
-		return ((double)(res + res2) * flag);
+		return ((double)(res + res2)*flag);
 	else
 		return ((double)(res - res2));
 }

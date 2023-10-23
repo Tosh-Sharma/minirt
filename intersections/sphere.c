@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:49:28 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/16 11:48:17 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/23 16:21:55 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 // L is the vector pointing from the point of intersection to the light source.
 // DiffuseContribution = LambertianReflection × lightcolor × lightbrightness
 
-void	calculate_inside_sphere_pixel_color(t_rt *rt, t_sphere sphere, t_ray ray,
-		double *t)
+void	calculate_inside_sphere_pixel_color(t_rt *rt, t_sphere sphere,
+		t_ray ray, double *t)
 {
 	t_vector	light;
 	t_vector	normal;
@@ -27,25 +27,26 @@ void	calculate_inside_sphere_pixel_color(t_rt *rt, t_sphere sphere, t_ray ray,
 	double		lambertian_reflection;
 	double		t_value;
 
-	normal = normalize_vector(vec_subtract(sphere.center, vec_add(ray.origin, //besoin d'inverser le sens (comprndre avec geogebra)
-		scalar_product(ray.direction, *t))));
+	normal = normalize_vector(vec_subtract(sphere.center, vec_add(ray.origin,
+					scalar_product(ray.direction, *t))));
 	light = normalize_vector(vec_subtract(rt->light->origin,
-		vec_add(ray.origin, scalar_product(ray.direction, *t))));
+				vec_add(ray.origin, scalar_product(ray.direction, *t))));
 	ray.normal = normal;
 	t_value = generate_shadow_ray(rt, ray, light, t);
-	if (t_value > 0.0) 
+	if (t_value > 0.0)
 		put_pixel(&rt->img, ray.x, ray.y, 0);
 	else
 	{
 		dot_prod = dot_product(normal, light);
 		if (dot_prod < 0.0)
 			dot_prod = 0;
-		if (vec_magnitude(vec_subtract(rt->light->origin, sphere.center)) > sphere.diameter / 2)
+		if (vec_magnitude(vec_subtract(rt->light->origin, sphere.center))
+			> sphere.diameter / 2)
 			lambertian_reflection = 1 - dot_prod;
 		else
 			lambertian_reflection = dot_prod;
 		put_pixel(&rt->img, ray.x, ray.y, array_to_int(sphere.color,
-			lambertian_reflection));
+				lambertian_reflection));
 	}
 }
 
@@ -59,12 +60,12 @@ void	calculate_sphere_pixel_color(t_rt *rt, t_sphere sphere, t_ray ray,
 	double		t_value;
 
 	normal = normalize_vector(vec_subtract(vec_add(ray.origin,
-				scalar_product(ray.direction, *t)), sphere.center));
+					scalar_product(ray.direction, *t)), sphere.center));
 	light = normalize_vector(vec_subtract(rt->light->origin,
-			vec_add(ray.origin, scalar_product(ray.direction, *t))));
+				vec_add(ray.origin, scalar_product(ray.direction, *t))));
 	ray.normal = normal;
 	t_value = generate_shadow_ray(rt, ray, light, t);
-	if (t_value > 0.0) 
+	if (t_value > 0.0)
 		put_pixel(&rt->img, ray.x, ray.y, 0);
 	else
 	{
@@ -77,15 +78,17 @@ void	calculate_sphere_pixel_color(t_rt *rt, t_sphere sphere, t_ray ray,
 	}
 }
 
-void	intersect_sphere_else(t_rt *rt, t_sphere sphere, t_ray ray, double *t, double *values)
+void	intersect_sphere_else(t_rt *rt, t_sphere sphere, t_ray ray,
+		double *t, double *values)
 {
 	t_vector	dist;
 	double		new_t;
 
 	new_t = min_num((-values[1] + sqrt(values[2])) / (2 * values[0]),
-		(-values[1] - sqrt(values[2])) / (2 * values[0]));
+			(-values[1] - sqrt(values[2])) / (2 * values[0]));
 	dist = vec_subtract(rt->camera.origin, sphere.center);
-	if (dot_product(dist, dist) < (sphere.diameter / 2) * (sphere.diameter / 2) && (-new_t < *t))
+	if (dot_product(dist, dist) < (sphere.diameter / 2)
+		* (sphere.diameter / 2) && (-new_t < *t))
 	{
 		*t = new_t * (-1);
 		calculate_inside_sphere_pixel_color(rt, sphere, ray, t);

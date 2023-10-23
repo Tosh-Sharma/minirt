@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cylinder_utils.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/23 16:07:02 by toshsharma        #+#    #+#             */
+/*   Updated: 2023/10/23 16:19:51 by toshsharma       ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minirt.h"
 
 int	light_inside_or_not(t_rt *rt, t_cylinder cylinder)
@@ -6,7 +18,8 @@ int	light_inside_or_not(t_rt *rt, t_cylinder cylinder)
 	t_vector	normal;
 	double		dist_cam;
 
-	calcul = dot_product(vec_subtract(rt->light[0].origin, cylinder.center), cylinder.normal);
+	calcul = dot_product(vec_subtract(rt->light[0].origin, cylinder.center),
+			cylinder.normal);
 	if (calcul < 0)
 		return (0);
 	normal = vec_add(cylinder.center, scalar_product(cylinder.normal, calcul));
@@ -24,7 +37,8 @@ int	cam_inside_or_not(t_rt *rt, t_cylinder cylinder)
 	t_vector	normal;
 	double		dist_cam;
 
-	calcul = dot_product(vec_subtract(rt->camera.origin, cylinder.center), cylinder.normal);
+	calcul = dot_product(vec_subtract(rt->camera.origin, cylinder.center),
+			cylinder.normal);
 	if (calcul < 0 || calcul > cylinder.height)
 		return (0);
 	normal = vec_add(cylinder.center, scalar_product(cylinder.normal, calcul));

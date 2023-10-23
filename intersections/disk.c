@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 14:27:36 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/09 11:17:11 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/23 16:06:22 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	calculate_disk_pixel_color(t_rt *rt, t_disk disk, t_ray ray,
 	double		dot_prod;
 	double		lambertian_reflection;
 
-	light = normalize_vector(vec_subtract(rt->light->origin, vec_add(ray.origin, scalar_product(ray.direction, *t))));
+	light = normalize_vector(vec_subtract(rt->light->origin,
+				vec_add(ray.origin, scalar_product(ray.direction, *t))));
 	ray.normal = disk.normal;
 	if (!rt->light_inside && rt->cam_inside)
 		t_value = 0;
@@ -31,10 +32,11 @@ void	calculate_disk_pixel_color(t_rt *rt, t_disk disk, t_ray ray,
 	else
 	{
 		dot_prod = dot_product(disk.normal, light);
-		if (dot_prod < 0)
-		 	dot_prod = 0;
+		if (dot_prod < 0.0)
+			dot_prod = 0.0;
 		lambertian_reflection = dot_prod;
-		put_pixel(&rt->img, ray.x, ray.y, array_to_int(disk.color, lambertian_reflection));
+		put_pixel(&rt->img, ray.x, ray.y, array_to_int(disk.color,
+				lambertian_reflection));
 	}
 }
 
@@ -68,7 +70,7 @@ void	handle_disks(t_rt *rt, t_cylinder cylinder, t_ray ray, double *t)
 {
 	t_disk		top_disk;
 	t_disk		bottom_disk;
-	
+
 	rt->cam_inside = cam_inside_or_not(rt, cylinder);
 	bottom_disk.center = scalar_product(cylinder.center, 1);
 	if (rt->cam_inside == 1)

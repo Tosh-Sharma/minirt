@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   intersect_shadow_objects.c                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/23 16:01:52 by toshsharma        #+#    #+#             */
+/*   Updated: 2023/10/23 16:19:27 by toshsharma       ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minirt.h"
 
 double	intersect_shadow_plane(t_plane plane, t_ray ray, double *t)
@@ -16,8 +28,8 @@ double	intersect_shadow_plane(t_plane plane, t_ray ray, double *t)
 			return (0.0);
 		else if (result < *t && result > 0)
 			return (result);
-        else
-            return (0.0);
+		else
+			return (0.0);
 	}
 }
 
@@ -41,11 +53,11 @@ double	intersect_shadow_sphere(t_sphere sphere, t_ray ray, double *t)
 	else
 	{
 		new_t = min_num((-b + sqrt(discriminant)) / (2 * a),
-				(-b - sqrt(discriminant)) / (2 * a));				
+				(-b - sqrt(discriminant)) / (2 * a));
 		if (new_t > 0 && new_t < *t)
-            return (new_t);
-        else
-            return (0.0);
+			return (new_t);
+		else
+			return (0.0);
 	}
 }
 
@@ -112,5 +124,5 @@ double	intersect_shadow_cylinder(t_cylinder cylinder, t_ray ray, double *t)
 	if (quad.determinant < 0.0)
 		return (0.0);
 	else
-		return(solve_shadow_for_t(cylinder, ray, &quad));
+		return (solve_shadow_for_t(cylinder, ray, &quad));
 }

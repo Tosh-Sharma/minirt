@@ -6,13 +6,14 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:49:22 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/09 14:43:41 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/23 16:10:18 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minirt.h"
 
-void	print_inside_tube(t_rt *rt, t_vector *vector, t_ray ray, t_cylinder cylinder)
+void	print_inside_tube(t_rt *rt, t_vector *vector, t_ray ray,
+		t_cylinder cylinder)
 {
 	double		lambertian_reflection;
 	double		dot_prod;
@@ -26,20 +27,22 @@ void	print_inside_tube(t_rt *rt, t_vector *vector, t_ray ray, t_cylinder cylinde
 	else
 		lambertian_reflection = 1 - dot_prod;
 	put_pixel(&rt->img, ray.x, ray.y, array_to_int(cylinder.color,
-		lambertian_reflection));
+			lambertian_reflection));
 }
 
-void	calculate_inside_tube_pixel_color(t_rt *rt, t_cylinder cylinder, t_ray ray,
-		double *t)
+void	calculate_inside_tube_pixel_color(t_rt *rt, t_cylinder cylinder,
+		t_ray ray, double *t)
 {
 	t_vector	light;
 	t_vector	normal;
 	double		t_value;
 	double		calcul;
 
-	calcul = dot_product(vec_subtract(vec_add(ray.origin, scalar_product(ray.direction, *t)), cylinder.center), cylinder.normal);
+	calcul = dot_product(vec_subtract(vec_add(ray.origin, scalar_product(
+						ray.direction, *t)), cylinder.center), cylinder.normal);
 	normal = vec_add(cylinder.center, scalar_product(cylinder.normal, calcul));
-	normal = normalize_vector(vec_subtract(normal, vec_add(ray.origin, scalar_product(ray.direction, *t))));
+	normal = normalize_vector(vec_subtract(normal, vec_add(ray.origin,
+					scalar_product(ray.direction, *t))));
 	light = normalize_vector(vec_subtract(rt->light->origin,
 				vec_add(ray.origin, scalar_product(ray.direction, *t))));
 	t_value = generate_shadow_ray(rt, ray, light, t);
@@ -59,10 +62,11 @@ void	calculate_tube_pixel_color(t_rt *rt, t_cylinder cylinder, t_ray ray,
 	double		lambertian_reflection;
 	double		dot_prod;
 
-
-	calcul = dot_product(vec_subtract(vec_add(ray.origin, scalar_product(ray.direction, *t)), cylinder.center), cylinder.normal);
+	calcul = dot_product(vec_subtract(vec_add(ray.origin, scalar_product(
+						ray.direction, *t)), cylinder.center), cylinder.normal);
 	normal = vec_add(cylinder.center, scalar_product(cylinder.normal, calcul));
-	normal = normalize_vector(vec_subtract(vec_add(ray.origin, scalar_product(ray.direction, *t)), normal));
+	normal = normalize_vector(vec_subtract(vec_add(ray.origin, scalar_product(
+						ray.direction, *t)), normal));
 	light = normalize_vector(vec_subtract(rt->light->origin,
 				vec_add(ray.origin, scalar_product(ray.direction, *t))));
 	t_value = generate_shadow_ray(rt, ray, light, t);
@@ -75,7 +79,7 @@ void	calculate_tube_pixel_color(t_rt *rt, t_cylinder cylinder, t_ray ray,
 			dot_prod = 0;
 		lambertian_reflection = dot_prod;
 		put_pixel(&rt->img, ray.x, ray.y, array_to_int(cylinder.color,
-			lambertian_reflection));
+				lambertian_reflection));
 	}
 }
 

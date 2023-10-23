@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 17:41:54 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/09/03 11:24:59 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/23 16:25:11 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_sphere	sphere(t_rt *rt)
 
 t_plane	plane(t_rt *rt)
 {
-	t_plane	plane;
+	t_plane	pl;
 	char	**split_center;
 	char	**split_normal;
 
@@ -74,7 +74,7 @@ t_plane	plane(t_rt *rt)
 		free_strings(split_center);
 		perror_and_exit("Unacceptable plane coordinates settings");
 	}
-	plane.center = parse_input_as_vector(split_center);
+	pl.center = parse_input_as_vector(split_center);
 	free_strings(split_center);
 	split_normal = ft_split(rt->split_line[2], ',');
 	if (split_normal[3] != NULL)
@@ -82,19 +82,14 @@ t_plane	plane(t_rt *rt)
 		free_strings(split_normal);
 		perror_and_exit("Unacceptable plane normal settings");
 	}
-	plane.normal = parse_input_as_vector(split_normal);
-	free_strings(split_normal);
-	if (plane.normal.x < -1.0 || plane.normal.x > 1.0 || plane.normal.y < -1.0
-		|| plane.normal.y > 1.0 || plane.normal.z < -1.0 || plane.normal.z > 1.0)
-		perror_and_exit("Unacceptable plane normal values");
-	get_color_plane(rt, &plane);
+	get_color_plane(rt, &pl, split_normal);
 	++rt->ct_pl;
-	return (plane);
+	return (pl);
 }
 
 t_cylinder	cylinder(t_rt *rt)
 {
-	t_cylinder	cylinder;
+	t_cylinder	cy;
 	char		**split_center;
 	char		**split_normal;
 
@@ -106,19 +101,19 @@ t_cylinder	cylinder(t_rt *rt)
 		free_strings(split_center);
 		perror_and_exit("Unacceptable cylinder coordinates settings");
 	}
-	cylinder.center = parse_input_as_vector(split_center);
+	cy.center = parse_input_as_vector(split_center);
 	free_strings(split_center);
 	split_normal = ft_split(rt->split_line[2], ',');
 	if (split_normal[3] != NULL)
 		perror_and_exit("Unacceptable cylinder normal settings");
-	cylinder.normal = parse_input_as_vector(split_normal);
+	cy.normal = parse_input_as_vector(split_normal);
 	free_strings(split_normal);
-	if (cylinder.normal.x < -1.0 || cylinder.normal.x > 1.0 || cylinder.normal.y < -1.0
-		|| cylinder.normal.y > 1.0 || cylinder.normal.z < -1.0 || cylinder.normal.z > 1.0)
+	if (cy.normal.x < -1.0 || cy.normal.x > 1.0 || cy.normal.y < -1.0
+		|| cy.normal.y > 1.0 || cy.normal.z < -1.0 || cy.normal.z > 1.0)
 		perror_and_exit("Unacceptable cylinder normal values");
-	get_color_cylinder(rt, &cylinder);
+	get_color_cylinder(rt, &cy);
 	++rt->ct_cy;
-	return (cylinder);
+	return (cy);
 }
 
 // TODO: Do the required parsing for a Cone.

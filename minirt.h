@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:55:38 by tsharma           #+#    #+#             */
-/*   Updated: 2023/10/16 11:42:01 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/23 16:25:03 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,7 +211,7 @@ double		vec_magnitude(t_vector v);
 
 void		get_color_light(t_rt *rt, t_light *light);
 void		get_color_sphere(t_rt *rt, t_sphere *sphere);
-void		get_color_plane(t_rt *rt, t_plane *plane);
+void		get_color_plane(t_rt *rt, t_plane *plane, char **split_normal);
 void		get_color_cylinder(t_rt *rt, t_cylinder *cylinder);
 
 

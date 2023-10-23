@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:49:25 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/09/09 23:47:04 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/23 16:06:49 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	calculate_plane_pixel_color(t_rt *rt, t_plane plane, t_ray ray,
 	double		lambertian_reflection;
 	double		t_value;
 
-	light = normalize_vector(vec_subtract(rt->light->origin, vec_add(ray.origin, scalar_product(ray.direction, *t))));
+	light = normalize_vector(vec_subtract(rt->light->origin,
+				vec_add(ray.origin, scalar_product(ray.direction, *t))));
 	ray.normal = plane.normal;
 	t_value = generate_shadow_ray(rt, ray, light, t);
 	if (t_value > 0)
@@ -31,7 +32,8 @@ void	calculate_plane_pixel_color(t_rt *rt, t_plane plane, t_ray ray,
 		if (dot_prod < 0)
 			dot_prod = 0;
 		lambertian_reflection = dot_prod;
-		put_pixel(&rt->img, ray.x, ray.y, array_to_int(plane.color, lambertian_reflection));
+		put_pixel(&rt->img, ray.x, ray.y, array_to_int(plane.color,
+				lambertian_reflection));
 	}
 }
 
