@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:49:25 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/19 15:26:34 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/23 17:21:37 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	calculate_p_color(t_rt *rt, int plane_color[3], double lam_ref)
 {
 	int	color;
 
-	color = add_hex_colors(array_to_int(plane_color, rt->ambient->brightness),
+	color = add_hex_colors(array_to_int(plane_color, 1.0),
 			array_to_int(rt->ambient->color, rt->ambient->brightness));
 	color = add_hex_colors(color,
 			array_to_int(rt->light->color, lam_ref * rt->light->brightness));

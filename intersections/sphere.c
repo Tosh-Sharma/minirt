@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:49:28 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/19 15:26:21 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/23 17:31:10 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	calculate_s_color(t_rt *rt, int sphere_color[3], double lam_ref)
 {
 	int	color;
 
-	color = add_hex_colors(array_to_int(sphere_color, rt->ambient->brightness),
+	color = add_hex_colors(array_to_int(sphere_color, 1.0),
 			array_to_int(rt->ambient->color, rt->ambient->brightness));
 	color = add_hex_colors(color,
 			array_to_int(rt->light->color, lam_ref * rt->light->brightness));
@@ -64,7 +64,7 @@ void	intersect_sphere(t_rt *rt, t_sphere sphere, t_ray ray, double *t)
 	else
 	{
 		new_t = min_num((-b + sqrt(discriminant)) / (2 * a),
-				(-b - sqrt(discriminant)) / (2 * a));				
+				(-b - sqrt(discriminant)) / (2 * a));
 		if (new_t > 0 && new_t < *t)
 		{
 			*t = new_t;
