@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:49:28 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/16 11:48:17 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/23 17:44:38 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ void	calculate_sphere_pixel_color(t_rt *rt, t_sphere sphere, t_ray ray,
 {
 	t_vector	light;
 	t_vector	normal;
-	double		dot_prod;
-	double		lambertian_reflection;
 	double		t_value;
 
 	normal = normalize_vector(vec_subtract(vec_add(ray.origin,
@@ -28,16 +26,11 @@ void	calculate_sphere_pixel_color(t_rt *rt, t_sphere sphere, t_ray ray,
 	ray.normal = normal;
 	t_value = generate_shadow_ray(rt, ray, light, t);
 	if (t_value > 0)
-		put_pixel(&rt->img, ray.x, ray.y, 0);
+		put_pixel(&rt->img, ray.x, ray.y,
+			calculate_color(rt, sphere.color, 0.0));
 	else
-	{
-		dot_prod = dot_product(normal, light);
-		if (dot_prod < 0)
-			dot_prod = 0;
-		lambertian_reflection = dot_prod;
-		put_pixel(&rt->img, ray.x, ray.y, array_to_int(sphere.color,
-				lambertian_reflection));
-	}
+		put_pixel(&rt->img, ray.x, ray.y, calculate_color(rt, sphere.color,
+				max_num(0, dot_product(normal, light))));
 }
 
 void	intersect_sphere(t_rt *rt, t_sphere sphere, t_ray ray, double *t)
@@ -60,7 +53,7 @@ void	intersect_sphere(t_rt *rt, t_sphere sphere, t_ray ray, double *t)
 	else
 	{
 		new_t = min_num((-b + sqrt(discriminant)) / (2 * a),
-				(-b - sqrt(discriminant)) / (2 * a));				
+				(-b - sqrt(discriminant)) / (2 * a));
 		if (new_t > 0 && new_t < *t)
 		{
 			*t = new_t;
