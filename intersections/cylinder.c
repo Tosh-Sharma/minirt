@@ -46,7 +46,7 @@ void	calculate_inside_tube_pixel_color(t_rt *rt, t_cylinder cylinder,
 	light = normalize_vector(vec_subtract(rt->light->origin,
 				vec_add(ray.origin, scalar_product(ray.direction, *t))));
 	t_value = generate_shadow_ray(rt, ray, light, t);
-	if (t_value > 0.01)
+	if (t_value >= 0.01)
 		put_pixel(&rt->img, ray.x, ray.y, 0);
 	else
 		print_inside_tube(rt, (t_vector[2]){normal, light}, ray, cylinder);
@@ -59,8 +59,6 @@ void	calculate_tube_pixel_color(t_rt *rt, t_cylinder cylinder, t_ray ray,
 	t_vector	normal;
 	double		t_value;
 	double		calcul;
-	double		lambertian_reflection;
-	double		dot_prod;
 
 	calcul = dot_product(vec_subtract(vec_add(ray.origin, scalar_product(
 						ray.direction, *t)), cylinder.center), cylinder.normal);
@@ -70,17 +68,12 @@ void	calculate_tube_pixel_color(t_rt *rt, t_cylinder cylinder, t_ray ray,
 	light = normalize_vector(vec_subtract(rt->light->origin,
 				vec_add(ray.origin, scalar_product(ray.direction, *t))));
 	t_value = generate_shadow_ray(rt, ray, light, t);
-	if (t_value > 0.01)
-		put_pixel(&rt->img, ray.x, ray.y, 0);
+	if (t_value >= 0.01)
+		put_pixel(&rt->img, ray.x, ray.y,
+				calculate_color(rt, cylinder.color, 0.0));
 	else
-	{
-		dot_prod = dot_product(normal, light);
-		if (dot_prod < 0.0)
-			dot_prod = 0;
-		lambertian_reflection = dot_prod;
-		put_pixel(&rt->img, ray.x, ray.y, array_to_int(cylinder.color,
-				lambertian_reflection));
-	}
+		put_pixel(&rt->img, ray.x, ray.y, calculate_color(rt, cylinder.color,
+				max_num(0, dot_product(normal, light))));
 }
 
 // The following equations are written with assuming that the cylinder center

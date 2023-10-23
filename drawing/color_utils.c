@@ -71,7 +71,7 @@ int	calculate_color(t_rt *rt, int input_color[3], double lam_ref)
 {
 	int	color;
 
-	color = add_hex_colors(array_to_int(input_color, 1.0),
+	color = add_hex_colors(array_to_int(input_color, lam_ref),
 			array_to_int(rt->ambient->color, rt->ambient->brightness));
 	color = add_hex_colors(color,
 			array_to_int(rt->light->color, lam_ref * rt->light->brightness));

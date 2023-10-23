@@ -22,7 +22,7 @@ void	calculate_plane_pixel_color(t_rt *rt, t_plane plane, t_ray ray,
 				vec_add(ray.origin, scalar_product(ray.direction, *t))));
 	ray.normal = plane.normal;
 	t_value = generate_shadow_ray(rt, ray, light, t);
-	if (t_value > 0)
+	if (t_value >= 0.01)
 		put_pixel(&rt->img, ray.x, ray.y,
 			calculate_color(rt, plane.color, 0.0));
 	else
