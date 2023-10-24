@@ -14,7 +14,12 @@
 
 void	my_exit(t_rt *rt)
 {
-	free(rt);
+	free(rt->ambient);
+	free(rt->light);
+	free(rt->sphere);
+	free(rt->plane);
+	free(rt->cylinder);
+	free(rt->cone);
 	exit(0);
 }
 

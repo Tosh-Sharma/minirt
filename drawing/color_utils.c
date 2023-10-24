@@ -69,10 +69,14 @@ int	add_two_colors(int c1[3], double a, int c2[3], double b)
 
 int	calculate_color(t_rt *rt, int input_color[3], double lam_ref)
 {
-	int	color;
+	int		color;
+	double	test;
+	double	max;
 
-	color = add_hex_colors(array_to_int(input_color, lam_ref),
-			array_to_int(rt->ambient->color, rt->ambient->brightness));
+	max = 255.0*255.0*255.0;
+	test = (double)(input_color[0] * input_color[1] * input_color[2]);
+	color = add_hex_colors(array_to_int(input_color, (1.0 - (test / max)) * lam_ref),
+				array_to_int(rt->ambient->color, rt->ambient->brightness));
 	color = add_hex_colors(color,
 			array_to_int(rt->light->color, lam_ref * rt->light->brightness));
 	return (color);

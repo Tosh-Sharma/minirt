@@ -99,13 +99,11 @@ void	init_parse(t_rt *rt, char *file)
 {
 	int	i;
 
-	i = 0;
-	while (file[i] && file[i] != '.')
-		++i;
-	if ((file[i + 1] != 'r') && (file[i + 2] != 't') && (file[i + 3] != '\0'))
+	i = ft_strlen(file);
+	if ((file[i - 1] != 't') || (file[i - 2] != 'r') || (file[i - 3] != '.'))
 		perror_and_exit("Unacceptable file extension");
 	parse_file(rt, file, 0);
-	if (rt->max_c != 1 || rt->max_a != 1)
+	if (rt->max_c != 1 || rt->max_a != 1 || rt->max_l != 1)
 		perror_and_exit("Only one camera and ambient lightning are allowed");
 	rt->ambient = (t_ambient *)malloc(sizeof(t_ambient) * (rt->max_a + 1));
 	rt->light = (t_light *)malloc(sizeof(t_light) * (rt->max_l + 1));

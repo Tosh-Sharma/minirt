@@ -12,26 +12,25 @@
 
 #include "../minirt.h"
 
-void	free_data(t_image *img)
+void	free_data(t_rt *rt)
 {
-	mlx_destroy_image(img->mlx, img->img);
-	mlx_destroy_window(img->mlx, img->mlx_win);
-	exit(1);
+	mlx_destroy_image(rt->img.mlx, rt->img.img);
+	mlx_destroy_window(rt->img.mlx, rt->img.mlx_win);
+	my_exit(rt);
 }
 
-int	key_hook(int keycode, t_image *img)
+int	key_hook(int keycode, t_rt *rt)
 {
 	if (keycode == 53)
-		free_data(img);
+		free_data(rt);
 	return (0);
 }
 
-// Add code for freeing all the malloced data.
-int	exit_hook(t_image *img)
+int	exit_hook(t_rt *rt)
 {
-	mlx_destroy_image(img->mlx, img->img);
-	mlx_destroy_window(img->mlx, img->mlx_win);
-	exit(1);
+	mlx_destroy_image(rt->img.mlx, rt->img.img);
+	mlx_destroy_window(rt->img.mlx, rt->img.mlx_win);
+	my_exit(rt);
 	return (0);
 }
 

@@ -80,7 +80,7 @@ void	ray_tracing(t_rt *rt)
 			&rt->img.line_length, &rt->img.endian);
 	cast_rays(rt);
 	mlx_put_image_to_window(rt->img.mlx, rt->img.mlx_win, rt->img.img, 0, 0);
-	mlx_key_hook(rt->img.mlx_win, &key_hook, &rt->img);
-	mlx_hook(rt->img.mlx_win, 17, 0, &exit_hook, &rt->img);
+	mlx_key_hook(rt->img.mlx_win, &key_hook, rt);
+	mlx_hook(rt->img.mlx_win, 17, 0, &exit_hook, rt);
 	mlx_loop(rt->img.mlx);
 }

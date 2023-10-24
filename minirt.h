@@ -196,8 +196,8 @@ t_ambient	ambient_lightning(t_rt *rt);
 
 void		init_parse(t_rt *rt, char *file);
 
-int			exit_hook(t_image *img);
-int			key_hook(int keycode, t_image *img);
+int			exit_hook(t_rt *rt);
+int			key_hook(int keycode, t_rt *rt);
 void		my_exit(t_rt *rt);
 void		perror_and_exit(char *input);
 void		free_strings(char **str);
