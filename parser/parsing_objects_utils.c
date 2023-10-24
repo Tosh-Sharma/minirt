@@ -26,7 +26,7 @@ void	get_color_light(t_rt *rt, t_light *light)
 	i = -1;
 	while (split_color[++i])
 	{
-		light->color[i] = ft_atoi(split_color[i]);
+		light->color[i] = ft_atoi_checker(split_color[i]);
 		if (light->color[i] > 255 || light->color[i] < 0)
 		{
 			free_strings(split_color);
@@ -50,7 +50,7 @@ void	get_color_sphere(t_rt *rt, t_sphere *sphere)
 	i = -1;
 	while (split_color[++i])
 	{
-		sphere->color[i] = ft_atoi(split_color[i]);
+		sphere->color[i] = ft_atoi_checker(split_color[i]);
 		if (sphere->color[i] > 255 || sphere->color[i] < 0)
 		{
 			free_strings(split_color);
@@ -77,7 +77,7 @@ void	get_color_plane(t_rt *rt, t_plane *plane, char **split_normal)
 	i = -1;
 	while (split_color[++i])
 	{
-		plane->color[i] = ft_atoi(split_color[i]);
+		plane->color[i] = ft_atoi_checker(split_color[i]);
 		if (plane->color[i] > 255 || plane->color[i] < 0)
 			perror_and_exit("Wrong plane color value");
 	}
@@ -101,7 +101,7 @@ void	get_color_cylinder(t_rt *rt, t_cylinder *cylinder)
 	i = -1;
 	while (split_color[++i])
 	{
-		cylinder->color[i] = ft_atoi(split_color[i]);
+		cylinder->color[i] = ft_atoi_checker(split_color[i]);
 		if (cylinder->color[i] > 255 || cylinder->color[i] < 0)
 		{
 			free_strings(split_color);

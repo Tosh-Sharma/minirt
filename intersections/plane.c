@@ -16,18 +16,20 @@ void	calculate_plane_pixel_color(t_rt *rt, t_plane plane, t_ray ray,
 		double *t)
 {
 	t_vector	light;
+	t_vector	norm_light;
 	double		t_value;
 
-	light = normalize_vector(vec_subtract(rt->light->origin,
-				vec_add(ray.origin, scalar_product(ray.direction, *t))));
+	light = vec_subtract(rt->light->origin,
+				vec_add(ray.origin, scalar_product(ray.direction, *t)));
+	norm_light = normalize_vector(light);
 	ray.normal = plane.normal;
-	t_value = generate_shadow_ray(rt, ray, light, t);
+	t_value = generate_shadow_ray(rt, ray, norm_light, t);
 	if (t_value >= 0.01)
 		put_pixel(&rt->img, ray.x, ray.y,
 			calculate_color(rt, plane.color, 0.0));
 	else
 		put_pixel(&rt->img, ray.x, ray.y, calculate_color(rt, plane.color,
-				max_num(0, dot_product(plane.normal, light))));
+				dist_ratio_rt(rt, light) * max_num(0, dot_product(plane.normal, norm_light))));
 }
 
 void	intersect_plane(t_rt *rt, t_plane plane, t_ray ray, double *t)

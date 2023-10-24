@@ -40,33 +40,6 @@ void	free_strings(char **str)
 	str = NULL;
 }
 
-double	ft_atod(const char *str)
-{
-	double	res;
-	double	res2;
-	char	*c;
-	int		len;
-	int		flag;
-
-	flag = 1;
-	c = (char *)str;
-	if (c[0] == '-')
-		flag *= -1;
-	res = (double)ft_atoi(c);
-	while (*c && *c != '.')
-		c++;
-	if (*c == '.')
-		c++;
-	res2 = (double)ft_atoi(c);
-	len = ft_strlen(c);
-	while (len--)
-		res2 /= 10;
-	if (res >= 0)
-		return ((double)(res + res2)*flag);
-	else
-		return ((double)(res - res2));
-}
-
 void	copy_colors(int *color_src, int *color_dest)
 {
 	int	i;

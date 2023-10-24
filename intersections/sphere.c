@@ -49,25 +49,42 @@ void	calculate_inside_sphere_pixel_color(t_rt *rt, t_sphere sphere,
 	}
 }
 
+double	dist_ratio_rt(t_rt *rt, t_vector light)
+{
+	double	distance;
+	double	factor;
+
+	factor = 1000.0 * rt->light->brightness;
+	distance = vec_magnitude(light);
+	if (distance < 0)
+		distance *= -1;
+	if (distance > (factor))
+		return (0.0);
+	else
+		return (1 - (distance / factor));
+}
+
 void	calculate_sphere_pixel_color(t_rt *rt, t_sphere sphere, t_ray ray,
 		double *t)
 {
 	t_vector	light;
+	t_vector	norm_light;
 	t_vector	normal;
 	double		t_value;
 
 	normal = normalize_vector(vec_subtract(vec_add(ray.origin,
 					scalar_product(ray.direction, *t)), sphere.center));
-	light = normalize_vector(vec_subtract(rt->light->origin,
-				vec_add(ray.origin, scalar_product(ray.direction, *t))));
+	light = vec_subtract(rt->light->origin,
+				vec_add(ray.origin, scalar_product(ray.direction, *t)));
+	norm_light = normalize_vector(light);
 	ray.normal = normal;
-	t_value = generate_shadow_ray(rt, ray, light, t);
+	t_value = generate_shadow_ray(rt, ray, norm_light, t);
 	if (t_value >= 0.01)
 		put_pixel(&rt->img, ray.x, ray.y,
 			calculate_color(rt, sphere.color, 0.0));
 	else
 		put_pixel(&rt->img, ray.x, ray.y, calculate_color(rt, sphere.color,
-				max_num(0, dot_product(normal, light))));
+				dist_ratio_rt(rt,light) * max_num(0, dot_product(normal, norm_light))));
 }
 
 void	intersect_sphere_else(t_rt *rt, t_sphere sphere, t_ray ray,

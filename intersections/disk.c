@@ -37,7 +37,7 @@ void	calculate_disk_pixel_color(t_rt *rt, t_disk disk, t_ray ray,
 					(1/(vec_magnitude(light)))));// * max_num(0.0, dot_product(ray.normal, norm_light))));
 		else
 			put_pixel(&rt->img, ray.x, ray.y, calculate_color(rt, disk.color,
-				max_num(0.0, dot_product(ray.normal, norm_light))));	
+				dist_ratio_rt(rt,light) * max_num(0.0, dot_product(ray.normal, norm_light))));	
 	}	
 }
 

@@ -63,6 +63,7 @@ void	calculate_tube_pixel_color(t_rt *rt, t_cylinder cylinder, t_ray ray,
 		double *t)
 {
 	t_vector	light;
+	t_vector	norm_light;
 	t_vector	normal;
 	double		t_value;
 	double		calcul;
@@ -72,15 +73,16 @@ void	calculate_tube_pixel_color(t_rt *rt, t_cylinder cylinder, t_ray ray,
 	normal = vec_add(cylinder.center, scalar_product(cylinder.normal, calcul));
 	normal = normalize_vector(vec_subtract(vec_add(ray.origin, scalar_product(
 						ray.direction, *t)), normal));
-	light = normalize_vector(vec_subtract(rt->light->origin,
-				vec_add(ray.origin, scalar_product(ray.direction, *t))));
-	t_value = generate_shadow_ray(rt, ray, light, t);
+	light = vec_subtract(rt->light->origin,
+				vec_add(ray.origin, scalar_product(ray.direction, *t)));
+	norm_light = normalize_vector(light);
+	t_value = generate_shadow_ray(rt, ray, norm_light, t);
 	if (t_value >= 0.01)
 		put_pixel(&rt->img, ray.x, ray.y,
 				calculate_color(rt, cylinder.color, 0.0));
 	else
 		put_pixel(&rt->img, ray.x, ray.y, calculate_color(rt, cylinder.color,
-				max_num(0, dot_product(normal, light))));
+				dist_ratio_rt(rt, light) * max_num(0, dot_product(normal, norm_light))));
 }
 
 // The following equations are written with assuming that the cylinder center

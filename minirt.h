@@ -202,6 +202,7 @@ void		my_exit(t_rt *rt);
 void		perror_and_exit(char *input);
 void		free_strings(char **str);
 double		ft_atod(const char *str);
+int			ft_atoi_checker(char *str);
 
 t_vector	vectorize(double x, double y, double z);
 t_vector	parse_input_as_vector(char	**splitted_line);
@@ -264,5 +265,6 @@ int			cam_inside_or_not(t_rt *rt, t_cylinder cylinder);
 int			light_inside_or_not(t_rt *rt, t_cylinder cylinder);
 void		intersect_disk(t_rt *rt, t_disk disk, t_ray ray, double *t);
 void		intersect_cone(t_rt *rt, t_cone cone, t_ray ray, double *t);
+double		dist_ratio_rt(t_rt *rt, t_vector light);
 
 #endif
