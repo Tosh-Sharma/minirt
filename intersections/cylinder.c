@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:49:22 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/23 16:10:18 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/24 23:40:48 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	print_inside_tube(t_rt *rt, t_vector *vector, t_ray ray,
 	rt->light_inside = light_inside_or_not(rt, cylinder);
 	if (rt->light_inside)
 		put_pixel(&rt->img, ray.x, ray.y, calculate_color(rt, cylinder.color,
-					(1 / vec_magnitude(vector[1]))));
+				(1 / vec_magnitude(vector[1]))));
 	else
 	{
 		lambertian_reflection = 1 - dot_prod;
@@ -48,15 +48,16 @@ void	calculate_inside_tube_pixel_color(t_rt *rt, t_cylinder cylinder,
 	normal = normalize_vector(vec_subtract(normal, vec_add(ray.origin,
 					scalar_product(ray.direction, *t))));
 	light = vec_subtract(rt->light->origin,
-				vec_add(ray.origin, scalar_product(ray.direction, *t)));
+			vec_add(ray.origin, scalar_product(ray.direction, *t)));
 	norm_light = normalize_vector(vec_subtract(rt->light->origin,
-				vec_add(ray.origin, scalar_product(ray.direction, *t))));;
+				vec_add(ray.origin, scalar_product(ray.direction, *t))));
 	t_value = generate_shadow_ray(rt, ray, norm_light, t);
 	if (t_value >= 0.01)
 		put_pixel(&rt->img, ray.x, ray.y,
 			calculate_color(rt, cylinder.color, 0.0));
 	else
-		print_inside_tube(rt, (t_vector[3]){normal, light, norm_light}, ray, cylinder);
+		print_inside_tube(rt, (t_vector[3]){normal, light, norm_light},
+			ray, cylinder);
 }
 
 void	calculate_tube_pixel_color(t_rt *rt, t_cylinder cylinder, t_ray ray,
@@ -74,15 +75,16 @@ void	calculate_tube_pixel_color(t_rt *rt, t_cylinder cylinder, t_ray ray,
 	normal = normalize_vector(vec_subtract(vec_add(ray.origin, scalar_product(
 						ray.direction, *t)), normal));
 	light = vec_subtract(rt->light->origin,
-				vec_add(ray.origin, scalar_product(ray.direction, *t)));
+			vec_add(ray.origin, scalar_product(ray.direction, *t)));
 	norm_light = normalize_vector(light);
 	t_value = generate_shadow_ray(rt, ray, norm_light, t);
 	if (t_value >= 0.01)
 		put_pixel(&rt->img, ray.x, ray.y,
-				calculate_color(rt, cylinder.color, 0.0));
+			calculate_color(rt, cylinder.color, 0.0));
 	else
 		put_pixel(&rt->img, ray.x, ray.y, calculate_color(rt, cylinder.color,
-				dist_ratio_rt(rt, light) * max_num(0, dot_product(normal, norm_light))));
+				dist_ratio_rt(rt, light) * max_num(0,
+					dot_product(normal, norm_light))));
 }
 
 // The following equations are written with assuming that the cylinder center

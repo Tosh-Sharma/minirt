@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:11:12 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/12 10:42:39 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/24 23:35:56 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ void	double_checker(const char *str)
 {
 	int	i;
 	int	max;
-	int dot_flag;
+	int	dot_flag;
 	int	minus_flag;
-	
+
 	i = -1;
 	max = ft_strlen(str);
 	dot_flag = 0;
@@ -55,7 +55,7 @@ void	double_checker(const char *str)
 			else if (str[i] == 45)
 				minus_flag += 1;
 			if (dot_flag > 1 || minus_flag > 1)
-				perror_and_exit("wrong value");	
+				perror_and_exit("wrong value");
 		}
 		else
 			perror_and_exit("wrong value");

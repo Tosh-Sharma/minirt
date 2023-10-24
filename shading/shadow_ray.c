@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:03:36 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/23 16:05:26 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/24 23:33:59 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ double	iterate_shadow_over_objects_bis(t_rt *rt, t_ray ray, double *t)
 {
 	t_uint	i;
 	double	t_value;
-	
+
 	i = -1;
 	while (++i < rt->max_pl)
 	{

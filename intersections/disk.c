@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 14:27:36 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/23 16:06:22 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/24 23:33:44 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	calculate_disk_pixel_color(t_rt *rt, t_disk disk, t_ray ray,
 	double		t_value;
 
 	light = vec_subtract(rt->light->origin, vec_add(ray.origin,
-			scalar_product(ray.direction, *t)));
+				scalar_product(ray.direction, *t)));
 	norm_light = normalize_vector(light);
 	ray.normal = disk.normal;
 	if (!rt->light_inside && rt->cam_inside)
@@ -34,10 +34,11 @@ void	calculate_disk_pixel_color(t_rt *rt, t_disk disk, t_ray ray,
 	{
 		if (rt->cam_inside && rt->light_inside)
 			put_pixel(&rt->img, ray.x, ray.y, calculate_color(rt, disk.color,
-					(1/(vec_magnitude(light)))));// * max_num(0.0, dot_product(ray.normal, norm_light))));
+					(1 / (vec_magnitude(light)))));
 		else
 			put_pixel(&rt->img, ray.x, ray.y, calculate_color(rt, disk.color,
-				dist_ratio_rt(rt,light) * max_num(0.0, dot_product(ray.normal, norm_light))));	
+					dist_ratio_rt(rt, light) * max_num(0.0,
+						dot_product(ray.normal, norm_light))));
 	}	
 }
 
