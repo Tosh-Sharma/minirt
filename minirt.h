@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:55:38 by tsharma           #+#    #+#             */
-/*   Updated: 2023/10/18 18:32:59 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/23 16:25:03 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_camera
 	t_vector	origin;
 	t_vector	direction;
 	int			fov;
+	double		view;
 }				t_camera;
 
 typedef struct s_light
@@ -72,7 +73,6 @@ typedef struct s_ray
 	t_vector	direction;
 	int			x;
 	int			y;
-	int			flag;
 	t_vector	normal;
 }				t_ray;
 
@@ -163,6 +163,8 @@ typedef struct s_rt
 	t_uint		max_cy;
 	t_uint		max_pl;
 	t_uint		max_cone;
+	int			cam_inside;
+	int			light_inside;
 	int			file_fd;
 	char		**split_line;
 	t_image		img;
@@ -195,12 +197,13 @@ t_ambient	ambient_lightning(t_rt *rt);
 
 void		init_parse(t_rt *rt, char *file);
 
-int			exit_hook(t_image *img);
-int			key_hook(int keycode, t_image *img);
+int			exit_hook(t_rt *rt);
+int			key_hook(int keycode, t_rt *rt);
 void		my_exit(t_rt *rt);
 void		perror_and_exit(char *input);
 void		free_strings(char **str);
 double		ft_atod(const char *str);
+int			ft_atoi_checker(char *str);
 
 t_vector	vectorize(double x, double y, double z);
 t_vector	parse_input_as_vector(char	**splitted_line);
@@ -211,6 +214,13 @@ double		dot_product(t_vector v1, t_vector v2);
 t_vector	scalar_product(t_vector v1, double a);
 t_vector	normalize_vector(t_vector v);
 double		vec_magnitude(t_vector v);
+
+void		get_color_light(t_rt *rt, t_light *light);
+void		get_color_sphere(t_rt *rt, t_sphere *sphere);
+void		get_color_plane(t_rt *rt, t_plane *plane, char **split_normal);
+void		get_color_cylinder(t_rt *rt, t_cylinder *cylinder);
+
+
 
 void		print_vector(t_vector v, char *str);
 double		min_num(double a, double b);
@@ -223,6 +233,7 @@ int			add_two_colors(int c1[3], double a, int c2[3], double b);
 int			add_hex_colors(int c1, int c2);
 int			multiply_light(int pixel_point, int light[3]);
 int			multiply_hex_colors(int c1, int c2);
+int			c_c(t_rt *rt, int input_color[3], double lam_ref);
 
 void		ray_tracing(t_rt *rt);
 void		cast_rays(t_rt *rt);
@@ -231,14 +242,30 @@ void		set_up_vector_directions(t_rt *rt);
 void		put_pixel(t_image *data, int x, int y, int color);
 
 double		generate_shadow_ray(t_rt *rt, t_ray ray, t_vector light, double *t);
-double		vector_distance(t_vector light, t_ray ray, double *t);
+double		solve_shadow_for_t(t_cylinder cylinder, t_ray ray, t_quadratic *quad);
 
+double		intersect_shadow_cylinder(t_cylinder cylinder, t_ray ray, double *t);
+double		intersect_shadow_disk(t_disk disk, t_ray ray, double *t);
+double		handle_shadow_disks(t_cylinder cylinder, t_ray ray, double *t);
+double		solve_shadow_for_t(t_cylinder cylinder, t_ray ray, t_quadratic *quad);
+double		intersect_shadow_plane(t_plane plane, t_ray ray, double *t);
+double		intersect_shadow_sphere(t_sphere sphere, t_ray ray, double *t);
 
+void		handle_disks(t_rt *rt, t_cylinder cylinder, t_ray ray, double *t);
 void		intersect_sphere(t_rt *rt, t_sphere sphere, t_ray ray, double *t);
 void		intersect_plane(t_rt *rt, t_plane plane, t_ray ray, double *t);
 void		intersect_cylinder(t_rt *rt, t_cylinder cylinder, t_ray ray,
 				double *t);
+void		solve_for_t(t_rt *rt, t_cylinder cylinder, t_ray ray, t_quadratic *quad);
+double		check_for_m_in_range(t_quadratic *quad, t_cylinder cylinder, t_ray ray);
+void		calculate_tube_pixel_color(t_rt *rt, t_cylinder cylinder, t_ray ray,
+			double *t);
+void		calculate_inside_tube_pixel_color(t_rt *rt, t_cylinder cylinder, t_ray ray,
+			double *t);		
+int			cam_inside_or_not(t_rt *rt, t_cylinder cylinder);
+int			light_inside_or_not(t_rt *rt, t_cylinder cylinder);
 void		intersect_disk(t_rt *rt, t_disk disk, t_ray ray, double *t);
 void		intersect_cone(t_rt *rt, t_cone cone, t_ray ray, double *t);
+double		dist_ratio_rt(t_rt *rt, t_vector light);
 
 #endif

@@ -17,14 +17,14 @@ void	iterate_over_objects(t_rt *rt, t_ray ray, double *t)
 	t_uint	i;
 
 	i = -1;
+	while (++i < rt->max_cy)
+		intersect_cylinder(rt, rt->cylinder[i], ray, t);
+	i = -1;
 	while (++i < rt->max_sp)
 		intersect_sphere(rt, rt->sphere[i], ray, t);
 	i = -1;
 	while (++i < rt->max_pl)
 		intersect_plane(rt, rt->plane[i], ray, t);
-	i = -1;
-	while (++i < rt->max_cy)
-		intersect_cylinder(rt, rt->cylinder[i], ray, t);
 	if (*t == INFINITY)
 		put_pixel(&rt->img, ray.x, ray.y, array_to_int(rt->background.color,
 				rt->background.brightness));
@@ -43,7 +43,6 @@ t_ray	generate_ray(t_rt *rt, t_ray ray, double i, double j)
 				ray.direction, rt->camera.origin));
 	ray.x = i;
 	ray.y = j;
-	ray.flag = 0;
 	return (ray);
 }
 
@@ -81,7 +80,7 @@ void	ray_tracing(t_rt *rt)
 			&rt->img.line_length, &rt->img.endian);
 	cast_rays(rt);
 	mlx_put_image_to_window(rt->img.mlx, rt->img.mlx_win, rt->img.img, 0, 0);
-	mlx_key_hook(rt->img.mlx_win, &key_hook, &rt->img);
-	mlx_hook(rt->img.mlx_win, 17, 0, &exit_hook, &rt->img);
+	mlx_key_hook(rt->img.mlx_win, &key_hook, rt);
+	mlx_hook(rt->img.mlx_win, 17, 0, &exit_hook, rt);
 	mlx_loop(rt->img.mlx);
 }

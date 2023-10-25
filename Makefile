@@ -66,6 +66,7 @@ LIB_SRC = $(addprefix libft/, $(LIBFT_SRC_FILES))
 SRCS = 	main.c \
 		parser/parsing.c \
 		parser/parsing_objects.c \
+		parser/parsing_objects_utils.c \
 		parser/camera_and_lights.c \
 		vector/initialization.c \
 		vector/manipulation.c \
@@ -78,10 +79,12 @@ SRCS = 	main.c \
 		drawing/virtual_screen.c \
 		intersections/sphere.c \
 		intersections/cylinder.c \
+		intersections/cylinder_utils.c \
 		intersections/plane.c \
 		intersections/cone.c \
 		intersections/disk.c \
 		shading/shadow_ray.c \
+		shading/intersect_shadow_objects.c \
 		$(LIB_SRC)
 
 OBJS = ${SRCS:.c=.o}
