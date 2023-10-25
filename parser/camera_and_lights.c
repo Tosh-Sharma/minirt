@@ -38,7 +38,7 @@ t_ambient	ambient_lightning(t_rt *rt)
 	if (rt->split_line[3] != NULL)
 		perror_and_exit("Extra ambient lightning settings");
 	ambient.brightness = ft_atod(rt->split_line[1]);
-	if (ambient.brightness > 1.0 || ambient.brightness < 0.0)
+	if (ambient.brightness > 1.0 || ambient.brightness <= 0.0)
 		perror_and_exit("Unacceptable ambient brightness value");
 	split_color = ft_split(rt->split_line[2], ',');
 	if (split_color[3] != NULL)

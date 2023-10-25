@@ -67,7 +67,7 @@ int	add_two_colors(int c1[3], double a, int c2[3], double b)
 	return (result);
 }
 
-int	calculate_color(t_rt *rt, int input_color[3], double lam_ref)
+int	c_c(t_rt *rt, int input_color[3], double lam_ref)
 {
 	int		color;
 	double	test;

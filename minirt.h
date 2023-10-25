@@ -49,6 +49,7 @@ typedef struct s_camera
 	t_vector	origin;
 	t_vector	direction;
 	int			fov;
+	double		view;
 }				t_camera;
 
 typedef struct s_light
@@ -232,7 +233,7 @@ int			add_two_colors(int c1[3], double a, int c2[3], double b);
 int			add_hex_colors(int c1, int c2);
 int			multiply_light(int pixel_point, int light[3]);
 int			multiply_hex_colors(int c1, int c2);
-int			calculate_color(t_rt *rt, int input_color[3], double lam_ref);
+int			c_c(t_rt *rt, int input_color[3], double lam_ref);
 
 void		ray_tracing(t_rt *rt);
 void		cast_rays(t_rt *rt);

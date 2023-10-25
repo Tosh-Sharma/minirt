@@ -29,14 +29,14 @@ void	calculate_disk_pixel_color(t_rt *rt, t_disk disk, t_ray ray,
 		t_value = generate_shadow_ray(rt, ray, norm_light, t);
 	if (t_value >= 0.01)
 		put_pixel(&rt->img, ray.x, ray.y,
-			calculate_color(rt, disk.color, 0.0));
+			c_c(rt, disk.color, 0.0));
 	else
 	{
 		if (rt->cam_inside && rt->light_inside)
-			put_pixel(&rt->img, ray.x, ray.y, calculate_color(rt, disk.color,
+			put_pixel(&rt->img, ray.x, ray.y, c_c(rt, disk.color,
 					(1 / (vec_magnitude(light)))));
 		else
-			put_pixel(&rt->img, ray.x, ray.y, calculate_color(rt, disk.color,
+			put_pixel(&rt->img, ray.x, ray.y, c_c(rt, disk.color,
 					dist_ratio_rt(rt, light) * max_num(0.0,
 						dot_product(ray.normal, norm_light))));
 	}	
