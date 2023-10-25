@@ -220,8 +220,6 @@ void		get_color_sphere(t_rt *rt, t_sphere *sphere);
 void		get_color_plane(t_rt *rt, t_plane *plane, char **split_normal);
 void		get_color_cylinder(t_rt *rt, t_cylinder *cylinder);
 
-
-
 void		print_vector(t_vector v, char *str);
 double		min_num(double a, double b);
 double		max_num(double a, double b);
@@ -233,7 +231,7 @@ int			add_two_colors(int c1[3], double a, int c2[3], double b);
 int			add_hex_colors(int c1, int c2);
 int			multiply_light(int pixel_point, int light[3]);
 int			multiply_hex_colors(int c1, int c2);
-int			c_c(t_rt *rt, int input_color[3], double lam_ref);
+int			c_c(t_rt *rt, int input_color[3], double lam_ref, double specular_ref);
 
 void		ray_tracing(t_rt *rt);
 void		cast_rays(t_rt *rt);
@@ -267,5 +265,6 @@ int			light_inside_or_not(t_rt *rt, t_cylinder cylinder);
 void		intersect_disk(t_rt *rt, t_disk disk, t_ray ray, double *t);
 void		intersect_cone(t_rt *rt, t_cone cone, t_ray ray, double *t);
 double		dist_ratio_rt(t_rt *rt, t_vector light);
+double		get_specular_factor(t_rt *rt, t_vector normal, t_ray ray, double *t);
 
 #endif

@@ -26,11 +26,13 @@ void	calculate_plane_pixel_color(t_rt *rt, t_plane plane, t_ray ray,
 	t_value = generate_shadow_ray(rt, ray, norm_light, t);
 	if (t_value >= 0.01)
 		put_pixel(&rt->img, ray.x, ray.y,
-			c_c(rt, plane.color, 0.0));
+			c_c(rt, plane.color, 0.0, 0.0));
 	else
+	{
 		put_pixel(&rt->img, ray.x, ray.y, c_c(rt, plane.color,
 				dist_ratio_rt(rt, light) * max_num(0,
-					dot_product(plane.normal, norm_light))));
+					dot_product(plane.normal, norm_light)), dist_ratio_rt(rt, light) * get_specular_factor(rt, plane.normal, ray, t)));
+	}
 }
 
 void	intersect_plane(t_rt *rt, t_plane plane, t_ray ray, double *t)

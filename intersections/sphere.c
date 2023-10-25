@@ -16,44 +16,28 @@ void	calculate_inside_sphere_pixel_color(t_rt *rt, t_sphere sphere,
 		t_ray ray, double *t)
 {
 	t_vector	light;
+	t_vector	norm_light;
 	double		dot_prod;
 	double		lamb_f;
-	double		t_value;
 
-	light = normalize_vector(vec_subtract(rt->light->origin,
-				vec_add(ray.origin, scalar_product(ray.direction, *t))));
+	light = vec_subtract(rt->light->origin,
+				vec_add(ray.origin, scalar_product(ray.direction, *t)));
+	norm_light = normalize_vector(light);
 	ray.normal = normalize_vector(vec_subtract(sphere.center,
 				vec_add(ray.origin, scalar_product(ray.direction, *t))));
-	t_value = generate_shadow_ray(rt, ray, light, t);
-	if (t_value >= 0.01)
-		put_pixel(&rt->img, ray.x, ray.y,
-			calculate_color(rt, sphere.color, 0.0));
+	if (generate_shadow_ray(rt, ray, norm_light, t) >= 0.01)
+		put_pixel(&rt->img, ray.x, ray.y, c_c(rt, sphere.color, 0.0, 0.0));
 	else
 	{
-		dot_prod = max_num(0, dot_product(ray.normal, light));
+		dot_prod = max_num(0, dot_product(ray.normal, norm_light));
 		if (vec_magnitude(vec_subtract(rt->light->origin, sphere.center))
 			> sphere.diameter / 2)
 			lamb_f = 1 - dot_prod;
 		else
 			lamb_f = dot_prod;
 		put_pixel(&rt->img, ray.x, ray.y,
-			calculate_color(rt, sphere.color, lamb_f));
+			c_c(rt, sphere.color, dist_ratio_rt(rt, light) * lamb_f, dist_ratio_rt(rt, light) * get_specular_factor(rt, ray.normal, ray, t)));
 	}
-}
-
-double	dist_ratio_rt(t_rt *rt, t_vector light)
-{
-	double	distance;
-	double	factor;
-
-	factor = 1000.0 * rt->light->brightness;
-	distance = vec_magnitude(light);
-	if (distance < 0)
-		distance *= -1;
-	if (distance > (factor))
-		return (0.0);
-	else
-		return (1 - (distance / factor));
 }
 
 void	calculate_sphere_pixel_color(t_rt *rt, t_sphere sphere, t_ray ray,
@@ -73,11 +57,15 @@ void	calculate_sphere_pixel_color(t_rt *rt, t_sphere sphere, t_ray ray,
 	t_value = generate_shadow_ray(rt, ray, norm_light, t);
 	if (t_value >= 0.01)
 		put_pixel(&rt->img, ray.x, ray.y,
-			calculate_color(rt, sphere.color, 0.0));
+			c_c(rt, sphere.color, 0.0, 0.0));
 	else
-		put_pixel(&rt->img, ray.x, ray.y, calculate_color(rt, sphere.color,
-				dist_ratio_rt(rt, light)
-				* max_num(0, dot_product(normal, norm_light))));
+	{
+		// rt->camera.view = dist_ratio_rt(rt, light) * (max_num(0, dot_product(normal, norm_light)) + get_specular_factor(rt, normal, ray, t));
+		put_pixel(&rt->img, ray.x, ray.y, c_c(rt, sphere.color,
+				dist_ratio_rt(rt, light) * max_num(0, dot_product(normal,
+				norm_light)),  dist_ratio_rt(rt, light) *
+				get_specular_factor(rt, normal, ray, t)));
+	}
 }
 
 void	intersect_sphere_else(t_rt *rt, t_sphere sphere, t_ray ray,

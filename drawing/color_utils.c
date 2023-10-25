@@ -67,7 +67,7 @@ int	add_two_colors(int c1[3], double a, int c2[3], double b)
 	return (result);
 }
 
-int	c_c(t_rt *rt, int input_color[3], double lam_ref)
+int	c_c(t_rt *rt, int input_color[3], double lam_ref, double specular_ref)
 {
 	int		color;
 	double	test;
@@ -80,6 +80,8 @@ int	c_c(t_rt *rt, int input_color[3], double lam_ref)
 				rt->ambient->brightness));
 	color = add_hex_colors(color,
 			array_to_int(rt->light->color, lam_ref * rt->light->brightness));
+	color = add_hex_colors(color,
+			array_to_int(rt->light->color, specular_ref * rt->light->brightness));
 	return (color);
 }
 

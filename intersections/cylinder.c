@@ -24,12 +24,12 @@ void	print_inside_tube(t_rt *rt, t_vector *vector, t_ray ray,
 	rt->light_inside = light_inside_or_not(rt, cylinder);
 	if (rt->light_inside)
 		put_pixel(&rt->img, ray.x, ray.y, c_c(rt, cylinder.color,
-					dist_ratio_rt(rt, vector[1]) * dot_prod));
+					dist_ratio_rt(rt, vector[1]) * dot_prod, 0.0));
 	else
 	{
 		lambertian_reflection = 1 - dot_prod;
 		put_pixel(&rt->img, ray.x, ray.y, c_c(rt, cylinder.color,
-				dist_ratio_rt(rt, vector[1]) * lambertian_reflection));
+				dist_ratio_rt(rt, vector[1]) * lambertian_reflection, 0.0));
 	}
 }
 
@@ -54,7 +54,7 @@ void	calculate_inside_tube_pixel_color(t_rt *rt, t_cylinder cylinder,
 	t_value = generate_shadow_ray(rt, ray, norm_light, t);
 	if (t_value >= 0.01)
 		put_pixel(&rt->img, ray.x, ray.y,
-			c_c(rt, cylinder.color, 0.0));
+			c_c(rt, cylinder.color, 0.0, 0.0));
 	else
 		print_inside_tube(rt, (t_vector[3]){normal, light, norm_light},
 			ray, cylinder);
@@ -80,11 +80,14 @@ void	calculate_tube_pixel_color(t_rt *rt, t_cylinder cylinder, t_ray ray,
 	t_value = generate_shadow_ray(rt, ray, norm_light, t);
 	if (t_value >= 0.01)
 		put_pixel(&rt->img, ray.x, ray.y,
-			c_c(rt, cylinder.color, 0.0));
+			c_c(rt, cylinder.color, 0.0, 0.0));
 	else
+	{
 		put_pixel(&rt->img, ray.x, ray.y, c_c(rt, cylinder.color,
-				dist_ratio_rt(rt, light) * max_num(0,
-					dot_product(normal, norm_light))));
+				dist_ratio_rt(rt, light) * (max_num(0, dot_product(normal, 
+				norm_light))), dist_ratio_rt(rt, light) * 
+				get_specular_factor(rt, normal, ray, t)));
+	}
 }
 
 // The following equations are written with assuming that the cylinder center
