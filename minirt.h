@@ -215,6 +215,7 @@ t_vector	scalar_product(t_vector v1, double a);
 t_vector	normalize_vector(t_vector v);
 double		vec_magnitude(t_vector v);
 
+void		triplets_checker(char **triple);
 void		get_color_light(t_rt *rt, t_light *light);
 void		get_color_sphere(t_rt *rt, t_sphere *sphere);
 void		get_color_plane(t_rt *rt, t_plane *plane, char **split_normal);

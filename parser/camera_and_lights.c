@@ -12,6 +12,20 @@
 
 #include "../minirt.h"
 
+void	triplets_checker(char **triple)
+{
+	int	i;
+
+	i = 0;
+	while (triple[i])
+		i++;
+	if (i != 3)
+	{
+		free_strings(triple);
+		perror_and_exit("wrong set of values");
+	}
+}
+
 int	ft_atoi_checker(char *str)
 {
 	int	value;
@@ -41,8 +55,7 @@ t_ambient	ambient_lightning(t_rt *rt)
 	if (ambient.brightness > 1.0 || ambient.brightness <= 0.0)
 		perror_and_exit("Unacceptable ambient brightness value");
 	split_color = ft_split(rt->split_line[2], ',');
-	if (split_color[3] != NULL)
-		perror_and_exit("Unacceptable ambient color values");
+	triplets_checker(split_color);
 	i = -1;
 	while (split_color[++i])
 	{
@@ -63,13 +76,11 @@ void	camera(t_rt *rt)
 	if (rt->split_line[4] != NULL)
 		perror_and_exit("Extra camera settings");
 	split_origin = ft_split(rt->split_line[1], ',');
-	if (split_origin[3] != NULL)
-		perror_and_exit("Unacceptable camera position settings");
+	triplets_checker(split_origin);
 	rt->camera.origin = parse_input_as_vector(split_origin);
 	free_strings(split_origin);
 	split_direction = ft_split(rt->split_line[2], ',');
-	if (split_direction[3] != NULL)
-		perror_and_exit("Unacceptable camera orientation settings");
+	triplets_checker(split_direction);
 	rt->camera.direction = parse_input_as_vector(split_direction);
 	free_strings(split_direction);
 	if ((rt->camera.direction.x > 1.0 || rt->camera.direction.x < -1.0)

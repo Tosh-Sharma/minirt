@@ -20,11 +20,7 @@ t_light	light(t_rt *rt)
 	if (rt->split_line[4] != NULL)
 		perror_and_exit("Extra light settings");
 	split_origin = ft_split(rt->split_line[1], ',');
-	if (split_origin[3] != NULL)
-	{
-		free_strings(split_origin);
-		perror_and_exit("Unacceptable light coordinates settings");
-	}
+	triplets_checker(split_origin);
 	light.origin = parse_input_as_vector(split_origin);
 	free_strings(split_origin);
 	light.brightness = ft_atod(rt->split_line[2]);
@@ -45,11 +41,7 @@ t_sphere	sphere(t_rt *rt)
 	if (rt->split_line[4] != NULL)
 		perror_and_exit("Extra sphere settings");
 	split_center = ft_split(rt->split_line[1], ',');
-	if (split_center[3] != NULL)
-	{
-		free_strings(split_center);
-		perror_and_exit("Unacceptable sphere coordinates settings");
-	}
+	triplets_checker(split_center);
 	sphere.center = parse_input_as_vector(split_center);
 	free_strings(split_center);
 	sphere.diameter = ft_atod(rt->split_line[2]);
@@ -69,19 +61,11 @@ t_plane	plane(t_rt *rt)
 	if (rt->split_line[4] != NULL)
 		perror_and_exit("Extra plane settings");
 	split_center = ft_split(rt->split_line[1], ',');
-	if (split_center[3] != NULL)
-	{
-		free_strings(split_center);
-		perror_and_exit("Unacceptable plane coordinates settings");
-	}
+	triplets_checker(split_center);
 	pl.center = parse_input_as_vector(split_center);
 	free_strings(split_center);
 	split_normal = ft_split(rt->split_line[2], ',');
-	if (split_normal[3] != NULL)
-	{
-		free_strings(split_normal);
-		perror_and_exit("Unacceptable plane normal settings");
-	}
+	triplets_checker(split_normal);
 	get_color_plane(rt, &pl, split_normal);
 	++rt->ct_pl;
 	return (pl);
@@ -96,16 +80,11 @@ t_cylinder	cylinder(t_rt *rt)
 	if (rt->split_line[6] != NULL)
 		perror_and_exit("Extra cylinder settings");
 	split_center = ft_split(rt->split_line[1], ',');
-	if (split_center[3] != NULL)
-	{
-		free_strings(split_center);
-		perror_and_exit("Unacceptable cylinder coordinates settings");
-	}
+	triplets_checker(split_center);
 	cy.center = parse_input_as_vector(split_center);
 	free_strings(split_center);
 	split_normal = ft_split(rt->split_line[2], ',');
-	if (split_normal[3] != NULL)
-		perror_and_exit("Unacceptable cylinder normal settings");
+	triplets_checker(split_normal);
 	cy.normal = parse_input_as_vector(split_normal);
 	free_strings(split_normal);
 	if (cy.normal.x < -1.0 || cy.normal.x > 1.0 || cy.normal.y < -1.0
