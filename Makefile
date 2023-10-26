@@ -85,6 +85,7 @@ SRCS = 	main.c \
 		intersections/disk.c \
 		shading/shadow_ray.c \
 		shading/intersect_shadow_objects.c \
+		shading/intersect_shadow_cone.c \
 		$(LIB_SRC)
 
 OBJS = ${SRCS:.c=.o}

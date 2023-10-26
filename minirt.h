@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:55:38 by tsharma           #+#    #+#             */
-/*   Updated: 2023/10/26 13:41:33 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/26 15:11:10 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,6 +260,7 @@ double		solve_shadow_for_t(t_cylinder cylinder, t_ray ray,
 				t_quadratic *quad);
 double		intersect_shadow_plane(t_plane plane, t_ray ray, double *t);
 double		intersect_shadow_sphere(t_sphere sphere, t_ray ray, double *t);
+double		intersect_shadow_cone(t_cone cone, t_ray ray, double *t);
 
 void		handle_disks(t_rt *rt, t_cylinder cylinder, t_ray ray, double *t);
 void		intersect_sphere(t_rt *rt, t_sphere sphere, t_ray ray, double *t);
