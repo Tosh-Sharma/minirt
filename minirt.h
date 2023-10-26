@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:55:38 by tsharma           #+#    #+#             */
-/*   Updated: 2023/10/18 18:32:59 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/26 12:21:22 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,14 @@ typedef struct s_quadratic
 	double	*t;
 }		t_quadratic;
 
+typedef struct s_cone_solver
+{
+	t_vector	v;
+	t_vector	w;
+	t_vector	h;
+	double		m;
+}	t_cone_solver;
+
 /**	Function definitions	*/
 t_light		light(t_rt *rt);
 t_cylinder	cylinder(t_rt *rt);
@@ -223,6 +231,7 @@ int			add_two_colors(int c1[3], double a, int c2[3], double b);
 int			add_hex_colors(int c1, int c2);
 int			multiply_light(int pixel_point, int light[3]);
 int			multiply_hex_colors(int c1, int c2);
+int			calculate_color(t_rt *rt, int input_color[3], double lam_ref);
 
 void		ray_tracing(t_rt *rt);
 void		cast_rays(t_rt *rt);
@@ -239,6 +248,6 @@ void		intersect_plane(t_rt *rt, t_plane plane, t_ray ray, double *t);
 void		intersect_cylinder(t_rt *rt, t_cylinder cylinder, t_ray ray,
 				double *t);
 void		intersect_disk(t_rt *rt, t_disk disk, t_ray ray, double *t);
-void		intersect_cone(t_rt *rt, t_cone cone, t_ray ray, double *t);
+void		intersect_cone(t_rt *rt, t_cylinder cone, t_ray ray, double *t);
 
 #endif

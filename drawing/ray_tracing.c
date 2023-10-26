@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 13:28:49 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/18 16:26:56 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/26 12:35:41 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,12 @@ void	iterate_over_objects(t_rt *rt, t_ray ray, double *t)
 	i = -1;
 	while (++i < rt->max_pl)
 		intersect_plane(rt, rt->plane[i], ray, t);
+	// i = -1;
+	// while (++i < rt->max_cy)
+	// 	intersect_cylinder(rt, rt->cylinder[i], ray, t);
 	i = -1;
 	while (++i < rt->max_cy)
-		intersect_cylinder(rt, rt->cylinder[i], ray, t);
+		intersect_cone(rt, rt->cylinder[i], ray, t);
 	if (*t == INFINITY)
 		put_pixel(&rt->img, ray.x, ray.y, array_to_int(rt->background.color,
 				rt->background.brightness));
