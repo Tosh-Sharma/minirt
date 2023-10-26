@@ -61,11 +61,12 @@ void	calculate_cone_pixel_color(t_rt *rt, t_cone cone, t_ray ray,
 	t_value = generate_shadow_ray(rt, ray, norm_light, t);
 	if (t_value >= 0.01)
 		put_pixel(&rt->img, ray.x, ray.y,
-			c_c(rt, cone.color, 0.0));
+			c_c(rt, cone.color, 0.0, 0.0));
 	else
 		put_pixel(&rt->img, ray.x, ray.y, c_c(rt, cone.color,
 				dist_ratio_rt(rt, light) * max_num(0,
-					dot_product(normal, norm_light))));
+					dot_product(normal, norm_light)),
+					get_specular_factor(rt, normal, ray, t)));
 }
 
 void	solve_for_t_dist(t_rt *rt, t_cone cone, t_ray ray,

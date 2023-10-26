@@ -113,8 +113,7 @@ void	get_color_cone(t_rt *rt, t_cone *cone)
 	if (cone->height < 0.0)
 		perror_and_exit("Unacceptable cone height value");
 	split_color = ft_split(rt->split_line[5], ',');
-	if (split_color[3] != NULL)
-		perror_and_exit("Unacceptable cone color settings");
+	triplets_checker(split_color);
 	i = -1;
 	while (split_color[++i])
 	{

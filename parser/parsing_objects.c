@@ -104,16 +104,11 @@ t_cone	cone(t_rt *rt)
 	if (rt->split_line[6] != NULL)
 		perror_and_exit("Extra cone settings");
 	split_center = ft_split(rt->split_line[1], ',');
-	if (split_center[3] != NULL)
-	{
-		free_strings(split_center);
-		perror_and_exit("Unacceptable cone coordinates settings");
-	}
+	triplets_checker(split_center);
 	co.center = parse_input_as_vector(split_center);
 	free_strings(split_center);
 	split_normal = ft_split(rt->split_line[2], ',');
-	if (split_normal[3] != NULL)
-		perror_and_exit("Unacceptable cone normal settings");
+	triplets_checker(split_normal);
 	co.normal = parse_input_as_vector(split_normal);
 	free_strings(split_normal);
 	if (co.normal.x < -1.0 || co.normal.x > 1.0 || co.normal.y < -1.0
