@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:55:38 by tsharma           #+#    #+#             */
-/*   Updated: 2023/10/26 16:22:50 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/26 17:07:38 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ typedef struct s_disk
 	double		diameter;
 	int			color[3];
 }			t_disk;
-
 
 typedef struct s_cone
 {
@@ -241,7 +240,7 @@ int			add_two_colors(int c1[3], double a, int c2[3], double b);
 int			add_hex_colors(int c1, int c2);
 int			multiply_light(int pixel_point, int light[3]);
 int			multiply_hex_colors(int c1, int c2);
-int			c_c(t_rt *rt, int input_color[3], double lam_ref, double specular_ref);
+int			c_c(t_rt *rt, int input_color[3], double lam_ref, double spec);
 
 void		ray_tracing(t_rt *rt);
 void		cast_rays(t_rt *rt);
