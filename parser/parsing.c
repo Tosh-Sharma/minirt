@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 17:08:22 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/23 16:18:48 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/26 13:45:36 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ void	parser(t_rt *rt)
 		rt->plane[rt->ct_pl] = plane(rt);
 	else if (ft_strcmp(rt->split_line[0], "cy") == 0)
 		rt->cylinder[rt->ct_cy] = cylinder(rt);
-	// else if (ft_strcmp(rt->split_line[0], "co") == 0)
-	// 	rt->cone[rt->ct_co] = cone(rt);
+	else if (ft_strcmp(rt->split_line[0], "co") == 0)
+		rt->cone[rt->ct_co] = cone(rt);
 	else
 		perror_and_exit("Object identifier not recognisable");
 }

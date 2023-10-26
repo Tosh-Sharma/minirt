@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:03:36 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/24 23:33:59 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/26 15:13:27 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,13 @@ double	iterate_shadow_over_objects(t_rt *rt, t_ray ray, double *t)
 	while (++i < rt->max_sp)
 	{
 		t_value = intersect_shadow_sphere(rt->sphere[i], ray, t);
+		if (t_value >= 0.01)
+			return (t_value);
+	}
+	i = -1;
+	while (++i < rt->max_cone)
+	{
+		t_value = intersect_shadow_cone(rt->cone[i], ray, t);
 		if (t_value >= 0.01)
 			return (t_value);
 	}
