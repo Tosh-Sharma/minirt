@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 17:09:10 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/09/09 15:36:38 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/23 16:15:52 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,12 @@
 
 void	my_exit(t_rt *rt)
 {
-	free(rt);
+	free(rt->ambient);
+	free(rt->light);
+	free(rt->sphere);
+	free(rt->plane);
+	free(rt->cylinder);
+	free(rt->cone);
 	exit(0);
 }
 
@@ -35,34 +40,11 @@ void	free_strings(char **str)
 	str = NULL;
 }
 
-double	ft_atod(const char *str)
-{
-	double	res;
-	double	res2;
-	char	*c;
-	int		len;
-
-	c = (char *)str;
-	res = (double)ft_atoi(c);
-	while (*c && *c != '.')
-		c++;
-	if (*c == '.')
-		c++;
-	res2 = (double)ft_atoi(c);
-	len = ft_strlen(c);
-	while (len--)
-		res2 /= 10;
-	if (res >= 0)
-		return ((double)(res + res2));
-	else
-		return ((double)(res - res2));
-}
-
 void	copy_colors(int *color_src, int *color_dest)
 {
 	int	i;
 
 	i = -1;
 	while (++i < 3)
-		color_src[i] = color_dest[i];
+		color_dest[i] = color_src[i];
 }

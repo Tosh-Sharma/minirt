@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 10:38:41 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/23 17:45:06 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/24 23:35:25 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,17 @@ int	add_two_colors(int c1[3], double a, int c2[3], double b)
 	return (result);
 }
 
-int	calculate_color(t_rt *rt, int input_color[3], double lam_ref)
+int	c_c(t_rt *rt, int input_color[3], double lam_ref)
 {
-	int	color;
+	int		color;
+	double	test;
+	double	max;
 
-	color = add_hex_colors(array_to_int(input_color, 1.0),
-			array_to_int(rt->ambient->color, rt->ambient->brightness));
+	max = 255.0 * 255.0 * 255.0;
+	test = (double)(input_color[0] * input_color[1] * input_color[2]);
+	color = add_hex_colors(array_to_int(input_color, (1.0 - (test / max))
+				* lam_ref), array_to_int(rt->ambient->color,
+				rt->ambient->brightness));
 	color = add_hex_colors(color,
 			array_to_int(rt->light->color, lam_ref * rt->light->brightness));
 	return (color);
