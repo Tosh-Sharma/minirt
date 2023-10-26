@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 17:41:54 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/23 16:25:11 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/26 13:41:04 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,10 +116,31 @@ t_cylinder	cylinder(t_rt *rt)
 	return (cy);
 }
 
-// TODO: Do the required parsing for a Cone.
-// t_cone	cone(t_rt *rt)
-// {
-// 	t_cone	cone;
+t_cone	cone(t_rt *rt)
+{
+	t_cone	co;
+	char	**split_center;
+	char	**split_normal;
 
-// 	return (cone);
-// }
+	if (rt->split_line[6] != NULL)
+		perror_and_exit("Extra cone settings");
+	split_center = ft_split(rt->split_line[1], ',');
+	if (split_center[3] != NULL)
+	{
+		free_strings(split_center);
+		perror_and_exit("Unacceptable cone coordinates settings");
+	}
+	co.center = parse_input_as_vector(split_center);
+	free_strings(split_center);
+	split_normal = ft_split(rt->split_line[2], ',');
+	if (split_normal[3] != NULL)
+		perror_and_exit("Unacceptable cone normal settings");
+	co.normal = parse_input_as_vector(split_normal);
+	free_strings(split_normal);
+	if (co.normal.x < -1.0 || co.normal.x > 1.0 || co.normal.y < -1.0
+		|| co.normal.y > 1.0 || co.normal.z < -1.0 || co.normal.z > 1.0)
+		perror_and_exit("Unacceptable cone normal values");
+	get_color_cone(rt, &co);
+	++rt->ct_co;
+	return (co);
+}

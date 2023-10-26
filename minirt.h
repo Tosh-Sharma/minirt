@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:55:38 by tsharma           #+#    #+#             */
-/*   Updated: 2023/10/26 12:43:13 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/26 13:41:33 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,8 +227,7 @@ void		get_color_light(t_rt *rt, t_light *light);
 void		get_color_sphere(t_rt *rt, t_sphere *sphere);
 void		get_color_plane(t_rt *rt, t_plane *plane, char **split_normal);
 void		get_color_cylinder(t_rt *rt, t_cylinder *cylinder);
-
-
+void		get_color_cone(t_rt *rt, t_cone *co);
 
 void		print_vector(t_vector v, char *str);
 double		min_num(double a, double b);
@@ -278,7 +277,7 @@ void		calculate_inside_tube_pixel_color(t_rt *rt, t_cylinder cylinder,
 int			cam_inside_or_not(t_rt *rt, t_cylinder cylinder);
 int			light_inside_or_not(t_rt *rt, t_cylinder cylinder);
 void		intersect_disk(t_rt *rt, t_disk disk, t_ray ray, double *t);
-void		intersect_cone(t_rt *rt, t_cylinder cone, t_ray ray, double *t);
+void		intersect_cone(t_rt *rt, t_cone cone, t_ray ray, double *t);
 double		dist_ratio_rt(t_rt *rt, t_vector light);
 
 #endif

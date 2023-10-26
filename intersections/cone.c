@@ -6,13 +6,13 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:49:12 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/26 12:33:47 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/26 13:35:37 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minirt.h"
 
-double	check_for_m__in_range(t_quadratic *quad, t_cylinder cone, t_ray ray)
+double	check_for_m__in_range(t_quadratic *quad, t_cone cone, t_ray ray)
 {
 	double	m1;
 	double	m2;
@@ -30,23 +30,34 @@ double	check_for_m__in_range(t_quadratic *quad, t_cylinder cone, t_ray ray)
 	return (min_num(quad->t1, quad->t2));
 }
 
-void	calculate_cone_pixel_color(t_rt *rt, t_cylinder cone, t_ray ray,
+void	calculate_cone_pixel_color(t_rt *rt, t_cone cone, t_ray ray,
 		double *t)
 {
 	t_vector	light;
+	t_vector	norm_light;
 	t_vector	normal;
-	double		lambertian_reflection;
+	double		t_value;
+	double		calcul;
 
-	normal = normalize_vector(vec_subtract(vec_add(ray.origin,
-					scalar_product(ray.direction, *t)), cone.center));
-	light = normalize_vector(vec_subtract(rt->light->origin,
-				vec_add(ray.origin, scalar_product(ray.direction, *t))));
-	lambertian_reflection = max_num(0, dot_product(light, normal) * -1);
-	put_pixel(&rt->img, ray.x, ray.y, array_to_int(cone.color,
-			lambertian_reflection));
+	calcul = dot_product(vec_subtract(vec_add(ray.origin, scalar_product(
+						ray.direction, *t)), cone.center), cone.normal);
+	normal = vec_add(cone.center, scalar_product(cone.normal, calcul));
+	normal = normalize_vector(vec_subtract(vec_add(ray.origin, scalar_product(
+						ray.direction, *t)), normal));
+	light = vec_subtract(rt->light->origin,
+			vec_add(ray.origin, scalar_product(ray.direction, *t)));
+	norm_light = normalize_vector(light);
+	t_value = generate_shadow_ray(rt, ray, norm_light, t);
+	if (t_value >= 0.01)
+		put_pixel(&rt->img, ray.x, ray.y,
+			c_c(rt, cone.color, 0.0));
+	else
+		put_pixel(&rt->img, ray.x, ray.y, c_c(rt, cone.color,
+				dist_ratio_rt(rt, light) * max_num(0,
+					dot_product(normal, norm_light))));
 }
 
-void	solve_for_t_dist(t_rt *rt, t_cylinder cone, t_ray ray,
+void	solve_for_t_dist(t_rt *rt, t_cone cone, t_ray ray,
 	t_quadratic *quad)
 {
 	double	result;
@@ -62,7 +73,7 @@ void	solve_for_t_dist(t_rt *rt, t_cylinder cone, t_ray ray,
 	}
 }
 
-void	intersect_cone(t_rt *rt, t_cylinder cone, t_ray ray, double *t)
+void	intersect_cone(t_rt *rt, t_cone cone, t_ray ray, double *t)
 {
 	t_quadratic		quad;
 	t_cone_solver	s;

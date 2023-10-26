@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:49:28 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/24 23:39:11 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/26 12:59:40 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	calculate_inside_sphere_pixel_color(t_rt *rt, t_sphere sphere,
 	t_value = generate_shadow_ray(rt, ray, light, t);
 	if (t_value >= 0.01)
 		put_pixel(&rt->img, ray.x, ray.y,
-			calculate_color(rt, sphere.color, 0.0));
+			c_c(rt, sphere.color, 0.0));
 	else
 	{
 		dot_prod = max_num(0, dot_product(ray.normal, light));
@@ -37,7 +37,7 @@ void	calculate_inside_sphere_pixel_color(t_rt *rt, t_sphere sphere,
 		else
 			lamb_f = dot_prod;
 		put_pixel(&rt->img, ray.x, ray.y,
-			calculate_color(rt, sphere.color, lamb_f));
+			c_c(rt, sphere.color, lamb_f));
 	}
 }
 
@@ -73,9 +73,9 @@ void	calculate_sphere_pixel_color(t_rt *rt, t_sphere sphere, t_ray ray,
 	t_value = generate_shadow_ray(rt, ray, norm_light, t);
 	if (t_value >= 0.01)
 		put_pixel(&rt->img, ray.x, ray.y,
-			calculate_color(rt, sphere.color, 0.0));
+			c_c(rt, sphere.color, 0.0));
 	else
-		put_pixel(&rt->img, ray.x, ray.y, calculate_color(rt, sphere.color,
+		put_pixel(&rt->img, ray.x, ray.y, c_c(rt, sphere.color,
 				dist_ratio_rt(rt, light)
 				* max_num(0, dot_product(normal, norm_light))));
 }

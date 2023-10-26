@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 13:28:49 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/26 12:43:38 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/26 13:47:41 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,13 @@ void	iterate_over_objects(t_rt *rt, t_ray ray, double *t)
 	i = -1;
 	while (++i < rt->max_pl)
 		intersect_plane(rt, rt->plane[i], ray, t);
-	// i = -1;
-	// while (++i < rt->max_cy)
-	// 	intersect_cylinder(rt, rt->cylinder[i], ray, t);
 	i = -1;
-	while (++i < rt->max_cy)
-		intersect_cone(rt, rt->cylinder[i], ray, t);
+	while (++i < rt->max_cone)
+		intersect_cone(rt, rt->cone[i], ray, t);
 	if (*t == INFINITY)
 		put_pixel(&rt->img, ray.x, ray.y, array_to_int(rt->background.color,
 				rt->background.brightness));
 }
-// TODO: Add below cone logic above when all others are working correctly.
-// i = -1;
-// while (++i < rt->max_cone)
-// 	intersect_cone(rt->cone[i], ray, t);
 
 t_ray	generate_ray(t_rt *rt, t_ray ray, double i, double j)
 {
