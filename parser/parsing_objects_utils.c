@@ -18,11 +18,7 @@ void	get_color_light(t_rt *rt, t_light *light)
 	char	**split_color;
 
 	split_color = ft_split(rt->split_line[3], ',');
-	if (split_color[3] != NULL)
-	{
-		free_strings(split_color);
-		perror_and_exit("Unacceptable light color settings");
-	}
+	triplets_checker(split_color);
 	i = -1;
 	while (split_color[++i])
 	{
@@ -42,11 +38,7 @@ void	get_color_sphere(t_rt *rt, t_sphere *sphere)
 	char	**split_color;
 
 	split_color = ft_split(rt->split_line[3], ',');
-	if (split_color[3] != NULL)
-	{
-		free_strings(split_color);
-		perror_and_exit("Unacceptable sphere coordinates settings");
-	}
+	triplets_checker(split_color);
 	i = -1;
 	while (split_color[++i])
 	{
@@ -72,8 +64,7 @@ void	get_color_plane(t_rt *rt, t_plane *plane, char **split_normal)
 		|| plane->normal.z < -1.0 || plane->normal.z > 1.0)
 		perror_and_exit("Unacceptable plane normal values");
 	split_color = ft_split(rt->split_line[3], ',');
-	if (split_color[3] != NULL)
-		perror_and_exit("Unacceptable plane color settings");
+	triplets_checker(split_color);
 	i = -1;
 	while (split_color[++i])
 	{
@@ -96,8 +87,7 @@ void	get_color_cylinder(t_rt *rt, t_cylinder *cylinder)
 	if (cylinder->height < 0.0)
 		perror_and_exit("Unacceptable cylinder height value");
 	split_color = ft_split(rt->split_line[5], ',');
-	if (split_color[3] != NULL)
-		perror_and_exit("Unacceptable cylinder color settings");
+	triplets_checker(split_color);
 	i = -1;
 	while (split_color[++i])
 	{
@@ -123,8 +113,7 @@ void	get_color_cone(t_rt *rt, t_cone *cone)
 	if (cone->height < 0.0)
 		perror_and_exit("Unacceptable cone height value");
 	split_color = ft_split(rt->split_line[5], ',');
-	if (split_color[3] != NULL)
-		perror_and_exit("Unacceptable cone color settings");
+	triplets_checker(split_color);
 	i = -1;
 	while (split_color[++i])
 	{

@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:01:52 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/23 16:19:27 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/26 16:22:36 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ double	intersect_shadow_plane(t_plane plane, t_ray ray, double *t)
 	double	denominator;
 	double	result;
 
-	denominator = dot_product(ray.direction, plane.normal);
+	denominator = dot(ray.direction, plane.normal);
 	if (denominator == 0)
 		return (0.0);
 	else
 	{
-		result = dot_product(vec_subtract(plane.center, ray.origin),
+		result = dot(vec_subtract(plane.center, ray.origin),
 				plane.normal) / denominator;
 		if (result < 0)
 			return (0.0);
@@ -42,9 +42,9 @@ double	intersect_shadow_sphere(t_sphere sphere, t_ray ray, double *t)
 	double	new_t;
 
 	a = 1;
-	b = 2 * dot_product(ray.direction, vec_subtract(ray.origin,
+	b = 2 * dot(ray.direction, vec_subtract(ray.origin,
 				sphere.center));
-	c = dot_product(vec_subtract(ray.origin, sphere.center),
+	c = dot(vec_subtract(ray.origin, sphere.center),
 			vec_subtract(ray.origin, sphere.center))
 		- (powf(sphere.diameter / 2, 2));
 	discriminant = (b * b) - (4 * a * c);
@@ -68,16 +68,16 @@ double	intersect_shadow_disk(t_disk disk, t_ray ray, double *t)
 	double		d_square;
 	t_vector	point;
 
-	denominator = dot_product(ray.direction, disk.normal);
+	denominator = dot(ray.direction, disk.normal);
 	if (denominator == 0)
 		return (0.0);
 	else
 	{
-		result = dot_product(vec_subtract(disk.center, ray.origin),
+		result = dot(vec_subtract(disk.center, ray.origin),
 				disk.normal) / denominator;
 		point = vec_subtract(vec_add(ray.origin,
 					scalar_product(ray.direction, result)), disk.center);
-		d_square = dot_product(point, point);
+		d_square = dot(point, point);
 		if (d_square <= pow((disk.diameter / 2), 2)
 			&& (result < *t && result > 0))
 			return (result);
@@ -107,16 +107,16 @@ double	intersect_shadow_cylinder(t_cylinder cylinder, t_ray ray, double *t)
 	disk_t_value = handle_shadow_disks(cylinder, ray, t);
 	if (disk_t_value > 0.0)
 		return (disk_t_value);
-	quad.a = dot_product(ray.direction, ray.direction)
-		- pow(dot_product(ray.direction, cylinder.normal), 2);
-	quad.b = 2 * (dot_product(ray.direction, vec_subtract(ray.origin,
+	quad.a = dot(ray.direction, ray.direction)
+		- pow(dot(ray.direction, cylinder.normal), 2);
+	quad.b = 2 * (dot(ray.direction, vec_subtract(ray.origin,
 					cylinder.center))
-			- (dot_product(ray.direction, cylinder.normal)
-				* dot_product(vec_subtract(ray.origin, cylinder.center),
+			- (dot(ray.direction, cylinder.normal)
+				* dot(vec_subtract(ray.origin, cylinder.center),
 					cylinder.normal)));
-	quad.c = dot_product(vec_subtract(ray.origin, cylinder.center),
+	quad.c = dot(vec_subtract(ray.origin, cylinder.center),
 			vec_subtract(ray.origin, cylinder.center))
-		- pow(dot_product(vec_subtract(ray.origin, cylinder.center),
+		- pow(dot(vec_subtract(ray.origin, cylinder.center),
 				cylinder.normal), 2)
 		- pow(cylinder.diameter / 2, 2);
 	quad.determinant = pow(quad.b, 2) - (4 * quad.a * quad.c);

@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/09 14:27:36 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/24 23:33:44 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/26 16:23:19 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,16 @@ void	calculate_disk_pixel_color(t_rt *rt, t_disk disk, t_ray ray,
 		t_value = generate_shadow_ray(rt, ray, norm_light, t);
 	if (t_value >= 0.01)
 		put_pixel(&rt->img, ray.x, ray.y,
-			c_c(rt, disk.color, 0.0));
+			c_c(rt, disk.color, 0.0, 0.0));
 	else
 	{
 		if (rt->cam_inside && rt->light_inside)
 			put_pixel(&rt->img, ray.x, ray.y, c_c(rt, disk.color,
-					(1 / (vec_magnitude(light)))));
+					(1 / (vec_magnitude(light))), 0.0));
 		else
-			put_pixel(&rt->img, ray.x, ray.y, c_c(rt, disk.color,
-					dist_ratio_rt(rt, light) * max_num(0.0,
-						dot_product(ray.normal, norm_light))));
+			put_pixel(&rt->img, ray.x, ray.y, c_c(rt, disk.color, dist(rt,
+						light) * max_num(0.0, dot(ray.normal, norm_light)),
+					dist(rt, light) * spec(rt, ray.normal, ray, t)));
 	}	
 }
 
@@ -49,16 +49,16 @@ void	intersect_disk(t_rt *rt, t_disk disk, t_ray ray, double *t)
 	double		d_square;
 	t_vector	point;
 
-	denominator = dot_product(ray.direction, disk.normal);
+	denominator = dot(ray.direction, disk.normal);
 	if (denominator == 0.0)
 		return ;
 	else
 	{
-		result = dot_product(vec_subtract(disk.center, ray.origin),
+		result = dot(vec_subtract(disk.center, ray.origin),
 				disk.normal) / denominator;
 		point = vec_subtract(vec_add(ray.origin,
 					scalar_product(ray.direction, result)), disk.center);
-		d_square = dot_product(point, point);
+		d_square = dot(point, point);
 		if (d_square <= pow((disk.diameter / 2), 2)
 			&& (result < *t && result > 0))
 		{

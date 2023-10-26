@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 14:47:34 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/18 18:33:29 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/26 16:22:36 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ t_vector	set_up_guide_vector(t_rt *rt)
 	t_vector	dir;
 
 	dir = vectorize(0, 1, 0);
-	if (dot_product(dir, rt->camera.direction) == 0.0)
+	if (dot(dir, rt->camera.direction) == 0.0)
 		return (dir);
-	if (dot_product(dir, rt->camera.direction) == 1.0)
+	if (dot(dir, rt->camera.direction) == 1.0)
 		dir = vectorize(0, 0, 1);
-	else if (dot_product(dir, rt->camera.direction) == -1.0)
+	else if (dot(dir, rt->camera.direction) == -1.0)
 		dir = vectorize(0, 0, -1);
 	return (dir);
 }

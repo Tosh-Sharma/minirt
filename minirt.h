@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:55:38 by tsharma           #+#    #+#             */
-/*   Updated: 2023/10/26 15:11:10 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/26 17:07:38 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ typedef struct s_disk
 	double		diameter;
 	int			color[3];
 }			t_disk;
-
 
 typedef struct s_cone
 {
@@ -218,11 +217,12 @@ t_vector	parse_input_as_vector(char	**splitted_line);
 t_vector	vec_add(t_vector v1, t_vector v2);
 t_vector	vec_subtract(t_vector v1, t_vector v2);
 t_vector	cross_product(t_vector v1, t_vector v2);
-double		dot_product(t_vector v1, t_vector v2);
+double		dot(t_vector v1, t_vector v2);
 t_vector	scalar_product(t_vector v1, double a);
 t_vector	normalize_vector(t_vector v);
 double		vec_magnitude(t_vector v);
 
+void		triplets_checker(char **triple);
 void		get_color_light(t_rt *rt, t_light *light);
 void		get_color_sphere(t_rt *rt, t_sphere *sphere);
 void		get_color_plane(t_rt *rt, t_plane *plane, char **split_normal);
@@ -240,7 +240,7 @@ int			add_two_colors(int c1[3], double a, int c2[3], double b);
 int			add_hex_colors(int c1, int c2);
 int			multiply_light(int pixel_point, int light[3]);
 int			multiply_hex_colors(int c1, int c2);
-int			c_c(t_rt *rt, int input_color[3], double lam_ref);
+int			c_c(t_rt *rt, int input_color[3], double lam_ref, double spec);
 
 void		ray_tracing(t_rt *rt);
 void		cast_rays(t_rt *rt);
@@ -279,6 +279,7 @@ int			cam_inside_or_not(t_rt *rt, t_cylinder cylinder);
 int			light_inside_or_not(t_rt *rt, t_cylinder cylinder);
 void		intersect_disk(t_rt *rt, t_disk disk, t_ray ray, double *t);
 void		intersect_cone(t_rt *rt, t_cone cone, t_ray ray, double *t);
-double		dist_ratio_rt(t_rt *rt, t_vector light);
+double		dist(t_rt *rt, t_vector light);
+double		spec(t_rt *rt, t_vector normal, t_ray ray, double *t);
 
 #endif
