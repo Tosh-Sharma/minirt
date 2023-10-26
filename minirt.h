@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:55:38 by tsharma           #+#    #+#             */
-/*   Updated: 2023/10/26 15:11:10 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/26 16:22:50 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,7 +218,7 @@ t_vector	parse_input_as_vector(char	**splitted_line);
 t_vector	vec_add(t_vector v1, t_vector v2);
 t_vector	vec_subtract(t_vector v1, t_vector v2);
 t_vector	cross_product(t_vector v1, t_vector v2);
-double		dot_product(t_vector v1, t_vector v2);
+double		dot(t_vector v1, t_vector v2);
 t_vector	scalar_product(t_vector v1, double a);
 t_vector	normalize_vector(t_vector v);
 double		vec_magnitude(t_vector v);
@@ -280,7 +280,7 @@ int			cam_inside_or_not(t_rt *rt, t_cylinder cylinder);
 int			light_inside_or_not(t_rt *rt, t_cylinder cylinder);
 void		intersect_disk(t_rt *rt, t_disk disk, t_ray ray, double *t);
 void		intersect_cone(t_rt *rt, t_cone cone, t_ray ray, double *t);
-double		dist_ratio_rt(t_rt *rt, t_vector light);
-double		get_specular_factor(t_rt *rt, t_vector normal, t_ray ray, double *t);
+double		dist(t_rt *rt, t_vector light);
+double		spec(t_rt *rt, t_vector normal, t_ray ray, double *t);
 
 #endif

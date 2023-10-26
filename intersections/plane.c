@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:49:25 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/24 23:34:25 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/26 16:22:50 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@ void	calculate_plane_pixel_color(t_rt *rt, t_plane plane, t_ray ray,
 	else
 	{
 		put_pixel(&rt->img, ray.x, ray.y, c_c(rt, plane.color,
-				dist_ratio_rt(rt, light) * max_num(0,
-					dot_product(plane.normal, norm_light)), dist_ratio_rt(rt, light) * get_specular_factor(rt, plane.normal, ray, t)));
+				dist(rt, light) * max_num(0,
+					dot(plane.normal, norm_light)),
+				dist(rt, light) * spec(rt, plane.normal, ray, t)));
 	}
 }
 
@@ -40,12 +41,12 @@ void	intersect_plane(t_rt *rt, t_plane plane, t_ray ray, double *t)
 	double	denominator;
 	double	result;
 
-	denominator = dot_product(ray.direction, plane.normal);
+	denominator = dot(ray.direction, plane.normal);
 	if (denominator == 0)
 		return ;
 	else
 	{
-		result = dot_product(vec_subtract(plane.center, ray.origin),
+		result = dot(vec_subtract(plane.center, ray.origin),
 				plane.normal) / denominator;
 		if (result < 0)
 			return ;

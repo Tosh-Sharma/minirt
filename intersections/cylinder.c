@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:49:22 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/24 23:40:48 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/26 16:25:56 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,18 @@ void	print_inside_tube(t_rt *rt, t_vector *vector, t_ray ray,
 	double		lambertian_reflection;
 	double		dot_prod;
 
-	dot_prod = dot_product(vector[0], vector[2]);
+	dot_prod = dot(vector[0], vector[2]);
 	if (dot_prod < 0.0)
 		dot_prod = 0;
 	rt->light_inside = light_inside_or_not(rt, cylinder);
 	if (rt->light_inside)
 		put_pixel(&rt->img, ray.x, ray.y, c_c(rt, cylinder.color,
-					dist_ratio_rt(rt, vector[1]) * dot_prod, 0.0));
+				dist(rt, vector[1]) * dot_prod, 0.0));
 	else
 	{
 		lambertian_reflection = 1 - dot_prod;
 		put_pixel(&rt->img, ray.x, ray.y, c_c(rt, cylinder.color,
-				dist_ratio_rt(rt, vector[1]) * lambertian_reflection, 0.0));
+				dist(rt, vector[1]) * lambertian_reflection, 0.0));
 	}
 }
 
@@ -42,7 +42,7 @@ void	calculate_inside_tube_pixel_color(t_rt *rt, t_cylinder cylinder,
 	double		t_value;
 	double		calcul;
 
-	calcul = dot_product(vec_subtract(vec_add(ray.origin, scalar_product(
+	calcul = dot(vec_subtract(vec_add(ray.origin, scalar_product(
 						ray.direction, *t)), cylinder.center), cylinder.normal);
 	normal = vec_add(cylinder.center, scalar_product(cylinder.normal, calcul));
 	normal = normalize_vector(vec_subtract(normal, vec_add(ray.origin,
@@ -69,7 +69,7 @@ void	calculate_tube_pixel_color(t_rt *rt, t_cylinder cylinder, t_ray ray,
 	double		t_value;
 	double		calcul;
 
-	calcul = dot_product(vec_subtract(vec_add(ray.origin, scalar_product(
+	calcul = dot(vec_subtract(vec_add(ray.origin, scalar_product(
 						ray.direction, *t)), cylinder.center), cylinder.normal);
 	normal = vec_add(cylinder.center, scalar_product(cylinder.normal, calcul));
 	normal = normalize_vector(vec_subtract(vec_add(ray.origin, scalar_product(
@@ -84,9 +84,8 @@ void	calculate_tube_pixel_color(t_rt *rt, t_cylinder cylinder, t_ray ray,
 	else
 	{
 		put_pixel(&rt->img, ray.x, ray.y, c_c(rt, cylinder.color,
-				dist_ratio_rt(rt, light) * (max_num(0, dot_product(normal, 
-				norm_light))), dist_ratio_rt(rt, light) * 
-				get_specular_factor(rt, normal, ray, t)));
+				dist(rt, light) * (max_num(0, dot(normal, norm_light))),
+				dist(rt, light) * spec(rt, normal, ray, t)));
 	}
 }
 
@@ -98,16 +97,16 @@ void	intersect_cylinder(t_rt *rt, t_cylinder cylinder, t_ray ray, double *t)
 	t_quadratic	quad;
 
 	handle_disks(rt, cylinder, ray, t);
-	quad.a = dot_product(ray.direction, ray.direction)
-		- pow(dot_product(ray.direction, cylinder.normal), 2);
-	quad.b = 2 * (dot_product(ray.direction, vec_subtract(ray.origin,
+	quad.a = dot(ray.direction, ray.direction)
+		- pow(dot(ray.direction, cylinder.normal), 2);
+	quad.b = 2 * (dot(ray.direction, vec_subtract(ray.origin,
 					cylinder.center))
-			- (dot_product(ray.direction, cylinder.normal)
-				* dot_product(vec_subtract(ray.origin, cylinder.center),
+			- (dot(ray.direction, cylinder.normal)
+				* dot(vec_subtract(ray.origin, cylinder.center),
 					cylinder.normal)));
-	quad.c = dot_product(vec_subtract(ray.origin, cylinder.center),
+	quad.c = dot(vec_subtract(ray.origin, cylinder.center),
 			vec_subtract(ray.origin, cylinder.center))
-		- pow(dot_product(vec_subtract(ray.origin, cylinder.center),
+		- pow(dot(vec_subtract(ray.origin, cylinder.center),
 				cylinder.normal), 2)
 		- pow(cylinder.diameter / 2, 2);
 	quad.determinant = pow(quad.b, 2) - (4 * quad.a * quad.c);

@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 17:25:07 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/09/03 18:42:51 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/26 16:22:36 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ t_vector	normalize_vector(t_vector v)
 {
 	double		denominator;
 
-	denominator = sqrt(dot_product(v, v));
+	denominator = sqrt(dot(v, v));
 	return (vectorize(v.x / denominator,
 			v.y / denominator, v.z / denominator));
 }
