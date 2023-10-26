@@ -6,11 +6,22 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/16 16:49:12 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/26 13:35:37 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/26 14:08:19 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minirt.h"
+
+void	handle_bottom_disk(t_rt *rt, t_cone cone, t_ray ray, double *t)
+{
+	t_disk		bottom_disk;
+
+	bottom_disk.center = scalar_product(cone.center, 1);
+	bottom_disk.normal = scalar_product(cone.normal, -1);
+	bottom_disk.diameter = cone.diameter;
+	copy_colors(cone.color, bottom_disk.color);
+	intersect_disk(rt, bottom_disk, ray, t);
+}
 
 double	check_for_m__in_range(t_quadratic *quad, t_cone cone, t_ray ray)
 {
@@ -78,6 +89,7 @@ void	intersect_cone(t_rt *rt, t_cone cone, t_ray ray, double *t)
 	t_quadratic		quad;
 	t_cone_solver	s;
 
+	handle_bottom_disk(rt, cone, ray, t);
 	s.v = vectorize(ray.direction.x, ray.direction.y, ray.direction.z);
 	s.w = vec_subtract(ray.origin, vec_add(cone.center,
 				scalar_product(cone.normal, cone.height)));
