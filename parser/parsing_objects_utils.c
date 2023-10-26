@@ -6,7 +6,7 @@
 /*   By: toshsharma <toshsharma@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/23 16:16:09 by toshsharma        #+#    #+#             */
-/*   Updated: 2023/10/23 16:27:58 by toshsharma       ###   ########.fr       */
+/*   Updated: 2023/10/26 13:28:18 by toshsharma       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,33 @@ void	get_color_cylinder(t_rt *rt, t_cylinder *cylinder)
 		{
 			free_strings(split_color);
 			perror_and_exit("Wrong cylinder color value");
+		}
+	}
+	free_strings(split_color);
+}
+
+void	get_color_cone(t_rt *rt, t_cone *cone)
+{
+	char		**split_color;
+	int			i;
+
+	cone->diameter = ft_atod(rt->split_line[3]);
+	if (cone->diameter < 0.0)
+		perror_and_exit("Unacceptable cone diameter value");
+	cone->height = ft_atod(rt->split_line[4]);
+	if (cone->height < 0.0)
+		perror_and_exit("Unacceptable cone height value");
+	split_color = ft_split(rt->split_line[5], ',');
+	if (split_color[3] != NULL)
+		perror_and_exit("Unacceptable cone color settings");
+	i = -1;
+	while (split_color[++i])
+	{
+		cone->color[i] = ft_atoi_checker(split_color[i]);
+		if (cone->color[i] > 255 || cone->color[i] < 0)
+		{
+			free_strings(split_color);
+			perror_and_exit("Wrong cone color value");
 		}
 	}
 	free_strings(split_color);
